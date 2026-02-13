@@ -391,6 +391,31 @@ const orders = await getOrdersByUserId(user.id); // needs user.id
 - Worktrees let you run multiple Claude sessions in parallel without conflicts
 - RuleCatch catches violations Claude missed — last line of defense before merge
 
+### 10. Docker Push Gate — Local Test Before Push
+
+**Disabled by default.** When enabled (`docker_test_before_push = true` in `claude-mastery-project.conf`), ANY `docker push` is BLOCKED until the image passes local verification:
+
+1. Build the image
+2. Run the container locally
+3. Wait 5 seconds for startup
+4. Verify container is still running (didn't crash/exit)
+5. Hit the health endpoint (must return 200)
+6. Check logs for fatal errors
+7. Clean up test container
+8. **Only then** allow `docker push`
+
+If any step fails: STOP, show what failed, and do NOT push.
+
+```bash
+# Enable in claude-mastery-project.conf:
+docker_test_before_push = true
+
+# Disable (default):
+docker_test_before_push = false
+```
+
+This gate applies globally — every command or workflow that pushes to Docker Hub must respect it.
+
 ---
 
 ## When Something Seems Wrong

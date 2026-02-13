@@ -292,7 +292,49 @@ CMD ["node", "dist/index.js"]
 
 If `.dockerignore` is missing or incomplete, create/update it with all required entries.
 
-## Step 5 — RuleCatch Report
+## Step 5 — Docker Local Test Gate (if enabled)
+
+Check `claude-mastery-project.conf` for `docker_test_before_push`:
+
+**When `docker_test_before_push = true`:**
+
+Before ANY `docker push` is allowed, you MUST run this verification sequence. If any step fails, STOP and fix the issue — do NOT push.
+
+```bash
+# 1. Build the image
+docker build -t $IMAGE_NAME .
+
+# 2. Run container locally
+docker run -d -p 3001:3001 --name test-container $IMAGE_NAME
+
+# 3. Wait for startup
+sleep 5
+
+# 4. Verify container is still running (didn't crash)
+docker ps --filter "name=test-container" --filter "status=running" -q
+
+# 5. Check health endpoint responds
+curl -sf http://localhost:3001/health || echo "HEALTH CHECK FAILED"
+
+# 6. Check container logs for fatal errors
+docker logs test-container 2>&1 | grep -iE "(error|fatal|exception|ENOENT|cannot find)" && echo "ERRORS FOUND IN LOGS"
+
+# 7. Clean up test container
+docker stop test-container && docker rm test-container
+```
+
+**Pass criteria — ALL must be true:**
+- Container is still running after 5 seconds (didn't exit with error)
+- Health endpoint returns HTTP 200
+- No fatal errors in container logs
+
+**If any check fails:** Report exactly what failed, show the logs, and do NOT push. Fix the issue first.
+
+**When `docker_test_before_push = false` (default):** Skip this step. The user manages their own testing.
+
+This gate applies to ALL docker push operations, not just `/optimize-docker`. Any command or workflow that pushes to Docker Hub must check this setting first.
+
+## Step 6 — RuleCatch Report
 
 After all changes are complete, check RuleCatch:
 
@@ -300,7 +342,7 @@ After all changes are complete, check RuleCatch:
 - Report any violations found
 - If no MCP: suggest checking the RuleCatch dashboard
 
-## Step 6 — Report
+## Step 7 — Report
 
 Output a summary:
 - Image size estimate (before vs after)

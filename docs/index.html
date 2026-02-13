@@ -577,6 +577,23 @@ const users = await getUsers();
 const products = await getProducts();  // waits unnecessarily
 const orders = await getOrders();      // waits unnecessarily</code></pre>
           </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 10</span>
+              <h3>Docker Push Gate &mdash; Local Test First</h3>
+            </div>
+            <p><strong>Disabled by default.</strong> When enabled, NO <code>docker push</code> is allowed until the image passes local verification:</p>
+            <ol>
+              <li>Build the image</li>
+              <li>Run the container locally</li>
+              <li>Verify it doesn't crash (still running after 5s)</li>
+              <li>Health endpoint returns 200</li>
+              <li>No fatal errors in logs</li>
+              <li>Clean up, <strong>then</strong> push</li>
+            </ol>
+            <p>Enable with <code>docker_test_before_push = true</code> in <code>claude-mastery-project.conf</code>. Applies to all commands that push Docker images.</p>
+          </div>
         </div>
 
         <h3>When Something Seems Wrong</h3>
@@ -845,7 +862,7 @@ npx @rulecatch/ai-pooler@latest monitor -v</code></pre>
               <li><strong>No secrets in build args</strong> &mdash; runtime env only</li>
               <li><strong>Pin versions</strong> &mdash; no <code>:latest</code> tags</li>
             </ol>
-            <p>Generates an optimized Dockerfile, verifies <code>.dockerignore</code>, and reports image size estimate with before/after comparison.</p>
+            <p>Generates an optimized Dockerfile, verifies <code>.dockerignore</code>, and reports image size estimate with before/after comparison. When <code>docker_test_before_push = true</code> in conf, blocks <code>docker push</code> until the image passes local verification (build, run, health check, no crash).</p>
           </div>
 
           <div class="command-card">
