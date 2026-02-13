@@ -274,15 +274,18 @@ cp .env.example .env</code></pre>
           <div class="step-number">2</div>
           <div class="step-content">
             <h3>Set Up Global Config (One Time)</h3>
-            <pre class="language-bash"><code class="language-bash"># Copy global CLAUDE.md and settings to your home directory
-cp global-claude-md/CLAUDE.md ~/.claude/CLAUDE.md
+            <pre class="language-bash"><code class="language-bash"># Run the install command — smart merges into existing config
+/install-global</code></pre>
+            <p>This installs global CLAUDE.md rules, settings.json hooks, and enforcement scripts (<code>block-secrets.py</code>, <code>verify-no-secrets.sh</code>, <code>rulecatch-check.sh</code>) into <code>~/.claude/</code>. If you already have a global config, it merges without overwriting.</p>
+            <details>
+              <summary>Manual setup (if you prefer)</summary>
+              <pre class="language-bash"><code class="language-bash">cp global-claude-md/CLAUDE.md ~/.claude/CLAUDE.md
 cp global-claude-md/settings.json ~/.claude/settings.json
-
-# Copy hooks for global enforcement
 mkdir -p ~/.claude/hooks
 cp .claude/hooks/block-secrets.py ~/.claude/hooks/
 cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/
 cp .claude/hooks/rulecatch-check.sh ~/.claude/hooks/</code></pre>
+            </details>
           </div>
         </div>
 
