@@ -281,7 +281,8 @@ cp global-claude-md/settings.json ~/.claude/settings.json
 # Copy hooks for global enforcement
 mkdir -p ~/.claude/hooks
 cp .claude/hooks/block-secrets.py ~/.claude/hooks/
-cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
+cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/
+cp .claude/hooks/rulecatch-check.sh ~/.claude/hooks/</code></pre>
           </div>
         </div>
 
@@ -342,7 +343,8 @@ cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
 │   └── hooks/
 │       ├── block-secrets.py     # PreToolUse: block sensitive files
 │       ├── lint-on-save.sh      # PostToolUse: lint after writes
-│       └── verify-no-secrets.sh # Stop: check for secrets
+│       ├── verify-no-secrets.sh # Stop: check for secrets
+│       └── rulecatch-check.sh   # Stop: report RuleCatch violations
 ├── project-docs/
 │   ├── ARCHITECTURE.md          # System overview (authoritative)
 │   ├── INFRASTRUCTURE.md        # Deployment details
@@ -661,6 +663,21 @@ if grep -qE 'AKIA[0-9A-Z]{16}' "$file"; then
     VIOLATIONS="${VIOLATIONS}\n  - AWS ACCESS KEY in $file"
 fi</code></pre>
           </div>
+
+          <div class="hook-stage">
+            <div class="hook-stage-header">
+              <span class="hook-stage-tag hook-stop">Stop</span>
+              <h3>rulecatch-check.sh</h3>
+            </div>
+            <p>Runs when Claude <strong>finishes a turn</strong>. Checks RuleCatch for any rule violations detected during the session. Skips silently if RuleCatch isn't installed &mdash; zero overhead for users who haven't set it up yet.</p>
+            <pre class="language-bash"><code class="language-bash"># Run RuleCatch violation check
+RESULT=$(npx @rulecatch/ai-pooler@latest check --quiet --format summary 2>/dev/null)
+
+if [ -n "$RESULT" ] && [ "$RESULT" != "0 violations" ]; then
+    echo "📋 RuleCatch: $RESULT" >&2
+    echo "   Run 'pnpm ai:monitor' for details." >&2
+fi</code></pre>
+          </div>
         </div>
 
         <h3>Hook Configuration</h3>
@@ -676,7 +693,10 @@ fi</code></pre>
       "hooks": [{ "type": "command", "command": "bash .claude/hooks/lint-on-save.sh" }]
     }],
     "Stop": [{
-      "hooks": [{ "type": "command", "command": "bash .claude/hooks/verify-no-secrets.sh" }]
+      "hooks": [
+        { "type": "command", "command": "bash .claude/hooks/verify-no-secrets.sh" },
+        { "type": "command", "command": "bash .claude/hooks/rulecatch-check.sh" }
+      ]
     }]
   }
 }</code></pre>
@@ -707,7 +727,7 @@ fi</code></pre>
             <ul>
               <li><strong>Smart merge</strong> &mdash; if you already have a global <code>CLAUDE.md</code>, it appends missing sections without overwriting yours</li>
               <li><strong>settings.json</strong> &mdash; merges deny rules and hooks (never removes existing ones)</li>
-              <li><strong>Hooks</strong> &mdash; copies <code>block-secrets.py</code> and <code>verify-no-secrets.sh</code> to <code>~/.claude/hooks/</code></li>
+              <li><strong>Hooks</strong> &mdash; copies <code>block-secrets.py</code>, <code>verify-no-secrets.sh</code>, and <code>rulecatch-check.sh</code> to <code>~/.claude/hooks/</code></li>
             </ul>
             <p>Reports exactly what was added, skipped, and merged. Your existing config is never overwritten.</p>
           </div>

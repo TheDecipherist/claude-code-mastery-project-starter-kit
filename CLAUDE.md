@@ -461,7 +461,7 @@ project/
 │   ├── commands/          # Slash commands (/review, /refactor, /worktree, /new-project, etc.)
 │   ├── skills/            # Triggered expertise & scaffolding templates
 │   ├── agents/            # Custom subagents
-│   └── hooks/             # Deterministic enforcement scripts
+│   └── hooks/             # Enforcement scripts (block-secrets, verify-no-secrets, rulecatch-check)
 ├── project-docs/
 │   ├── ARCHITECTURE.md    # System overview & data flow
 │   ├── INFRASTRUCTURE.md  # Deployment & environment details
