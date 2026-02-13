@@ -37,6 +37,7 @@
 | **Docker** | |
 | `pnpm docker:optimize` | Audit Dockerfile against 12 best practices (use `/optimize-docker` in Claude) |
 | **Setup** | |
+| `/install-global` | Install/merge global Claude config into `~/.claude/` (one-time, never overwrites) |
 | `/setup` | Interactive .env configuration — GitHub, database, Docker, analytics, RuleCatch |
 | `/setup --reset` | Re-configure everything from scratch |
 | **RuleCatch** | |
@@ -46,6 +47,8 @@
 | `/worktree <name>` | Create isolated branch + worktree for a task (never touch main) |
 | **Code Quality** | |
 | `/refactor <file>` | Audit + refactor a file against all CLAUDE.md rules (split, type, extract, clean) |
+| **Documentation** | |
+| `/diagram <type>` | Generate diagrams from actual code: `architecture`, `api`, `database`, `infrastructure`, `all` |
 | **Utility** | |
 | `pnpm clean` | Remove dist/, coverage/, test-results/, playwright-report/ |
 

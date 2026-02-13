@@ -211,8 +211,8 @@
             <div class="feature-icon feature-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
-            <h3>13 Slash Commands</h3>
-            <p><code>/setup</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code></p>
+            <h3>15 Slash Commands</h3>
+            <p><code>/install-global</code>, <code>/setup</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code></p>
           </div>
 
           <div class="feature-card">
@@ -290,12 +290,12 @@ cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
           <div class="step-content">
             <h3>Customize for Your Project</h3>
             <ol>
+              <li>Run <code>/setup</code> &mdash; Interactive .env configuration (database, GitHub, Docker, analytics)</li>
               <li>Edit <code>CLAUDE.md</code> &mdash; Update port assignments, add your specific rules</li>
-              <li>Edit <code>project-docs/ARCHITECTURE.md</code> &mdash; Replace the placeholder diagram</li>
-              <li>Edit <code>project-docs/INFRASTRUCTURE.md</code> &mdash; Add your deployment details</li>
+              <li>Run <code>/diagram all</code> &mdash; Auto-generate architecture, API, database, and infrastructure diagrams</li>
               <li>Edit <code>CLAUDE.local.md</code> &mdash; Add your personal preferences</li>
-              <li>Replace <code>src/core/db/index.ts</code> &mdash; With your actual database client</li>
             </ol>
+            <p>The database wrapper (<code>src/core/db/index.ts</code>) works out of the box &mdash; just set <code>DATABASE_URL</code> in your <code>.env</code> and it connects to MongoDB automatically.</p>
           </div>
         </div>
 
@@ -330,7 +330,9 @@ cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
 │   │   ├── worktree.md          # /worktree — isolated task branches
 │   │   ├── what-is-my-ai-doing.md # /what-is-my-ai-doing — live AI monitor
 │   │   ├── setup.md             # /setup — interactive .env configuration
-│   │   └── refactor.md          # /refactor — audit + refactor against all rules
+│   │   ├── refactor.md          # /refactor — audit + refactor against all rules
+│   │   ├── install-global.md    # /install-global — merge global config into ~/.claude/
+│   │   └── diagram.md           # /diagram — generate diagrams from actual code
 │   ├── skills/
 │   │   ├── code-review/SKILL.md # Triggered code review checklist
 │   │   └── create-service/SKILL.md # Service scaffolding template
@@ -686,6 +688,30 @@ fi</code></pre>
         <p>Invoke these with <code>/command</code> in any Claude Code session. Each command is a markdown file in <code>.claude/commands/</code> that gives Claude specific instructions and tool permissions.</p>
 
         <div class="commands-grid">
+          <div class="command-card">
+            <h3><code>/diagram</code></h3>
+            <p class="command-desc">Scans your actual code and generates ASCII diagrams automatically:</p>
+            <ul>
+              <li><code>/diagram architecture</code> &mdash; services, connections, data flow (scans src/, routes, adapters)</li>
+              <li><code>/diagram api</code> &mdash; all API endpoints grouped by resource with handler locations</li>
+              <li><code>/diagram database</code> &mdash; collections, indexes, relationships (scans queries + types)</li>
+              <li><code>/diagram infrastructure</code> &mdash; deployment topology, regions, containers (scans .env + Docker)</li>
+              <li><code>/diagram all</code> &mdash; generate everything at once</li>
+            </ul>
+            <p>Writes to <code>project-docs/ARCHITECTURE.md</code> and <code>project-docs/INFRASTRUCTURE.md</code>. Uses ASCII box-drawing — works everywhere, no external tools needed. Add <code>--update</code> to write without asking.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/install-global</code></h3>
+            <p class="command-desc">One-time setup: installs the starter kit's global Claude config into <code>~/.claude/</code>.</p>
+            <ul>
+              <li><strong>Smart merge</strong> &mdash; if you already have a global <code>CLAUDE.md</code>, it appends missing sections without overwriting yours</li>
+              <li><strong>settings.json</strong> &mdash; merges deny rules and hooks (never removes existing ones)</li>
+              <li><strong>Hooks</strong> &mdash; copies <code>block-secrets.py</code> and <code>verify-no-secrets.sh</code> to <code>~/.claude/hooks/</code></li>
+            </ul>
+            <p>Reports exactly what was added, skipped, and merged. Your existing config is never overwritten.</p>
+          </div>
+
           <div class="command-card">
             <h3><code>/setup</code></h3>
             <p class="command-desc">Interactive project configuration. Walks you through setting up your <code>.env</code> with real values:</p>
