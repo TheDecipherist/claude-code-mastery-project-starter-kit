@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Starter Kit - The Definitive Starting Point</title>
+  <meta name="description" content="A ready-to-use project template with every best practice from the Claude Code Mastery Guide series. Clone and start building.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="thedecipherist.png">
+  <link rel="apple-touch-icon" href="thedecipherist.png">
+
+  <!-- Rybbit Analytics -->
+  <script
+    src="https://app.rybbit.io/api/script.js"
+    data-site-id="e7e29192d813"
+    defer
+  ></script>
+
+  <!-- Prism.js theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li>
+          <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+          <div class="brand">
+            <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=header-logo" target="_blank" rel="noopener" title="By TheDecipherist" class="brand-logo">
+              <img src="thedecipherist.png" alt="TheDecipherist" class="logo">
+            </a>
+            <div class="brand-text">
+              <span class="brand-title">Claude Code Starter Kit</span>
+              <span class="brand-author">by <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=header-author" target="_blank" rel="noopener">TheDecipherist</a></span>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li><a href="https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://github.com/TheDecipherist/claude-code-mastery" target="_blank" rel="noopener">Mastery Guide</a></li>
+        <li class="dropdown">
+          <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+            Projects
+            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=dropdown-thedecipherist" target="_blank" rel="noopener">
+              <img src="https://www.google.com/s2/favicons?domain=thedecipherist.com&sz=32" alt="" class="link-favicon">
+              <span class="dropdown-item-text"><span class="dropdown-item-title">TheDecipherist</span><span class="dropdown-item-desc">Personal website & blog</span></span>
+            </a>
+            <a href="https://thezodiacsolved.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=dropdown-zodiac" target="_blank" rel="noopener">
+              <img src="https://www.google.com/s2/favicons?domain=thezodiacsolved.com&sz=32" alt="" class="link-favicon">
+              <span class="dropdown-item-text"><span class="dropdown-item-title">The Zodiac Solved</span><span class="dropdown-item-desc">True crime investigation</span></span>
+            </a>
+            <a href="https://classpresso.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=dropdown-classpresso" target="_blank" rel="noopener">
+              <img src="https://www.google.com/s2/favicons?domain=classpresso.com&sz=32" alt="" class="link-favicon">
+              <span class="dropdown-item-text"><span class="dropdown-item-title">Classpresso</span><span class="dropdown-item-desc">AI-powered class scheduling</span></span>
+            </a>
+            <a href="https://classmcp.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=dropdown-classmcp" target="_blank" rel="noopener">
+              <img src="https://www.google.com/s2/favicons?domain=classmcp.com&sz=32" alt="" class="link-favicon">
+              <span class="dropdown-item-text"><span class="dropdown-item-title">ClassMCP</span><span class="dropdown-item-desc">MCP server for Claude Code</span></span>
+            </a>
+            <a href="https://tersejson.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=dropdown-tersejson" target="_blank" rel="noopener">
+              <img src="https://www.google.com/s2/favicons?domain=tersejson.com&sz=32" alt="" class="link-favicon">
+              <span class="dropdown-item-text"><span class="dropdown-item-title">TerseJSON</span><span class="dropdown-item-desc">Compact JSON formatting</span></span>
+            </a>
+            <a href="https://credhopper.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=dropdown-credhopper" target="_blank" rel="noopener">
+              <img src="https://www.google.com/s2/favicons?domain=credhopper.com&sz=32" alt="" class="link-favicon">
+              <span class="dropdown-item-text"><span class="dropdown-item-title">CredHopper</span><span class="dropdown-item-desc">Credential management tool</span></span>
+            </a>
+          </div>
+        </li>
+        <li><a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=header-nav" target="_blank" rel="noopener" class="nav-icon"><img src="thedecipherist.webp" alt="TheDecipherist" title="Visit TheDecipherist"></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Mobile menu overlay -->
+  <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+
+  <!-- Mobile menu drawer -->
+  <aside id="mobile-menu" class="mobile-menu">
+    <nav id="mobile-toc" class="mobile-toc">
+      <div class="toc-header">Contents</div>
+      <a href="#whats-included">What's Included</a>
+      <a href="#quick-start">Quick Start</a>
+      <a href="#project-structure">Project Structure</a>
+      <a href="#key-concepts">Key Concepts</a>
+      <a href="#monitor-your-rules">Monitor Your Rules</a>
+      <a href="#mcp-servers">Recommended MCP Servers</a>
+      <a href="#credits">Credits</a>
+    </nav>
+    <div class="mobile-projects">
+      <div class="toc-header">More Projects</div>
+      <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=mobile-thedecipherist" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=thedecipherist.com&sz=32" alt="" class="link-favicon">TheDecipherist</a>
+      <a href="https://thezodiacsolved.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=mobile-zodiac" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=thezodiacsolved.com&sz=32" alt="" class="link-favicon">The Zodiac Solved</a>
+      <a href="https://classpresso.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=mobile-classpresso" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=classpresso.com&sz=32" alt="" class="link-favicon">Classpresso</a>
+      <a href="https://classmcp.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=mobile-classmcp" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=classmcp.com&sz=32" alt="" class="link-favicon">ClassMCP</a>
+      <a href="https://tersejson.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=mobile-tersejson" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=tersejson.com&sz=32" alt="" class="link-favicon">TerseJSON</a>
+      <a href="https://credhopper.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=mobile-credhopper" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=credhopper.com&sz=32" alt="" class="link-favicon">CredHopper</a>
+    </div>
+  </aside>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">Based on Claude Code Mastery V3&ndash;V5</div>
+      <h1>The Definitive Starting Point<br>for Claude Code Projects</h1>
+      <p class="hero-subtitle">A ready-to-use project template with every best practice baked in. Stop reading 4,000+ lines of guides &mdash; clone this and start building.</p>
+      <div class="hero-actions">
+        <a href="https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit" target="_blank" rel="noopener" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          View on GitHub
+        </a>
+        <a href="#quick-start" class="btn btn-secondary">Quick Start</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero-banner">
+    <img src="banner.webp" alt="Claude Code Starter Kit - The Definitive Starting Point for Claude Code Projects">
+  </section>
+
+  <!-- Main Content -->
+  <main class="container main-layout">
+    <aside id="sidebar">
+      <nav id="toc">
+        <div class="toc-header">Contents</div>
+        <a href="#whats-included" class="active">What's Included</a>
+        <a href="#quick-start">Quick Start</a>
+        <a href="#project-structure">Project Structure</a>
+        <a href="#key-concepts">Key Concepts</a>
+        <a href="#monitor-your-rules">Monitor Your Rules</a>
+        <a href="#mcp-servers">Recommended MCP Servers</a>
+        <a href="#credits">Credits</a>
+      </nav>
+    </aside>
+
+    <article id="content">
+
+      <!-- What's Included -->
+      <section id="whats-included">
+        <h2>What's Included</h2>
+        <p>Everything you need to start a Claude Code project the right way &mdash; security, automation, documentation, and testing all pre-configured.</p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-cyan">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3>CLAUDE.md</h3>
+            <p>Battle-tested project instructions with numbered critical rules for security, TypeScript, database wrappers, testing, and deployment.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-purple">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Global CLAUDE.md</h3>
+            <p>Security gatekeeper for all projects. Never publish secrets, never commit .env files, standardized scaffolding rules.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <h3>Hooks</h3>
+            <p>Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials in staged commits.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
+            <h3>7 Slash Commands</h3>
+            <p><code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code></p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h3>Skills</h3>
+            <p>Context-aware templates that load on demand. Systematic code review checklist and full microservice scaffolding.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-pink">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>Custom Agents</h3>
+            <p>Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions, not just &ldquo;page loads.&rdquo;</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-cyan">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h3>Documentation</h3>
+            <p>Pre-structured ARCHITECTURE.md, INFRASTRUCTURE.md, and DECISIONS.md templates that Claude actually follows.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon-green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>Testing Templates</h3>
+            <p>Master test checklist, issue tracking log, and a singleton database wrapper that prevents connection pool explosion.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Start -->
+      <section id="quick-start">
+        <h2>Quick Start</h2>
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Clone and Customize</h3>
+            <pre class="language-bash"><code class="language-bash"># Clone the starter kit
+git clone https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit my-project
+cd my-project
+
+# Remove git history and start fresh
+rm -rf .git
+git init
+
+# Copy your .env
+cp .env.example .env</code></pre>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Set Up Global Config (One Time)</h3>
+            <pre class="language-bash"><code class="language-bash"># Copy global CLAUDE.md and settings to your home directory
+cp global-claude-md/CLAUDE.md ~/.claude/CLAUDE.md
+cp global-claude-md/settings.json ~/.claude/settings.json
+
+# Copy hooks for global enforcement
+mkdir -p ~/.claude/hooks
+cp .claude/hooks/block-secrets.py ~/.claude/hooks/
+cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Customize for Your Project</h3>
+            <ol>
+              <li>Edit <code>CLAUDE.md</code> &mdash; Update port assignments, add your specific rules</li>
+              <li>Edit <code>project-docs/ARCHITECTURE.md</code> &mdash; Replace the placeholder diagram</li>
+              <li>Edit <code>project-docs/INFRASTRUCTURE.md</code> &mdash; Add your deployment details</li>
+              <li>Edit <code>CLAUDE.local.md</code> &mdash; Add your personal preferences</li>
+              <li>Replace <code>src/core/db/index.ts</code> &mdash; With your actual database client</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Start Building</h3>
+            <pre class="language-bash"><code class="language-bash">claude</code></pre>
+            <p>That's it. Claude Code now has battle-tested rules, deterministic hooks, slash commands, and documentation templates all ready to go.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Project Structure -->
+      <section id="project-structure">
+        <h2>Project Structure</h2>
+        <pre class="language-text"><code class="language-text">project/
+├── CLAUDE.md                    # Project instructions (customize this!)
+├── CLAUDE.local.md              # Personal overrides (gitignored)
+├── .claude/
+│   ├── settings.json            # Hooks configuration
+│   ├── commands/
+│   │   ├── review.md            # /review — code review
+│   │   ├── commit.md            # /commit — smart commit
+│   │   ├── progress.md          # /progress — project status
+│   │   ├── test-plan.md         # /test-plan — generate test plan
+│   │   ├── architecture.md      # /architecture — show system design
+│   │   ├── new-project.md       # /new-project — scaffold new project
+│   │   └── security-check.md    # /security-check — scan for secrets
+│   ├── skills/
+│   │   ├── code-review/SKILL.md # Triggered code review checklist
+│   │   └── create-service/SKILL.md # Service scaffolding template
+│   ├── agents/
+│   │   ├── code-reviewer.md     # Read-only review subagent
+│   │   └── test-writer.md       # Test writing subagent
+│   └── hooks/
+│       ├── block-secrets.py     # PreToolUse: block sensitive files
+│       ├── lint-on-save.sh      # PostToolUse: lint after writes
+│       └── verify-no-secrets.sh # Stop: check for secrets
+├── project-docs/
+│   ├── ARCHITECTURE.md          # System overview (authoritative)
+│   ├── INFRASTRUCTURE.md        # Deployment details
+│   └── DECISIONS.md             # Architectural decision records
+├── docs/                        # GitHub Pages site
+├── src/
+│   └── core/db/index.ts         # Centralized database wrapper
+├── tests/
+│   ├── CHECKLIST.md             # Master test tracker
+│   └── ISSUES_FOUND.md          # User-guided testing log
+├── global-claude-md/            # Copy to ~/.claude/ (one-time setup)
+│   ├── CLAUDE.md                # Global security gatekeeper
+│   └── settings.json            # Global hooks config
+├── .env.example
+├── .gitignore
+├── .dockerignore
+├── tsconfig.json
+└── README.md</code></pre>
+      </section>
+
+      <!-- Key Concepts -->
+      <section id="key-concepts">
+        <h2>Key Concepts</h2>
+
+        <div class="concept-grid">
+          <div class="concept-card">
+            <h3>Defense in Depth <span class="version-tag">V3</span></h3>
+            <p>Three layers of protection working together:</p>
+            <ol>
+              <li><strong>CLAUDE.md rules</strong> &mdash; Behavioral suggestions</li>
+              <li><strong>Hooks</strong> &mdash; Deterministic enforcement (always runs)</li>
+              <li><strong>Git safety</strong> &mdash; .gitignore as last line of defense</li>
+            </ol>
+          </div>
+
+          <div class="concept-card">
+            <h3>One Task, One Chat <span class="version-tag">V1&ndash;V3</span></h3>
+            <p>Research shows <strong>39% performance degradation</strong> when mixing topics, and a 2% misalignment early can cause <strong>40% failure</strong> by end of conversation. Use <code>/clear</code> between unrelated tasks.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Quality Gates <span class="version-tag">V1/V2</span></h3>
+            <p>No file &gt; 300 lines. No function &gt; 50 lines. All tests pass. TypeScript compiles clean. These prevent the most common code quality issues in AI-assisted development.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>MCP Tool Search <span class="version-tag">V4</span></h3>
+            <p>With 10+ MCP servers, tool descriptions consume 50&ndash;70% of context. Tool Search lazy-loads on demand, saving <strong>85% of context</strong>.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Plan Mode Awareness <span class="version-tag">V5</span></h3>
+            <p>When you modify a plan, Claude appends changes without removing contradictions. Always review the full plan after changes.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>TypeScript Is Non-Negotiable <span class="version-tag">V5</span></h3>
+            <p>Types are specs that tell Claude what functions accept and return. Without types, Claude guesses &mdash; and guesses become runtime errors.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Monitor Your Rules -->
+      <section id="monitor-your-rules">
+        <h2>Monitor Your Rules</h2>
+        <div class="rulecatch-section">
+          <div class="rulecatch-content">
+            <div class="rulecatch-intro">
+              <p>This starter kit gives you rules, hooks, and quality gates. But how do you know when they're actually being followed?</p>
+              <p><a href="https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial" target="_blank" rel="noopener"><strong>RuleCatch.AI</strong></a> monitors your AI-assisted development sessions in real-time, detecting rule violations as they happen. It uses the same Claude Code hooks system this starter kit teaches &mdash; running completely outside the AI context with zero token overhead.</p>
+            </div>
+
+            <div class="rulecatch-features">
+              <div class="rulecatch-feature">
+                <div class="feature-icon feature-icon-cyan">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                </div>
+                <div>
+                  <h4>200+ Pre-Built Rules</h4>
+                  <p>Security, TypeScript, React, Next.js, MongoDB, Docker, Python &mdash; violations detected in under 100ms</p>
+                </div>
+              </div>
+
+              <div class="rulecatch-feature">
+                <div class="feature-icon feature-icon-purple">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <div>
+                  <h4>Session Analytics</h4>
+                  <p>Track token usage, cost per session, lines per hour, and correction rates across your team</p>
+                </div>
+              </div>
+
+              <div class="rulecatch-feature">
+                <div class="feature-icon feature-icon-green">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                </div>
+                <div>
+                  <h4>MCP Integration</h4>
+                  <p>Ask Claude directly: <code>"RuleCatch, what was violated today?"</code> &mdash; query violations without leaving your session</p>
+                </div>
+              </div>
+
+              <div class="rulecatch-feature">
+                <div class="feature-icon feature-icon-blue">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div>
+                  <h4>Privacy-First</h4>
+                  <p>AES-256-GCM client-side encryption. You hold the key &mdash; RuleCatch never sees your plaintext data</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="rulecatch-screenshot rulecatch-screenshot-wide">
+              <img src="rulecatch-dashboard.webp" alt="RuleCatch.AI Dashboard — violation analytics, daily trends, category breakdown, and top triggered rules">
+              <p class="rulecatch-caption">The RuleCatch dashboard &mdash; violation trends, category breakdown, per-file attribution, and top triggered rules at a glance. Configure alerts via Slack, Discord, PagerDuty, and more.</p>
+            </div>
+
+            <div class="rulecatch-install">
+              <h4>Quick Setup</h4>
+              <pre class="language-bash"><code class="language-bash"># Install the AI-Pooler (hooks into Claude Code automatically)
+npx @rulecatch/ai-pooler init --api-key=dc_your_key --region=us
+
+# Add the MCP server to query violations from Claude
+npx @rulecatch/mcp-server init</code></pre>
+              <p class="rulecatch-npm-links">npm: <a href="https://www.npmjs.com/package/@rulecatch/ai-pooler" target="_blank" rel="noopener">@rulecatch/ai-pooler</a> &middot; <a href="https://www.npmjs.com/package/@rulecatch/mcp-server" target="_blank" rel="noopener">@rulecatch/mcp-server</a></p>
+            </div>
+
+            <div class="rulecatch-screenshot">
+              <img src="ai-pooler-monitor.webp" alt="RuleCatch AI-Pooler Monitor — real-time session tracking showing tokens, cost, violations, and tool usage">
+              <p class="rulecatch-caption">The AI-Pooler CLI also gives you a live terminal view &mdash; tokens, cost, violations, and tool usage updating in real time as you work.</p>
+            </div>
+
+            <div class="rulecatch-cta">
+              <a href="https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial" target="_blank" rel="noopener" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Explore RuleCatch.AI
+              </a>
+              <span class="rulecatch-trial">7-day free trial &middot; No credit card required</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MCP Servers -->
+      <section id="mcp-servers">
+        <h2>Recommended MCP Servers</h2>
+        <pre class="language-bash"><code class="language-bash"># Live documentation (eliminates outdated API answers)
+claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
+
+# GitHub integration (PRs, issues, CI/CD)
+claude mcp add github -- npx -y @modelcontextprotocol/server-github
+
+# E2E testing
+claude mcp add playwright -- npx -y @anthropic-ai/playwright-mcp
+
+# AI development analytics & rule monitoring (RuleCatch.AI)
+npx @rulecatch/mcp-server init</code></pre>
+        <p>See the <a href="https://github.com/TheDecipherist/claude-code-mastery" target="_blank" rel="noopener">Claude Code Mastery Guide</a> for the complete MCP server directory.</p>
+      </section>
+
+      <!-- Credits -->
+      <section id="credits">
+        <h2>Credits</h2>
+        <a href="https://thedecipherist.com/the-complete-guide-to-claude-code?utm_source=github-pages&utm_medium=article&utm_campaign=claude-code-starter-kit&utm_content=credits-guide-image" target="_blank" rel="noopener" class="credits-guide-link">
+          <img src="https://thedecipherist.com/img/articles/claude-code-guide-v5/claude_code_mastery_V5--gp--p--c--c.jpg" alt="The Complete Guide to Claude Code by TheDecipherist" class="credits-guide-image">
+        </a>
+        <p>Based on the <a href="https://github.com/TheDecipherist/claude-code-mastery" target="_blank" rel="noopener">Claude Code Mastery Guide</a> series by <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=credits" target="_blank" rel="noopener">TheDecipherist</a>:</p>
+        <ul class="version-list">
+          <li><strong>V1:</strong> Global CLAUDE.md, Security Gatekeeper, Project Scaffolding, Context7</li>
+          <li><strong>V2:</strong> Skills & Hooks, Enforcement over Suggestion, Quality Gates</li>
+          <li><strong>V3:</strong> LSP, CLAUDE.md, MCP, Skills & Hooks</li>
+          <li><strong>V4:</strong> 85% Context Reduction, Custom Agents & Session Teleportation</li>
+          <li><strong>V5:</strong> Renaming Problem, Plan Mode, Testing Methodology & Rules That Stick</li>
+        </ul>
+        <p class="community-credit">Community contributors: u/BlueVajra, u/stratofax, u/antoniocs, u/GeckoLogic, u/headset38, u/tulensrma, u/jcheroske, u/ptinsley, u/Keksy, u/lev606</p>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="container">
+    <div class="footer-projects">
+      <span class="footer-label">More Projects:</span>
+      <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=footer-thedecipherist" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=thedecipherist.com&sz=32" alt="" class="link-favicon">TheDecipherist</a>
+      <a href="https://thezodiacsolved.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=footer-zodiac" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=thezodiacsolved.com&sz=32" alt="" class="link-favicon">The Zodiac Solved</a>
+      <a href="https://classpresso.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=footer-classpresso" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=classpresso.com&sz=32" alt="" class="link-favicon">Classpresso</a>
+      <a href="https://classmcp.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=footer-classmcp" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=classmcp.com&sz=32" alt="" class="link-favicon">ClassMCP</a>
+      <a href="https://tersejson.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=footer-tersejson" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=tersejson.com&sz=32" alt="" class="link-favicon">TerseJSON</a>
+      <a href="https://credhopper.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=footer-credhopper" target="_blank" rel="noopener"><img src="https://www.google.com/s2/favicons?domain=credhopper.com&sz=32" alt="" class="link-favicon">CredHopper</a>
+    </div>
+    <p>
+      By <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=footer-author" target="_blank" rel="noopener">TheDecipherist</a>
+      &middot;
+      <a href="https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit" target="_blank" rel="noopener">View Source</a>
+    </p>
+  </footer>
+
+  <!-- Prism.js for syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <!-- Application -->
+  <script src="app.js"></script>
+</body>
+</html>

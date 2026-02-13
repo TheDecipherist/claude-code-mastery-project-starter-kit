@@ -1,0 +1,39 @@
+# Environment & Secrets
+.env
+.env.*
+.env.local
+secrets.json
+credentials.json
+
+# Git
+.git/
+.gitignore
+
+# Dependencies
+node_modules/
+
+# Build & IDE
+dist/
+.next/
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+
+# Documentation (not needed in container)
+project-docs/
+docs/
+*.md
+!README.md
+
+# OS
+.DS_Store
+Thumbs.db
