@@ -420,7 +420,7 @@ cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
 
           <div class="concept-card">
             <h3>Never Work on Main</h3>
-            <p>Every task gets its own feature branch. Use <code>/worktree</code> for isolated directories. If Claude screws up, delete the branch &mdash; main was never touched. Review the full diff before merging. Enables <strong>parallel Claude sessions</strong> without conflicts.</p>
+            <p><strong>Auto-branch is on by default.</strong> Every command that modifies code automatically creates a feature branch when it detects you're on main. Zero friction &mdash; you never accidentally break main. Delete the branch if Claude screws up. Use <code>/worktree</code> for parallel sessions in separate directories. Set <code>auto_branch = false</code> in <code>claude-mastery-project.conf</code> to disable.</p>
           </div>
 
           <div class="concept-card">
@@ -430,7 +430,7 @@ cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
 
           <div class="concept-card">
             <h3>Every Command Enforces the Rules</h3>
-            <p>Every slash command and skill has two built-in enforcement steps: <strong>Branch Safety Check</strong> (stops you from working on main, suggests <code>/worktree</code>) and <strong>RuleCatch Report</strong> (checks for violations after completion). The rules aren't just documented &mdash; they're enforced at every touchpoint.</p>
+            <p>Every slash command and skill has two built-in enforcement steps: <strong>Auto-Branch</strong> (automatically creates a feature branch when on main &mdash; no manual step) and <strong>RuleCatch Report</strong> (checks for violations after completion). The rules aren't just documented &mdash; they're enforced at every touchpoint.</p>
           </div>
 
           <div class="concept-card">
@@ -538,14 +538,15 @@ await page.goto('/dashboard');
           <div class="rule-block">
             <div class="rule-header">
               <span class="rule-number">Rule 9</span>
-              <h3>Git Workflow &mdash; Never Work on Main</h3>
+              <h3>Git Workflow &mdash; Auto-Branch on Main</h3>
             </div>
             <ul>
-              <li>NEVER commit directly to <code>main</code> or <code>master</code></li>
-              <li>ALWAYS create a feature branch for every task</li>
-              <li>Use <code>/worktree</code> to create an isolated branch + directory</li>
+              <li><strong>Auto-branch is ON by default</strong> &mdash; commands auto-create feature branches when on main</li>
+              <li>Branch names match the command: <code>refactor/&lt;file&gt;</code>, <code>test/&lt;feature&gt;</code>, <code>feat/&lt;scope&gt;</code></li>
+              <li>Use <code>/worktree</code> for parallel sessions in separate directories</li>
               <li>Review the full diff (<code>git diff main...HEAD</code>) before merging</li>
               <li>If Claude screws up on a branch &mdash; delete it. Main was never touched.</li>
+              <li>Disable with <code>auto_branch = false</code> in <code>claude-mastery-project.conf</code></li>
             </ul>
           </div>
 

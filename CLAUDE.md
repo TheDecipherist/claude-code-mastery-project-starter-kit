@@ -349,24 +349,25 @@ const orders = await getOrdersByUserId(user.id); // needs user.id
 
 ### 9. Git Workflow — NEVER Work Directly on Main
 
-- NEVER commit directly to `main` or `master`
-- ALWAYS create a feature branch for every task
-- Use `/worktree <branch-name>` to create an isolated worktree + branch
+**Auto-branch is ON by default.** Every command that modifies code will automatically create a feature branch when it detects you're on main. No manual step required.
+
+- Commands auto-create branches like `refactor/<name>`, `test/<name>`, `feat/<name>`, `chore/<name>`
+- You never work on main by accident — the commands handle it
+- Use `/worktree <branch-name>` when you want a separate directory (parallel sessions)
 - If Claude screws up on a feature branch, delete it — main is untouched
-- Review the full diff (`git diff main...HEAD`) before merging
 
 ```bash
-# CORRECT — isolated branch per task
-git checkout -b task/add-auth
-# ... work ...
-git diff main...HEAD              # review everything before merging
+# What happens automatically:
+# 1. You run /refactor src/handlers/users.ts while on main
+# 2. Command creates branch: git checkout -b refactor/users
+# 3. Refactor happens on the new branch
+# 4. Main is never touched
 
-# EVEN BETTER — worktree gives its own directory
+# For parallel sessions (separate directories):
 /worktree add-auth                # creates branch + separate working directory
 
-# WRONG — working directly on main
-git checkout main
-# ... making changes on main ...  # NO ROLLBACK if something breaks
+# To disable auto-branching:
+# Set auto_branch = false in claude-mastery-project.conf
 ```
 
 **Before merging any branch back to main:**
@@ -378,6 +379,7 @@ git checkout main
 - Main should always be deployable
 - Feature branches are disposable — delete and start over if needed
 - `git diff main...HEAD` shows exactly what changed, making review easy
+- Auto-branching means zero friction — you don't have to remember
 - Worktrees let you run multiple Claude sessions in parallel without conflicts
 - RuleCatch catches violations Claude missed — last line of defense before merge
 

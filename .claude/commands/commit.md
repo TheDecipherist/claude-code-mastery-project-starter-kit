@@ -12,19 +12,25 @@ argument-hint: [optional commit message override]
 - Current branch: !`git branch --show-current`
 - Recent commits: !`git log --oneline -5`
 
-## Branch Safety Check
+## Auto-Branch (if on main)
 
-Before committing, verify you are NOT on main/master:
+Before committing, check the current branch:
 
 ```bash
 git branch --show-current
 ```
 
-- If on `main` or `master`: **STOP.** Warn the user:
-  - "You are committing directly to main. Create a feature branch first."
-  - Suggest: `/worktree <task-name>` or `git checkout -b <branch-name>`
-  - Only proceed if the user explicitly confirms they want to commit to main
-- If on a feature branch: proceed normally
+**Default behavior** (`auto_branch = true` in `claude-mastery-project.conf`):
+- If on `main` or `master`: automatically create a feature branch from the staged changes context:
+  ```bash
+  git checkout -b feat/<scope-from-changes>
+  ```
+  Report: "Created branch `feat/<scope>` — committing there instead of main."
+  Then proceed with the commit on the new branch.
+- If already on a feature branch: proceed normally
+- If not a git repo: skip this check
+
+**To disable:** Set `auto_branch = false` in `claude-mastery-project.conf`. When disabled, warn and ask the user to confirm before committing to main.
 
 ## Task
 

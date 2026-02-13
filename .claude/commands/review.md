@@ -15,8 +15,9 @@ Verify the current branch context:
 git branch --show-current
 ```
 
-- If on `main` or `master`: warn — "You're reviewing changes on main. Consider working on a feature branch."
+- If on `main` or `master` and `auto_branch = true` in `claude-mastery-project.conf`: warn — "You're reviewing changes directly on main. Next time, start work on a feature branch."
 - Report which branch is being reviewed in the output header
+- Review is read-only so no auto-branch is created, but the warning reminds the user for future commands
 
 ## Context
 - Current diff: !`git diff HEAD`

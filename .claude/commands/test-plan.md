@@ -7,7 +7,7 @@ argument-hint: <feature-name>
 
 Create a structured test plan for: **$ARGUMENTS**
 
-## Branch Safety Check
+## Auto-Branch (if on main)
 
 Before creating test plan files, check the current branch:
 
@@ -15,11 +15,16 @@ Before creating test plan files, check the current branch:
 git branch --show-current
 ```
 
-- If on `main` or `master`: **STOP.** Warn the user and suggest:
-  - `/worktree test-<feature>` — creates isolated branch + directory (recommended)
-  - `git checkout -b test/<feature>` — creates a branch in the current directory
-- If on a feature branch: proceed
-- If not a git repo: proceed (skip this check)
+**Default behavior** (`auto_branch = true` in `claude-mastery-project.conf`):
+- If on `main` or `master`: automatically create a feature branch and switch to it:
+  ```bash
+  git checkout -b test/<feature-name>-plan
+  ```
+  Report: "Created branch `test/<feature>-plan` — main stays untouched."
+- If already on a feature branch: proceed
+- If not a git repo: skip this check
+
+**To disable:** Set `auto_branch = false` in `claude-mastery-project.conf`. When disabled, warn and ask the user before proceeding on main.
 
 ## Template
 

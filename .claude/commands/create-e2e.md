@@ -142,7 +142,7 @@ Examples:
 - `tests/e2e/api-users.spec.ts`
 - `tests/e2e/settings-profile.spec.ts`
 
-## Step 0 — Branch Safety Check
+## Step 0 — Auto-Branch (if on main)
 
 Before creating any files, check the current branch:
 
@@ -150,11 +150,16 @@ Before creating any files, check the current branch:
 git branch --show-current
 ```
 
-- If on `main` or `master`: **STOP.** Warn the user and suggest:
-  - `/worktree test-<feature>` — creates isolated branch + directory (recommended)
-  - `git checkout -b test/<feature>` — creates a branch in the current directory
-- If on a feature branch: proceed
-- If not a git repo: proceed (skip this check)
+**Default behavior** (`auto_branch = true` in `claude-mastery-project.conf`):
+- If on `main` or `master`: automatically create a feature branch and switch to it:
+  ```bash
+  git checkout -b test/<feature-name>
+  ```
+  Report: "Created branch `test/<feature>` — main stays untouched."
+- If already on a feature branch: proceed
+- If not a git repo: skip this check
+
+**To disable:** Set `auto_branch = false` in `claude-mastery-project.conf`. When disabled, warn and ask the user before proceeding on main.
 
 ## Step 1 — Gather Information
 

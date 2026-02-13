@@ -12,7 +12,7 @@ Refactor the target file following every rule in this project's CLAUDE.md.
 
 If `--dry-run` is passed, report what WOULD change without modifying any files.
 
-## Step 0 — Branch Safety Check
+## Step 0 — Auto-Branch (if on main)
 
 Before making any changes, check the current branch:
 
@@ -20,13 +20,16 @@ Before making any changes, check the current branch:
 git branch --show-current
 ```
 
-- If on `main` or `master`: **STOP.** Warn the user and suggest:
-  - `/worktree refactor-<filename>` — creates isolated branch + directory (recommended)
-  - `git checkout -b refactor/<filename>` — creates a branch in the current directory
-- If on a feature branch: proceed
-- If not a git repo: proceed (skip this check)
+**Default behavior** (`auto_branch = true` in `claude-mastery-project.conf`):
+- If on `main` or `master`: automatically create a feature branch and switch to it:
+  ```bash
+  git checkout -b refactor/<filename-without-extension>
+  ```
+  Report: "Created branch `refactor/<name>` — main stays untouched."
+- If already on a feature branch: proceed
+- If not a git repo: skip this check
 
-**NEVER refactor directly on main. Changes should always be reviewable on a branch.**
+**To disable:** Set `auto_branch = false` in `claude-mastery-project.conf`. When disabled, warn and ask the user before proceeding on main.
 
 ## Step 0.5 — Read Before Touching
 
