@@ -101,8 +101,18 @@
       <a href="#quick-start">Quick Start</a>
       <a href="#project-structure">Project Structure</a>
       <a href="#key-concepts">Key Concepts</a>
+      <a href="#claude-md-rules">CLAUDE.md Rules</a>
+      <a href="#hooks-detail">Hooks</a>
+      <a href="#commands-detail">Slash Commands</a>
+      <a href="#skills-detail">Skills</a>
+      <a href="#agents-detail">Custom Agents</a>
+      <a href="#database-wrapper">Database Wrapper</a>
+      <a href="#docs-templates">Doc Templates</a>
+      <a href="#testing-detail">Testing</a>
+      <a href="#global-config">Global Config</a>
+      <a href="#coding-standards">Coding Standards</a>
       <a href="#monitor-your-rules">Monitor Your Rules</a>
-      <a href="#mcp-servers">Recommended MCP Servers</a>
+      <a href="#mcp-servers">MCP Servers</a>
       <a href="#credits">Credits</a>
     </nav>
     <div class="mobile-projects">
@@ -147,8 +157,18 @@
         <a href="#quick-start">Quick Start</a>
         <a href="#project-structure">Project Structure</a>
         <a href="#key-concepts">Key Concepts</a>
+        <a href="#claude-md-rules">CLAUDE.md Rules</a>
+        <a href="#hooks-detail">Hooks</a>
+        <a href="#commands-detail">Slash Commands</a>
+        <a href="#skills-detail">Skills</a>
+        <a href="#agents-detail">Custom Agents</a>
+        <a href="#database-wrapper">Database Wrapper</a>
+        <a href="#docs-templates">Documentation Templates</a>
+        <a href="#testing-detail">Testing Methodology</a>
+        <a href="#global-config">Global Config</a>
+        <a href="#coding-standards">Coding Standards</a>
         <a href="#monitor-your-rules">Monitor Your Rules</a>
-        <a href="#mcp-servers">Recommended MCP Servers</a>
+        <a href="#mcp-servers">MCP Servers</a>
         <a href="#credits">Credits</a>
       </nav>
     </aside>
@@ -375,6 +395,573 @@ cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/</code></pre>
         </div>
       </section>
 
+      <!-- Deep Dive: CLAUDE.md Rules -->
+      <section id="claude-md-rules">
+        <h2>CLAUDE.md &mdash; The Rulebook</h2>
+        <p>The <code>CLAUDE.md</code> file is where you define the rules Claude Code must follow. These aren't suggestions &mdash; they're the operating manual for every session. Here are the critical rules included in this starter kit:</p>
+
+        <div class="deep-dive-rules">
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 0</span>
+              <h3>NEVER Publish Sensitive Data</h3>
+            </div>
+            <ul>
+              <li>NEVER commit passwords, API keys, tokens, or secrets to git/npm/docker</li>
+              <li>NEVER commit <code>.env</code> files &mdash; ALWAYS verify <code>.env</code> is in <code>.gitignore</code></li>
+              <li>Before ANY commit: verify no secrets are included</li>
+            </ul>
+          </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 1</span>
+              <h3>TypeScript Always</h3>
+            </div>
+            <ul>
+              <li>ALWAYS use TypeScript for new files (strict mode)</li>
+              <li>NEVER use <code>any</code> unless absolutely necessary and documented why</li>
+              <li>When editing JavaScript files, convert to TypeScript first</li>
+              <li>Types are specs &mdash; they tell you what functions accept and return</li>
+            </ul>
+          </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 2</span>
+              <h3>API Versioning</h3>
+            </div>
+            <pre class="language-text"><code class="language-text">CORRECT: /api/v1/users
+WRONG:   /api/users</code></pre>
+            <p>Every API endpoint MUST use <code>/api/v1/</code> prefix. No exceptions.</p>
+          </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 3</span>
+              <h3>Database Access &mdash; Wrapper Only</h3>
+            </div>
+            <ul>
+              <li>NEVER create direct database connections outside <code>src/core/db/</code></li>
+              <li>ALWAYS use the centralized database wrapper</li>
+              <li>One connection pool. One place to change. One place to mock.</li>
+            </ul>
+          </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 4</span>
+              <h3>Testing &mdash; Explicit Success Criteria</h3>
+            </div>
+            <pre class="language-typescript"><code class="language-typescript">// CORRECT — explicit success criteria
+await expect(page).toHaveURL('/dashboard');
+await expect(page.locator('h1')).toContainText('Welcome');
+
+// WRONG — passes even if broken
+await page.goto('/dashboard');
+// no assertion!</code></pre>
+          </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 5</span>
+              <h3>NEVER Hardcode Credentials</h3>
+            </div>
+            <p>ALWAYS use environment variables. NEVER put API keys, passwords, or tokens directly in code. NEVER hardcode connection strings &mdash; use <code>DATABASE_URL</code> from <code>.env</code>.</p>
+          </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 6</span>
+              <h3>ALWAYS Ask Before Deploying</h3>
+            </div>
+            <p>NEVER auto-deploy, even if the fix seems simple. NEVER assume approval &mdash; wait for explicit confirmation.</p>
+          </div>
+
+          <div class="rule-block">
+            <div class="rule-header">
+              <span class="rule-number">Rule 7</span>
+              <h3>Quality Gates</h3>
+            </div>
+            <ul>
+              <li>No file &gt; 300 lines (split if larger)</li>
+              <li>No function &gt; 50 lines (extract helper functions)</li>
+              <li>All tests must pass before committing</li>
+              <li>TypeScript must compile with no errors (<code>tsc --noEmit</code>)</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>When Something Seems Wrong</h3>
+        <p>The CLAUDE.md also includes a &ldquo;Check Before Assuming&rdquo; pattern that prevents Claude from jumping to conclusions:</p>
+        <div class="check-before-grid">
+          <div class="check-before-item"><strong>Missing UI element?</strong> &rarr; Check feature gates BEFORE assuming bug</div>
+          <div class="check-before-item"><strong>Empty data?</strong> &rarr; Check if services are running BEFORE assuming broken</div>
+          <div class="check-before-item"><strong>404 error?</strong> &rarr; Check service separation BEFORE adding endpoint</div>
+          <div class="check-before-item"><strong>Auth failing?</strong> &rarr; Check which auth system BEFORE debugging</div>
+          <div class="check-before-item"><strong>Test failing?</strong> &rarr; Read the error message fully BEFORE changing code</div>
+        </div>
+
+        <h3>Fixed Service Ports</h3>
+        <p>Port conflicts are one of the most common problems in multi-service development. The CLAUDE.md locks them down:</p>
+        <div class="port-table-wrapper">
+          <table class="port-table">
+            <thead>
+              <tr><th>Service</th><th>Dev Port</th><th>Test Port</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Website</td><td>3000</td><td>4000</td></tr>
+              <tr><td>API</td><td>3001</td><td>4010</td></tr>
+              <tr><td>Dashboard</td><td>3002</td><td>4020</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Deep Dive: Hooks -->
+      <section id="hooks-detail">
+        <h2>Hooks &mdash; Deterministic Enforcement</h2>
+        <p>CLAUDE.md rules are suggestions. Hooks are <strong>guarantees</strong>. They run as shell/python scripts at specific lifecycle points, enforcing behavior that Claude can't bypass.</p>
+
+        <div class="hooks-lifecycle">
+          <div class="hook-stage">
+            <div class="hook-stage-header">
+              <span class="hook-stage-tag hook-pre">PreToolUse</span>
+              <h3>block-secrets.py</h3>
+            </div>
+            <p>Runs <strong>before</strong> Claude reads or edits any file. Blocks access to sensitive files like <code>.env</code>, <code>credentials.json</code>, SSH keys, and <code>.npmrc</code>.</p>
+            <pre class="language-python"><code class="language-python"># Files that should NEVER be read or edited by Claude
+SENSITIVE_FILENAMES = {
+    '.env', '.env.local', '.env.production',
+    'secrets.json', 'id_rsa', 'id_ed25519',
+    '.npmrc', 'credentials.json',
+    'service-account.json',
+}
+
+# Exit code 2 = block operation and tell Claude why
+if path.name in SENSITIVE_FILENAMES:
+    print(f"BLOCKED: Access to '{file_path}' denied.", file=sys.stderr)
+    sys.exit(2)</code></pre>
+          </div>
+
+          <div class="hook-stage">
+            <div class="hook-stage-header">
+              <span class="hook-stage-tag hook-post">PostToolUse</span>
+              <h3>lint-on-save.sh</h3>
+            </div>
+            <p>Runs <strong>after</strong> Claude writes or edits a file. Automatically checks TypeScript compilation, ESLint, or Python linting depending on file extension. Kept fast (&lt;5 seconds) so Claude doesn't skip it.</p>
+            <pre class="language-bash"><code class="language-bash">case "$EXTENSION" in
+    ts|tsx)
+        # TypeScript — run type check
+        npx tsc --noEmit --pretty "$FILE_PATH" 2>&1 | head -20
+        ;;
+    js|jsx)
+        # JavaScript — run eslint
+        npx eslint "$FILE_PATH" 2>&1 | head -20
+        ;;
+    py)
+        # Python — run ruff or flake8
+        ruff check "$FILE_PATH" 2>&1 | head -20
+        ;;
+esac</code></pre>
+          </div>
+
+          <div class="hook-stage">
+            <div class="hook-stage-header">
+              <span class="hook-stage-tag hook-stop">Stop</span>
+              <h3>verify-no-secrets.sh</h3>
+            </div>
+            <p>Runs when Claude <strong>finishes a turn</strong>. Scans all staged git files for accidentally committed secrets using regex patterns for API keys, AWS credentials, and credential URLs.</p>
+            <pre class="language-bash"><code class="language-bash"># Check staged file contents for common secret patterns
+if grep -qEi '(api[_-]?key|secret[_-]?key|password|token)\s*[:=]\s*["\x27][A-Za-z0-9+/=_-]{16,}' "$file"; then
+    VIOLATIONS="${VIOLATIONS}\n  - POSSIBLE SECRET in $file"
+fi
+# Check for AWS keys
+if grep -qE 'AKIA[0-9A-Z]{16}' "$file"; then
+    VIOLATIONS="${VIOLATIONS}\n  - AWS ACCESS KEY in $file"
+fi</code></pre>
+          </div>
+        </div>
+
+        <h3>Hook Configuration</h3>
+        <p>Hooks are wired up in <code>.claude/settings.json</code>. Each hook type fires at a different point in Claude's lifecycle:</p>
+        <pre class="language-json"><code class="language-json">{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Read|Edit|Write",
+      "hooks": [{ "type": "command", "command": "python3 .claude/hooks/block-secrets.py" }]
+    }],
+    "PostToolUse": [{
+      "matcher": "Write",
+      "hooks": [{ "type": "command", "command": "bash .claude/hooks/lint-on-save.sh" }]
+    }],
+    "Stop": [{
+      "hooks": [{ "type": "command", "command": "bash .claude/hooks/verify-no-secrets.sh" }]
+    }]
+  }
+}</code></pre>
+      </section>
+
+      <!-- Deep Dive: Slash Commands -->
+      <section id="commands-detail">
+        <h2>Slash Commands &mdash; On-Demand Tools</h2>
+        <p>Invoke these with <code>/command</code> in any Claude Code session. Each command is a markdown file in <code>.claude/commands/</code> that gives Claude specific instructions and tool permissions.</p>
+
+        <div class="commands-grid">
+          <div class="command-card">
+            <h3><code>/review</code></h3>
+            <p class="command-desc">Systematic code review against a 7-point checklist:</p>
+            <ol>
+              <li><strong>Security</strong> &mdash; OWASP Top 10, no secrets in code</li>
+              <li><strong>Types</strong> &mdash; No <code>any</code>, proper null handling</li>
+              <li><strong>Error Handling</strong> &mdash; No swallowed errors</li>
+              <li><strong>Performance</strong> &mdash; No N+1 queries, no memory leaks</li>
+              <li><strong>Testing</strong> &mdash; New code has explicit assertions</li>
+              <li><strong>Database</strong> &mdash; Using centralized wrapper</li>
+              <li><strong>API Versioning</strong> &mdash; All endpoints use <code>/api/v1/</code></li>
+            </ol>
+            <p>Issues are reported with severity (Critical / Warning / Info), file:line references, and suggested fixes.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/commit</code></h3>
+            <p class="command-desc">Smart commit with conventional commit format. Reviews staged changes, generates appropriate commit messages using the <code>type(scope): description</code> convention (feat, fix, docs, refactor, test, chore, perf). Warns if changes span multiple concerns and suggests splitting.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/test-plan</code></h3>
+            <p class="command-desc">Generates a structured test plan for any feature with:</p>
+            <ul>
+              <li>Prerequisites and environment setup</li>
+              <li>Happy path scenarios with specific expected outcomes</li>
+              <li>Error cases and edge cases (empty, null, max values, concurrency)</li>
+              <li>Pass/fail criteria table</li>
+              <li>Sign-off tracker</li>
+            </ul>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/security-check</code></h3>
+            <p class="command-desc">Scans the project for security vulnerabilities:</p>
+            <ul>
+              <li>Secrets in code (API keys, AWS keys, credential URLs)</li>
+              <li><code>.gitignore</code> coverage verification</li>
+              <li>Sensitive files tracked by git</li>
+              <li><code>.env</code> handling audit</li>
+              <li>Dependency vulnerability scan (<code>npm audit</code>)</li>
+            </ul>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/progress</code></h3>
+            <p class="command-desc">Checks the actual filesystem state and reports project status &mdash; source file counts by type, test coverage, recent git activity, and prioritized next actions.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/architecture</code></h3>
+            <p class="command-desc">Reads <code>project-docs/ARCHITECTURE.md</code> and displays the system overview, data flow diagrams, and service responsibility maps. If docs don't exist, scaffolds them.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/new-project</code></h3>
+            <p class="command-desc">Scaffolds a new project with all required files (<code>.env</code>, <code>.gitignore</code>, <code>.dockerignore</code>, <code>CLAUDE.md</code>, <code>tsconfig.json</code>), proper directory structure, error handlers, and framework-specific configuration for Next.js, Python, or Docker.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deep Dive: Skills -->
+      <section id="skills-detail">
+        <h2>Skills &mdash; Triggered Expertise</h2>
+        <p>Skills are context-aware templates that activate automatically when Claude detects relevant triggers. Unlike commands (which you invoke), skills load themselves when needed.</p>
+
+        <div class="skill-detail-block">
+          <h3>Code Review Skill</h3>
+          <p><strong>Triggers:</strong> <code>review</code>, <code>audit</code>, <code>check code</code>, <code>security review</code></p>
+          <p>A systematic review checklist that covers security (OWASP, input validation, CORS, rate limiting), TypeScript quality (no <code>any</code>, explicit return types, strict mode), error handling (no swallowed errors, user-facing messages), performance (N+1 queries, memory leaks, pagination), and architecture compliance (database wrapper, API versioning, service separation).</p>
+          <p>Each issue is reported with severity, location, fix, and <strong>why it matters</strong>.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Create Service Skill</h3>
+          <p><strong>Triggers:</strong> <code>create service</code>, <code>new service</code>, <code>scaffold service</code></p>
+          <p>Generates a complete microservice following the server/handlers/adapters separation pattern:</p>
+          <pre class="language-text"><code class="language-text">┌─────────────────────────────────────────────────────┐
+│                    YOUR SERVICE                      │
+├─────────────────────────────────────────────────────┤
+│  SERVER (server.ts)                                  │
+│  → Express/Fastify entry point, defines routes       │
+│  → NEVER contains business logic                     │
+│                       │                              │
+│                       ▼                              │
+│  HANDLERS (handlers/)                                │
+│  → Business logic lives here                         │
+│  → One file per domain                               │
+│                       │                              │
+│                       ▼                              │
+│  ADAPTERS (adapters/)                                │
+│  → External service wrappers                         │
+│  → Database, APIs, etc.                              │
+└─────────────────────────────────────────────────────┘</code></pre>
+          <p>Includes <code>package.json</code>, <code>tsconfig.json</code>, entry point with error handlers, health check endpoint, and a post-creation verification checklist.</p>
+        </div>
+      </section>
+
+      <!-- Deep Dive: Agents -->
+      <section id="agents-detail">
+        <h2>Custom Agents &mdash; Specialist Subagents</h2>
+        <p>Agents are specialists that Claude delegates to automatically. They run with restricted tool access so they can't accidentally modify your code when they shouldn't.</p>
+
+        <div class="agent-cards">
+          <div class="agent-card">
+            <div class="agent-card-header">
+              <h3>Code Reviewer Agent</h3>
+              <span class="agent-tools">Tools: Read, Grep, Glob (read-only)</span>
+            </div>
+            <p class="agent-persona">&ldquo;You are a senior code reviewer. Your job is to find real problems &mdash; not nitpick style.&rdquo;</p>
+            <p><strong>Priority order:</strong></p>
+            <ol>
+              <li><strong>Security</strong> &mdash; secrets in code, injection vulnerabilities, auth bypasses</li>
+              <li><strong>Correctness</strong> &mdash; logic errors, race conditions, null pointer risks</li>
+              <li><strong>Performance</strong> &mdash; N+1 queries, memory leaks, missing indexes</li>
+              <li><strong>Type Safety</strong> &mdash; <code>any</code> usage, missing null checks, unsafe casts</li>
+              <li><strong>Maintainability</strong> &mdash; dead code, unclear naming (lowest priority)</li>
+            </ol>
+            <p>If the code is good, it says so &mdash; it doesn't invent issues to justify its existence.</p>
+          </div>
+
+          <div class="agent-card">
+            <div class="agent-card-header">
+              <h3>Test Writer Agent</h3>
+              <span class="agent-tools">Tools: Read, Write, Grep, Glob, Bash</span>
+            </div>
+            <p class="agent-persona">&ldquo;You are a testing specialist. You write tests that CATCH BUGS, not tests that just pass.&rdquo;</p>
+            <p><strong>Principles:</strong></p>
+            <ul>
+              <li>Every test MUST have explicit assertions &mdash; &ldquo;page loads&rdquo; is NOT a test</li>
+              <li>Test behavior, not implementation details</li>
+              <li>Cover happy path, error cases, AND edge cases</li>
+              <li>Use realistic test data, not <code>"test"</code> / <code>"asdf"</code></li>
+              <li>Tests should be independent &mdash; no shared mutable state</li>
+            </ul>
+            <pre class="language-typescript"><code class="language-typescript">// GOOD — explicit, specific assertions
+expect(result.status).toBe(200);
+expect(result.body.user.email).toBe('test@example.com');
+
+// BAD — passes even when broken
+expect(result).toBeTruthy();  // too vague</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deep Dive: Database Wrapper -->
+      <section id="database-wrapper">
+        <h2>Database Wrapper &mdash; Singleton Pattern</h2>
+        <p>Without a centralized wrapper, each file creates its own database connection. With enough files, you exhaust the connection pool and your app crashes. This is one of the most common failure modes in AI-assisted development (documented in V5 Part 18).</p>
+
+        <p>The starter kit includes a complete database wrapper template at <code>src/core/db/index.ts</code>:</p>
+
+        <pre class="language-typescript"><code class="language-typescript">let isConnected = false;
+
+// Connect to the database (singleton — only connects once)
+export async function connect(): Promise&lt;void&gt; {
+  if (isConnected) return;
+  if (!config.url) {
+    throw new Error('DATABASE_URL environment variable is not set');
+  }
+  // Replace with your actual connection logic
+  isConnected = true;
+}
+
+// Standard CRUD operations
+export async function getData&lt;T&gt;(collection: string, query: Record&lt;string, unknown&gt;): Promise&lt;T[]&gt;
+export async function saveData&lt;T&gt;(collection: string, data: T): Promise&lt;{ id: string }&gt;
+export async function updateData(collection: string, query: Record&lt;string, unknown&gt;, update: Record&lt;string, unknown&gt;): Promise&lt;{ modified: number }&gt;
+export async function deleteData(collection: string, query: Record&lt;string, unknown&gt;): Promise&lt;{ deleted: number }&gt;</code></pre>
+
+        <p><strong>Why this matters:</strong></p>
+        <ul>
+          <li><strong>One connection pool</strong> &mdash; prevents exhaustion</li>
+          <li><strong>One place to change</strong> &mdash; swap databases without touching business logic</li>
+          <li><strong>One place to mock</strong> &mdash; testing becomes trivial</li>
+          <li><strong>One place to add</strong> logging, metrics, retries, circuit breakers</li>
+        </ul>
+      </section>
+
+      <!-- Deep Dive: Documentation Templates -->
+      <section id="docs-templates">
+        <h2>Documentation Templates</h2>
+        <p>Pre-structured docs that Claude actually follows. Each template uses the &ldquo;STOP&rdquo; pattern &mdash; explicit boundaries that prevent Claude from making unauthorized changes.</p>
+
+        <div class="doc-template-grid">
+          <div class="doc-template-card">
+            <h3>ARCHITECTURE.md</h3>
+            <p class="doc-template-location"><code>project-docs/ARCHITECTURE.md</code></p>
+            <p>Starts with <strong>&ldquo;This document is AUTHORITATIVE. No exceptions.&rdquo;</strong> Includes:</p>
+            <ul>
+              <li>ASCII architecture diagram with data flow</li>
+              <li>Service responsibility table (Does / Does NOT)</li>
+              <li>Technology choices with rationale</li>
+              <li>&ldquo;If You Are About To&hellip; STOP&rdquo; section that blocks scope creep</li>
+            </ul>
+            <pre class="language-text"><code class="language-text">## If You Are About To...
+- Add an endpoint to the wrong service → STOP. Check the table above.
+- Create a direct database connection → STOP. Use the wrapper.
+- Skip TypeScript for a quick fix → STOP. TypeScript is non-negotiable.
+- Deploy without tests → STOP. Write tests first.</code></pre>
+          </div>
+
+          <div class="doc-template-card">
+            <h3>DECISIONS.md</h3>
+            <p class="doc-template-location"><code>project-docs/DECISIONS.md</code></p>
+            <p>Architectural Decision Records (ADRs) that document <strong>why</strong> you chose X over Y. Includes a template and two starter decisions:</p>
+            <ul>
+              <li><strong>ADR-001: TypeScript Over JavaScript</strong> &mdash; AI needs explicit type contracts to avoid guessing</li>
+              <li><strong>ADR-002: Centralized Database Wrapper</strong> &mdash; prevents connection pool exhaustion</li>
+            </ul>
+            <p>Each ADR has: Context, Decision, Alternatives Considered (with pros/cons table), and Consequences.</p>
+          </div>
+
+          <div class="doc-template-card">
+            <h3>INFRASTRUCTURE.md</h3>
+            <p class="doc-template-location"><code>project-docs/INFRASTRUCTURE.md</code></p>
+            <p>Deployment and environment details:</p>
+            <ul>
+              <li>Environment overview diagram (production vs local)</li>
+              <li>Environment variables table (required, where, purpose)</li>
+              <li>Deployment prerequisites and steps</li>
+              <li>Rollback procedures</li>
+              <li>Monitoring setup</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deep Dive: Testing -->
+      <section id="testing-detail">
+        <h2>Testing Methodology</h2>
+        <p>From the V5 testing methodology &mdash; a structured approach to testing that prevents the most common AI-assisted testing failures.</p>
+
+        <div class="testing-grid">
+          <div class="testing-card">
+            <h3>CHECKLIST.md</h3>
+            <p class="doc-template-location"><code>tests/CHECKLIST.md</code></p>
+            <p>A master test status tracker that gives you a single-glance view of what's tested and what's not. Uses visual status indicators (&#x2705; passed, &#x274c; failed, &#x2b1c; not tested) for every feature area.</p>
+          </div>
+
+          <div class="testing-card">
+            <h3>ISSUES_FOUND.md</h3>
+            <p class="doc-template-location"><code>tests/ISSUES_FOUND.md</code></p>
+            <p>A user-guided testing log where you document issues discovered during testing. Each entry includes: what was tested, what was expected, what actually happened, severity, and current status. Queue observations, fix in batch &mdash; not one at a time.</p>
+          </div>
+
+          <div class="testing-card">
+            <h3>Test Structure Pattern</h3>
+            <p>Every test in this project follows the <strong>Arrange &rarr; Act &rarr; Assert</strong> pattern:</p>
+            <pre class="language-typescript"><code class="language-typescript">describe('[Feature]', () =&gt; {
+  describe('[Scenario]', () =&gt; {
+    it('should [expected behavior] when [condition]', async () =&gt; {
+      // Arrange — set up test data
+      // Act — perform the action
+      // Assert — verify SPECIFIC outcomes
+    });
+  });
+});</code></pre>
+          </div>
+
+          <div class="testing-card">
+            <h3>E2E Test Requirements</h3>
+            <p>Every E2E test (Playwright) must verify four things:</p>
+            <ol>
+              <li>Correct URL after navigation</li>
+              <li>Key visible elements are present</li>
+              <li>Correct data is displayed</li>
+              <li>Error states show proper messages</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deep Dive: Global Config -->
+      <section id="global-config">
+        <h2>Global CLAUDE.md &mdash; Security Gatekeeper</h2>
+        <p>The global <code>CLAUDE.md</code> lives at <code>~/.claude/CLAUDE.md</code> and applies to <strong>every project</strong> you work on. It's your organization-wide security gatekeeper.</p>
+
+        <p>The starter kit includes a complete global config template in <code>global-claude-md/</code> with:</p>
+
+        <div class="global-config-items">
+          <div class="global-config-item">
+            <h4>Absolute Rules</h4>
+            <p>NEVER publish sensitive data. NEVER commit <code>.env</code> files. NEVER auto-deploy. NEVER hardcode credentials. NEVER rename without a plan. These rules apply to every project, every session.</p>
+          </div>
+
+          <div class="global-config-item">
+            <h4>New Project Standards</h4>
+            <p>Every new project automatically gets: <code>.env</code> + <code>.env.example</code>, proper <code>.gitignore</code>, <code>.dockerignore</code>, TypeScript strict mode, <code>src/tests/project-docs/.claude/</code> directory structure.</p>
+          </div>
+
+          <div class="global-config-item">
+            <h4>Coding Standards</h4>
+            <p>Error handling requirements, testing standards, quality gates, database wrapper pattern &mdash; all enforced across every project.</p>
+          </div>
+
+          <div class="global-config-item">
+            <h4>Global Permission Denials</h4>
+            <p>The companion <code>settings.json</code> explicitly denies Claude access to <code>.env</code>, <code>.env.local</code>, <code>secrets.json</code>, <code>id_rsa</code>, and <code>credentials.json</code> at the permission level &mdash; before hooks even run.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deep Dive: Coding Standards -->
+      <section id="coding-standards">
+        <h2>Coding Standards</h2>
+        <p>Patterns and practices enforced across the project through CLAUDE.md rules, hooks, and code review.</p>
+
+        <h3>Imports</h3>
+        <pre class="language-typescript"><code class="language-typescript">// CORRECT — explicit, typed
+import { getUserById } from './handlers/users.js';
+import type { User } from './types/index.js';
+
+// WRONG — barrel imports that pull everything
+import * as everything from './index.js';</code></pre>
+
+        <h3>Error Handling</h3>
+        <pre class="language-typescript"><code class="language-typescript">// CORRECT — handle errors explicitly
+try {
+  const user = await getUserById(id);
+  if (!user) throw new NotFoundError('User not found');
+  return user;
+} catch (err) {
+  logger.error('Failed to get user', { id, error: err });
+  throw err;
+}
+
+// WRONG — swallow errors silently
+try {
+  return await getUserById(id);
+} catch {
+  return null; // silent failure
+}</code></pre>
+
+        <h3>Naming Safety</h3>
+        <p>Renaming packages, modules, or key variables mid-project causes cascading failures. If you must rename:</p>
+        <ol>
+          <li>Create a checklist of ALL files and references first</li>
+          <li>Use IDE semantic rename (not search-and-replace)</li>
+          <li>Full project search for old name after renaming</li>
+          <li>Check: <code>.md</code>, <code>.txt</code>, <code>.env</code>, comments, strings, paths</li>
+          <li>Start a FRESH Claude session after renaming</li>
+        </ol>
+
+        <h3>Plan Mode Awareness</h3>
+        <p>When modifying a plan, Claude appends changes without removing contradictions. Always:</p>
+        <ul>
+          <li>Use EXACT step names: &ldquo;Replace Step 3 (Database Selection): Use Redis&rdquo;</li>
+          <li>NEVER just append: &ldquo;Also, use Redis instead&rdquo; &larr; causes contradictions</li>
+          <li>Review the FULL plan after any change</li>
+          <li>If fundamentally changing direction: <code>/clear</code> &rarr; state requirements fresh</li>
+        </ul>
+      </section>
+
       <!-- Monitor Your Rules -->
       <section id="monitor-your-rules">
         <h2>Monitor Your Rules</h2>
@@ -452,7 +1039,7 @@ npx @rulecatch/mcp-server init</code></pre>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 Explore RuleCatch.AI
               </a>
-              <span class="rulecatch-trial">7-day free trial &middot; No credit card required</span>
+              <span class="rulecatch-trial">7-day free trial</span>
             </div>
           </div>
         </div>
@@ -478,7 +1065,7 @@ npx @rulecatch/mcp-server init</code></pre>
       <!-- Credits -->
       <section id="credits">
         <h2>Credits</h2>
-        <a href="https://thedecipherist.com/the-complete-guide-to-claude-code?utm_source=github-pages&utm_medium=article&utm_campaign=claude-code-starter-kit&utm_content=credits-guide-image" target="_blank" rel="noopener" class="credits-guide-link">
+        <a href="https://thedecipherist.com/articles/claude-code-guide-v5/?utm_source=github-pages&utm_medium=article&utm_campaign=starter-project&utm_content=tutorial" target="_blank" rel="noopener" class="credits-guide-link">
           <img src="https://thedecipherist.com/img/articles/claude-code-guide-v5/claude_code_mastery_V5--gp--p--c--c.jpg" alt="The Complete Guide to Claude Code by TheDecipherist" class="credits-guide-image">
         </a>
         <p>Based on the <a href="https://github.com/TheDecipherist/claude-code-mastery" target="_blank" rel="noopener">Claude Code Mastery Guide</a> series by <a href="https://thedecipherist.com?utm_source=github&utm_medium=website&utm_campaign=claude-code-starter-kit&utm_content=credits" target="_blank" rel="noopener">TheDecipherist</a>:</p>
