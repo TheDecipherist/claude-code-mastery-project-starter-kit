@@ -28,6 +28,7 @@ import {
   type Document,
   type Filter,
   MongoClient,
+  type OptionalId,
   type TransactionOptions,
   type UpdateFilter,
 } from 'mongodb';
@@ -377,7 +378,7 @@ export async function insertOne<T extends Document>(
 ): Promise<void> {
   const db = await getDb();
   await db.collection<T>(collection).bulkWrite([
-    { insertOne: { document: doc } },
+    { insertOne: { document: doc as OptionalId<T> } },
   ]);
 }
 
@@ -392,7 +393,7 @@ export async function insertMany<T extends Document>(
   if (docs.length === 0) return;
   const db = await getDb();
   await db.collection<T>(collection).bulkWrite(
-    docs.map((doc) => ({ insertOne: { document: doc } }))
+    docs.map((doc) => ({ insertOne: { document: doc as OptionalId<T> } }))
   );
 }
 
