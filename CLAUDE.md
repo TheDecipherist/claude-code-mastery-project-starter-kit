@@ -40,6 +40,8 @@
 | `/install-global` | Install/merge global Claude config into `~/.claude/` (one-time, never overwrites) |
 | `/setup` | Interactive .env configuration — GitHub, database, Docker, analytics, RuleCatch |
 | `/setup --reset` | Re-configure everything from scratch |
+| `/set-clean-as-default` | Make `clean` the default profile for `/new-project` (AI goodies, zero opinions) |
+| `/reset-to-defaults` | Reset `/new-project` back to the `default` profile (full opinionated stack) |
 | **RuleCatch** | |
 | `pnpm ai:monitor` | Live view of AI activity — tokens, cost, violations, tool usage (separate terminal) |
 | `/what-is-my-ai-doing` | Same as above — launches AI-Pooler monitor |

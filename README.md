@@ -31,7 +31,7 @@ Everything you need to start a Claude Code project the right way — security, a
 
 - **CLAUDE.md** — Battle-tested project instructions with 11 numbered critical rules for security, TypeScript, database wrappers, testing, and deployment
 - **Global CLAUDE.md** — Security gatekeeper for all projects. Never publish secrets, never commit .env files, standardized scaffolding rules
-- **16 Slash Commands** — `/install-global`, `/setup`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`
+- **18 Slash Commands** — `/install-global`, `/setup`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-clean-as-default`, `/reset-to-defaults`
 - **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring
 - **Skills** — Context-aware templates: systematic code review checklist and full microservice scaffolding
 - **Custom Agents** — Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions
@@ -124,7 +124,9 @@ project/
 │   │   ├── setup.md             # /setup — interactive .env configuration
 │   │   ├── refactor.md          # /refactor — audit + refactor against all rules
 │   │   ├── install-global.md    # /install-global — merge global config into ~/.claude/
-│   │   └── diagram.md           # /diagram — generate diagrams from actual code
+│   │   ├── diagram.md           # /diagram — generate diagrams from actual code
+│   │   ├── set-clean-as-default.md # /set-clean-as-default — clean as default profile
+│   │   └── reset-to-defaults.md # /reset-to-defaults — reset to default profile
 │   ├── skills/
 │   │   ├── code-review/SKILL.md # Triggered code review checklist
 │   │   └── create-service/SKILL.md # Service scaffolding template
@@ -574,6 +576,14 @@ Each task gets its own branch and its own directory. Main stays untouched. Enabl
 ### `/optimize-docker`
 
 Audits your Dockerfile against 12 production best practices: multi-stage builds, layer caching, Alpine base images, non-root user, .dockerignore coverage, frozen lockfile, health checks, no secrets in build args, and pinned versions. Generates an optimized Dockerfile with before/after image size comparison.
+
+### `/set-clean-as-default`
+
+Sets `default_profile = clean` in `claude-mastery-project.conf` so `/new-project my-app` uses the `clean` profile automatically — all the AI goodies (commands, hooks, skills, agents), zero coding opinions. You can still override with `/new-project my-app default` or any other profile.
+
+### `/reset-to-defaults`
+
+Resets `default_profile = default` in `claude-mastery-project.conf` so `/new-project my-app` uses the full opinionated stack again (Next.js, MongoDB, Tailwind, Docker, CI, Rybbit, MCP servers).
 
 ### `/create-e2e`
 

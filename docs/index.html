@@ -209,8 +209,8 @@
             <div class="feature-icon feature-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
-            <h3>16 Slash Commands</h3>
-            <p><code>/install-global</code>, <code>/setup</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code></p>
+            <h3>18 Slash Commands</h3>
+            <p><code>/install-global</code>, <code>/setup</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-clean-as-default</code>, <code>/reset-to-defaults</code></p>
           </div>
 
           <div class="feature-card">
@@ -343,7 +343,9 @@ cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/</code></pre>
 │   │   ├── setup.md             # /setup — interactive .env configuration
 │   │   ├── refactor.md          # /refactor — audit + refactor against all rules
 │   │   ├── install-global.md    # /install-global — merge global config into ~/.claude/
-│   │   └── diagram.md           # /diagram — generate diagrams from actual code
+│   │   ├── diagram.md           # /diagram — generate diagrams from actual code
+│   │   ├── set-clean-as-default.md # /set-clean-as-default — clean as default profile
+│   │   └── reset-to-defaults.md # /reset-to-defaults — reset to default profile
 │   ├── skills/
 │   │   ├── code-review/SKILL.md # Triggered code review checklist
 │   │   └── create-service/SKILL.md # Service scaffolding template
@@ -980,6 +982,16 @@ npx @rulecatch/ai-pooler@latest monitor -v</code></pre>
             <p><strong><code>clean</code></strong> &mdash; All Claude infrastructure (commands, skills, agents, hooks, project-docs, tests templates) with <strong>zero coding opinions</strong>. No TypeScript enforcement, no port assignments, no database wrapper, no quality gates. Your project, your rules &mdash; Claude just works.</p>
             <p><strong><code>default</code></strong> and other profiles &mdash; Full opinionated scaffolding with project type, framework, SSR, hosting (Dokploy/Vercel/static), package manager, database, extras (Tailwind, Prisma, Docker, CI), and MCP servers. Includes mandatory SEO for web projects and Dokploy deployment scripts with multi-region support.</p>
             <p>Use <code>claude-mastery-project.conf</code> profiles to save your preferred stack.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/set-clean-as-default</code></h3>
+            <p class="command-desc">Sets <code>default_profile = clean</code> in <code>claude-mastery-project.conf</code> so <code>/new-project my-app</code> uses the <code>clean</code> profile automatically &mdash; all the AI goodies (commands, hooks, skills, agents), zero coding opinions. You can still override with <code>/new-project my-app default</code> or any other profile name.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/reset-to-defaults</code></h3>
+            <p class="command-desc">Resets <code>default_profile = default</code> in <code>claude-mastery-project.conf</code> so <code>/new-project my-app</code> uses the full opinionated stack again (Next.js, MongoDB, Tailwind, Docker, CI, Rybbit, MCP servers).</p>
           </div>
         </div>
       </section>
