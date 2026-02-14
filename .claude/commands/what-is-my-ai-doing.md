@@ -10,13 +10,34 @@ Launch the RuleCatch AI-Pooler live monitor to see everything your AI is doing i
 
 **Arguments:** $ARGUMENTS
 
-## Important
+## Step 1 — Check if RuleCatch is Installed
 
-This monitor runs in a **separate terminal** — it does NOT run inside this Claude session. It's a persistent process that watches all AI activity.
+```bash
+npx @rulecatch/ai-pooler@latest --version 2>/dev/null
+```
 
-## Step 1 — Launch the Monitor
+If the command fails or returns nothing, tell the user:
 
-Tell the user:
+```
+RuleCatch is not installed.
+
+This command requires the RuleCatch AI-Pooler to monitor AI activity.
+RuleCatch is optional — the starter kit works fully without it.
+
+If you'd like to set it up:
+
+  1. Get an API key from https://rulecatch.ai
+  2. Run: npx @rulecatch/ai-pooler init --api-key=dc_your_key --region=us
+  3. Then run this command again.
+
+Learn more: https://rulecatch.ai/docs
+```
+
+**Stop here** — do not continue to Step 2.
+
+## Step 2 — Launch the Monitor
+
+If the AI-Pooler is installed, tell the user:
 
 ```
 The AI-Pooler monitor needs to run in a separate terminal window.
@@ -32,27 +53,6 @@ This shows you a live view of:
   • Which files are being accessed
 
 Press Ctrl+C to stop the monitor.
-```
-
-## Step 2 — Verify Installation
-
-Check if the ai-pooler is already installed:
-
-```bash
-npx @rulecatch/ai-pooler@latest --version 2>/dev/null
-```
-
-If not installed or no API key configured, tell the user:
-
-```
-To set up the AI-Pooler for the first time:
-
-  npx @rulecatch/ai-pooler init --api-key=dc_your_key --region=us
-
-Get your API key from https://app.rybbit.io (RuleCatch dashboard).
-After init, run the monitor in a separate terminal:
-
-  npx @rulecatch/ai-pooler@latest monitor -v
 ```
 
 ## Step 3 — Remind
