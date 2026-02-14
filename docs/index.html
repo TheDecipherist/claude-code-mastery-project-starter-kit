@@ -1751,7 +1751,7 @@ Step 3 (Auth System): Implement JWT authentication</code></pre>
           <div class="rulecatch-content">
             <div class="rulecatch-intro">
               <p><strong>RuleCatch is optional.</strong> The starter kit works fully without it &mdash; all hooks, commands, and quality gates function independently. If RuleCatch isn't installed, the <code>check-rulecatch.sh</code> hook simply skips silently with zero overhead.</p>
-              <p><strong>Why you'd want it anyway:</strong> AI models don't follow CLAUDE.md rules 100% of the time. They'll use JavaScript instead of TypeScript, skip your database wrapper, hardcode values, or ignore patterns you've documented. You won't always catch it in review. <a href="https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial" target="_blank" rel="noopener"><strong>RuleCatch.AI</strong></a> gives you visibility into what your AI is actually doing &mdash; and flags violations before they reach main.</p>
+              <p><strong>Why you'd want it anyway:</strong> AI models break your CLAUDE.md rules more often than you'd expect &mdash; wrong language, skipped patterns, hardcoded values, ignored constraints. Code that looks right and passes linting, but violates your project's actual standards. <a href="https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial" target="_blank" rel="noopener"><strong>RuleCatch.AI</strong></a> bridges the gap between detecting these violations and fixing them. It monitors every tool call in real-time, and with the MCP server installed, Claude can query its own violations and generate fix plans &mdash; ask it: <em>"What rules am I breaking the most?"</em> or <em>"Create a plan to fix today's violations."</em></p>
             </div>
 
             <div class="rulecatch-features">
@@ -1781,7 +1781,7 @@ Step 3 (Auth System): Implement JWT authentication</code></pre>
                 </div>
                 <div>
                   <h4>MCP Server</h4>
-                  <p>Adds 6 tools to Claude so you can query violations, get fix plans, and review summaries without leaving your session. Ask: <code>"RuleCatch, what was violated today?"</code></p>
+                  <p>Gives Claude direct read access to violation data. Ask: <em>"Show all security violations this week"</em> or <em>"Create a plan to fix today's violations"</em> &mdash; Claude reviews, analyzes, and generates file-by-file fix plans without leaving your session</p>
                 </div>
               </div>
 
