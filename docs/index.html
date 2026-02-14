@@ -209,8 +209,8 @@
             <div class="feature-icon feature-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
-            <h3>18 Slash Commands</h3>
-            <p><code>/install-global</code>, <code>/setup</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-clean-as-default</code>, <code>/reset-to-defaults</code></p>
+            <h3>20 Slash Commands</h3>
+            <p><code>/help</code>, <code>/quickstart</code>, <code>/install-global</code>, <code>/setup</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-clean-as-default</code>, <code>/reset-to-defaults</code></p>
           </div>
 
           <div class="feature-card">
@@ -328,6 +328,8 @@ cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/</code></pre>
 ├── .claude/
 │   ├── settings.json            # Hooks configuration
 │   ├── commands/
+│   │   ├── help.md              # /help — list all commands, skills, and agents
+│   │   ├── quickstart.md        # /quickstart — interactive first-run walkthrough
 │   │   ├── review.md            # /review — code review
 │   │   ├── commit.md            # /commit — smart commit
 │   │   ├── progress.md          # /progress — project status
@@ -799,6 +801,16 @@ fi</code></pre>
         </div>
 
         <div class="commands-grid">
+          <div class="command-card">
+            <h3><code>/help</code></h3>
+            <p class="command-desc">Lists every command, skill, and agent in the starter kit, grouped by category: Getting Started, Project Scaffold, Code Quality, Development, Infrastructure, and Monitoring. Also shows skill triggers and agent descriptions. Run <code>/help</code> anytime to see what's available.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/quickstart</code></h3>
+            <p class="command-desc">Interactive first-run walkthrough for new users. Checks if global config is installed, asks for a project name and profile preference (clean vs default), then walks you through the first 5 minutes: scaffolding, setup, first dev server, first review, first commit.</p>
+          </div>
+
           <div class="command-card">
             <h3><code>/diagram</code></h3>
             <p class="command-desc">Scans your actual code and generates ASCII diagrams automatically:</p>

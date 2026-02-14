@@ -36,6 +36,9 @@
 | `pnpm content:list` | List all articles and their status |
 | **Docker** | |
 | `pnpm docker:optimize` | Audit Dockerfile against 12 best practices (use `/optimize-docker` in Claude) |
+| **Getting Started** | |
+| `/help` | List all commands, skills, and agents |
+| `/quickstart` | Interactive first-run walkthrough for new users |
 | **Setup** | |
 | `/install-global` | Install/merge global Claude config into `~/.claude/` (one-time, never overwrites) |
 | `/setup` | Interactive .env configuration — GitHub, database, Docker, analytics, RuleCatch |

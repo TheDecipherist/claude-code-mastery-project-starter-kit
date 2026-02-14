@@ -31,7 +31,7 @@ Everything you need to start a Claude Code project the right way — security, a
 
 - **CLAUDE.md** — Battle-tested project instructions with 11 numbered critical rules for security, TypeScript, database wrappers, testing, and deployment
 - **Global CLAUDE.md** — Security gatekeeper for all projects. Never publish secrets, never commit .env files, standardized scaffolding rules
-- **18 Slash Commands** — `/install-global`, `/setup`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-clean-as-default`, `/reset-to-defaults`
+- **20 Slash Commands** — `/help`, `/quickstart`, `/install-global`, `/setup`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-clean-as-default`, `/reset-to-defaults`
 - **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring
 - **Skills** — Context-aware templates: systematic code review checklist and full microservice scaffolding
 - **Custom Agents** — Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions
@@ -109,6 +109,8 @@ project/
 ├── .claude/
 │   ├── settings.json            # Hooks configuration
 │   ├── commands/
+│   │   ├── help.md              # /help — list all commands, skills, and agents
+│   │   ├── quickstart.md        # /quickstart — interactive first-run walkthrough
 │   │   ├── review.md            # /review — code review
 │   │   ├── commit.md            # /commit — smart commit
 │   │   ├── progress.md          # /progress — project status
@@ -472,6 +474,14 @@ Hooks are wired up in `.claude/settings.json`:
 ## Slash Commands — On-Demand Tools
 
 Invoke these with `/command` in any Claude Code session. Each command is a markdown file in `.claude/commands/` that gives Claude specific instructions and tool permissions.
+
+### `/help`
+
+Lists every command, skill, and agent in the starter kit, grouped by category: Getting Started, Project Scaffold, Code Quality, Development, Infrastructure, and Monitoring. Also shows skill triggers and agent descriptions. Run `/help` anytime to see what's available.
+
+### `/quickstart`
+
+Interactive first-run walkthrough for new users. Checks if global config is installed, asks for a project name and profile preference, then walks you through the first 5 minutes: scaffolding, setup, first dev server, first review, first commit. Designed for someone who just cloned the starter kit and doesn't know where to start.
 
 ### `/diagram`
 
