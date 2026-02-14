@@ -46,6 +46,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Temporary AI research files
+_ai_temp/
+
 # Misc
 *.bak
 *.tmp
