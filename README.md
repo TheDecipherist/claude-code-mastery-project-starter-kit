@@ -1215,7 +1215,7 @@ When modifying a plan:
 
 > **Not required.** The starter kit works fully without RuleCatch. All hooks, commands, and quality gates function independently. If you don't install it, the `check-rulecatch.sh` hook simply skips silently with zero overhead.
 
-> **Full disclosure:** RuleCatch.AI is built by [TheDecipherist](https://github.com/TheDecipherist) — the same developer behind this starter kit. It's included because it's an integral part of the workflow this kit teaches, and it's purpose-built for catching the exact issues AI-assisted development introduces.
+> **Full disclosure:** RuleCatch.AI is built by [TheDecipherist](https://github.com/TheDecipherist) — the same developer behind this starter kit. It's included because it's an integral part of the workflow this kit teaches, and it's purpose-built for catching the exact issues AI-assisted development introduces. It is fully optional but recommended.
 
 **Why you'd want it anyway:** AI models break your CLAUDE.md rules more often than you'd expect — wrong language, skipped patterns, hardcoded values, ignored constraints. Code that looks right and passes linting, but violates your project's actual standards. [RuleCatch.AI](https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial) bridges the gap between detecting these violations and fixing them. It monitors every tool call in real-time, and with the MCP server installed, Claude can query its own violations and generate fix plans — ask it: *"What rules am I breaking the most?"* or *"Create a plan to fix today's violations."*
 
