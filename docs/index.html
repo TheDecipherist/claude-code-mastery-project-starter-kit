@@ -208,7 +208,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
             </div>
             <h3>9 Hooks</h3>
-            <p>Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring.</p>
+            <p>Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional &mdash; skips silently if not installed).</p>
           </div>
 
           <div class="feature-card">
@@ -448,7 +448,7 @@ cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/</code></pre>
           </div>
           <div class="troubleshooting-item">
             <h4>RuleCatch Not Monitoring</h4>
-            <p>Install AI-Pooler: <code>npx @rulecatch/ai-pooler init</code>. Verify <code>RULECATCH_API_KEY</code> in <code>.env</code>. Run <code>pnpm ai:monitor</code> in a separate terminal.</p>
+            <p><strong>RuleCatch is optional</strong> &mdash; the kit works fully without it. If you want it: install AI-Pooler: <code>npx @rulecatch/ai-pooler init</code>. Verify <code>RULECATCH_API_KEY</code> in <code>.env</code>. Run <code>pnpm ai:monitor</code> in a separate terminal.</p>
           </div>
         </div>
       </section>
@@ -1749,8 +1749,8 @@ Step 3 (Auth System): Implement JWT authentication</code></pre>
         <div class="rulecatch-section">
           <div class="rulecatch-content">
             <div class="rulecatch-intro">
-              <p>This starter kit gives you rules, hooks, and quality gates. But how do you know when they're actually being followed?</p>
-              <p><a href="https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial" target="_blank" rel="noopener"><strong>RuleCatch.AI</strong></a> monitors your AI-assisted development sessions in real-time, detecting rule violations as they happen. It uses the same Claude Code hooks system this starter kit teaches &mdash; running completely outside the AI context with zero token overhead.</p>
+              <p><strong>RuleCatch is optional.</strong> The starter kit works fully without it &mdash; all hooks, commands, and quality gates function independently. If RuleCatch isn't installed, the <code>check-rulecatch.sh</code> hook simply skips silently with zero overhead.</p>
+              <p>That said, <a href="https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial" target="_blank" rel="noopener"><strong>RuleCatch.AI</strong></a> monitors your AI-assisted development sessions in real-time, detecting rule violations as they happen. It uses the same Claude Code hooks system this starter kit teaches &mdash; running completely outside the AI context with zero token overhead.</p>
             </div>
 
             <div class="rulecatch-features">

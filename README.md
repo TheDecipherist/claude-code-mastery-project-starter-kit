@@ -76,12 +76,12 @@ Everything you need to start a Claude Code project the right way — security, a
 - **CLAUDE.md** — Battle-tested project instructions with 11 numbered critical rules for security, TypeScript, database wrappers, testing, and deployment
 - **Global CLAUDE.md** — Security gatekeeper for all projects. Never publish secrets, never commit .env files, standardized scaffolding rules
 - **20 Slash Commands** — `/help`, `/quickstart`, `/install-global`, `/setup`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-clean-as-default`, `/reset-to-defaults`
-- **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring
+- **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional — skips silently if not installed)
 - **Skills** — Context-aware templates: systematic code review checklist and full microservice scaffolding
 - **Custom Agents** — Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions
 - **Documentation Templates** — Pre-structured ARCHITECTURE.md, INFRASTRUCTURE.md, and DECISIONS.md templates
 - **Testing Templates** — Master test checklist, issue tracking log, and a singleton database wrapper that prevents connection pool explosion
-- **Live AI Monitor** — See every tool call, token, cost, and violation in real-time with `/what-is-my-ai-doing`. Zero token overhead
+- **Live AI Monitor** — See every tool call, token, cost, and violation in real-time with `/what-is-my-ai-doing`. Zero token overhead (requires [RuleCatch](https://rulecatch.ai) — optional)
 
 ---
 
@@ -186,6 +186,8 @@ pnpm test:kill-ports
 - Check that `playwright.config.ts` has correct `webServer` commands and ports
 
 ### RuleCatch Not Monitoring
+
+> **RuleCatch is optional.** The starter kit works fully without it — the hook skips silently if RuleCatch isn't installed. Only set this up if you want AI session analytics and rule monitoring.
 
 - Install the AI-Pooler: `npx @rulecatch/ai-pooler init --api-key=YOUR_KEY --region=us`
 - Verify your API key is set: check `RULECATCH_API_KEY` in `.env`
@@ -1207,7 +1209,9 @@ When modifying a plan:
 
 ---
 
-## Monitor Your Rules with RuleCatch.AI
+## Monitor Your Rules with RuleCatch.AI (Optional)
+
+> **Not required.** The starter kit works fully without RuleCatch. All hooks, commands, and quality gates function independently. RuleCatch adds real-time session analytics and rule monitoring on top — if you don't install it, the `check-rulecatch.sh` hook simply skips silently with zero overhead.
 
 This starter kit gives you rules, hooks, and quality gates. [RuleCatch.AI](https://rulecatch.ai?utm_source=github-pages&utm_medium=article&utm_campaign=rulecatch&utm_content=tutorial) tells you when they're broken.
 
