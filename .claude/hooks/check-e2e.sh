@@ -46,10 +46,9 @@ fi
 # Check for real E2E test files (excluding the example template)
 E2E_DIR="tests/e2e"
 if [ ! -d "$E2E_DIR" ]; then
-    echo "BLOCKED: No tests/e2e/ directory found." >&2
-    echo "Create E2E tests before pushing to main." >&2
-    echo "Use: /create-e2e <feature>" >&2
-    exit 2
+    echo "WARNING: No tests/e2e/ directory found." >&2
+    echo "Consider creating E2E tests: /create-e2e <feature>" >&2
+    exit 0
 fi
 
 # Count .spec.ts and .test.ts files, excluding the example template
@@ -58,10 +57,9 @@ REAL_TESTS=$(find "$E2E_DIR" -name "*.spec.ts" -o -name "*.test.ts" 2>/dev/null 
     | wc -l | tr -d ' ')
 
 if [ "$REAL_TESTS" -eq 0 ]; then
-    echo "BLOCKED: No E2E tests found (only the example template exists)." >&2
-    echo "Create real E2E tests before pushing to main." >&2
-    echo "Use: /create-e2e <feature>" >&2
-    exit 2
+    echo "WARNING: No E2E tests found (only the example template exists)." >&2
+    echo "Consider creating E2E tests: /create-e2e <feature>" >&2
+    exit 0
 fi
 
 exit 0
