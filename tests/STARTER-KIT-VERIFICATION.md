@@ -22,7 +22,7 @@ Before running this verification:
 
 > Verify the starter kit itself is complete before testing `/new-project`.
 
-### 1.1 Slash Commands (20 files)
+### 1.1 Slash Commands (23 files)
 
 ```bash
 ls -1 .claude/commands/
@@ -40,15 +40,18 @@ ls -1 .claude/commands/
 - [ ] `progress.md` exists
 - [ ] `quickstart.md` exists
 - [ ] `refactor.md` exists
-- [ ] `reset-to-defaults.md` exists
 - [ ] `review.md` exists
 - [ ] `security-check.md` exists
-- [ ] `set-clean-as-default.md` exists
+- [ ] `set-project-profile-default.md` exists
+- [ ] `add-project-setup.md` exists
 - [ ] `setup.md` exists
 - [ ] `test-plan.md` exists
 - [ ] `what-is-my-ai-doing.md` exists
 - [ ] `worktree.md` exists
-- [ ] **Total: 20 files** (`ls .claude/commands/ | wc -l` = 20)
+- [ ] `projects-created.md` exists
+- [ ] `remove-project.md` exists
+- [ ] `convert-project-to-starter-kit.md` exists
+- [ ] **Total: 23 files** (`ls .claude/commands/ | wc -l` = 23)
 
 ### 1.2 Skills (2 directories)
 
@@ -547,6 +550,7 @@ cat claude-mastery-project.conf
 - [ ] `[static-site]` profile exists — `framework = astro`, `database = none`
 - [ ] `[quick]` profile exists — `framework = vite`, `hosting = vercel`
 - [ ] `[enterprise]` profile exists — has `multiregion` in options
+- [ ] `[go]` profile exists — `language = go`, `type = api`, `framework = gin`
 
 ### 7.3 Profile Fields Consistent
 
@@ -913,13 +917,406 @@ cat ~/projects/TESTPROJECT-CLEAN/CLAUDE.md
 
 ---
 
-## Section 15: Cleanup
+## Section 15: /new-project Go Mode
+
+> Verify Go mode creates a proper Go project without Node.js artifacts.
+
+### 15.1 Create Go Test Project
+
+In Claude Code, run:
+
+```
+/new-project TESTPROJECT-GO go
+```
+
+This should create `~/projects/TESTPROJECT-GO` using the `[go]` profile.
+
+### 15.2 Verify Go Project Structure
+
+```bash
+ls -la ~/projects/TESTPROJECT-GO/
+ls -R ~/projects/TESTPROJECT-GO/cmd/ 2>/dev/null
+ls -R ~/projects/TESTPROJECT-GO/internal/ 2>/dev/null
+```
+
+**Should exist:**
+
+- [ ] `go.mod` exists with correct module path
+- [ ] `go.sum` exists
+- [ ] `cmd/server/main.go` exists
+- [ ] `internal/handlers/health.go` exists
+- [ ] `internal/middleware/` directory exists
+- [ ] `internal/models/` directory exists
+- [ ] `Makefile` exists with build, test, lint targets
+- [ ] `Dockerfile` exists (multi-stage with scratch)
+- [ ] `.golangci.yml` exists
+- [ ] `.env` exists
+- [ ] `.env.example` exists
+- [ ] `.gitignore` exists with Go-specific entries (bin/, *.exe)
+- [ ] `.dockerignore` exists
+- [ ] `CLAUDE.md` exists with Go-specific rules
+- [ ] `CLAUDE.local.md` exists
+- [ ] `README.md` exists
+- [ ] `project-docs/ARCHITECTURE.md` exists
+- [ ] `project-docs/INFRASTRUCTURE.md` exists
+- [ ] `project-docs/DECISIONS.md` exists
+- [ ] `.claude/` has commands, skills, agents, hooks, settings.json
+- [ ] Git initialized with initial commit
+
+### 15.3 Verify Go CLAUDE.md Has Go Rules
+
+```bash
+cat ~/projects/TESTPROJECT-GO/CLAUDE.md
+```
+
+- [ ] Has error handling rule (never ignore errors)
+- [ ] Has context.Context propagation rule
+- [ ] Has table-driven tests rule
+- [ ] Has API versioning rule (`/api/v1/`)
+- [ ] Has graceful shutdown rule
+- [ ] Does NOT have TypeScript rules
+- [ ] Does NOT have Node.js-specific rules (package.json scripts, vitest, playwright)
+
+### 15.4 Verify Go Build Succeeds
+
+```bash
+cd ~/projects/TESTPROJECT-GO && go build ./...
+```
+
+- [ ] `go build ./...` exits with code 0
+
+### 15.5 Verify Go Vet Passes
+
+```bash
+cd ~/projects/TESTPROJECT-GO && go vet ./...
+```
+
+- [ ] `go vet ./...` exits with code 0
+
+### 15.6 Verify No Node.js Artifacts
+
+```bash
+ls ~/projects/TESTPROJECT-GO/package.json 2>/dev/null
+ls ~/projects/TESTPROJECT-GO/tsconfig.json 2>/dev/null
+ls ~/projects/TESTPROJECT-GO/node_modules/ 2>/dev/null
+```
+
+- [ ] No `package.json`
+- [ ] No `tsconfig.json`
+- [ ] No `node_modules/`
+- [ ] No `vitest.config.ts`
+- [ ] No `playwright.config.ts`
+
+---
+
+## Section 16: SQL Database Wrapper
+
+> Verify the SQL wrapper template exists and exports the expected API.
+
+### 16.1 File Exists
+
+```bash
+wc -l src/core/db/sql.ts
+```
+
+- [ ] `src/core/db/sql.ts` exists
+- [ ] File size < 400 lines
+
+### 16.2 Exports
+
+```bash
+grep -c "^export " src/core/db/sql.ts
+```
+
+- [ ] Exports: `connect`, `getPool`, `closePool`, `gracefulShutdown`
+- [ ] Exports: `queryOne`, `queryMany`, `count`
+- [ ] Exports: `execute`, `insertOne`, `insertMany`, `updateOne`, `deleteOne`
+- [ ] Exports: `withTransaction`
+- [ ] Exports: `buildWhere`
+- [ ] Expected: >= 12 exported functions/interfaces
+
+### 16.3 Driver Detection
+
+```bash
+grep "detectDriver" src/core/db/sql.ts
+```
+
+- [ ] Detects `postgresql://` and `postgres://` → pg
+- [ ] Detects `mysql://` → mysql2
+- [ ] Detects `mssql://` → mssql
+- [ ] Detects `file:` and `sqlite:` → better-sqlite3
+
+### 16.4 Pool Presets
+
+- [ ] `high` preset = max 20
+- [ ] `standard` preset = max 10
+- [ ] `low` preset = max 5
+
+---
+
+## Section 17: /new-project Python Mode
+
+> Verify Python mode creates a proper Python project without Node.js or Go artifacts.
+
+### 17.1 Create Python Test Project
+
+In Claude Code, run:
+
+```
+/new-project TESTPROJECT-PYTHON python-api
+```
+
+### 17.2 Verify Python Project Structure
+
+```bash
+ls -la ~/projects/TESTPROJECT-PYTHON/
+ls -R ~/projects/TESTPROJECT-PYTHON/src/ 2>/dev/null
+```
+
+**Should exist:**
+
+- [ ] `pyproject.toml` exists
+- [ ] `requirements.txt` exists
+- [ ] `requirements-dev.txt` exists
+- [ ] `ruff.toml` exists
+- [ ] `Makefile` exists with dev, test, lint targets
+- [ ] `src/app/main.py` exists
+- [ ] `src/app/config.py` exists
+- [ ] `src/app/api/v1/` directory exists
+- [ ] `tests/conftest.py` exists
+- [ ] `tests/test_health.py` exists
+- [ ] `.env` exists
+- [ ] `.env.example` exists
+- [ ] `.gitignore` includes Python-specific entries (__pycache__, .venv)
+- [ ] `CLAUDE.md` has Python-specific rules
+- [ ] `CLAUDE.local.md` exists
+- [ ] `project-docs/ARCHITECTURE.md` exists
+- [ ] `.claude/` has commands, skills, agents, hooks, settings.json
+- [ ] Git initialized with initial commit
+
+### 17.3 Verify Python CLAUDE.md
+
+```bash
+cat ~/projects/TESTPROJECT-PYTHON/CLAUDE.md
+```
+
+- [ ] Has type hints rule
+- [ ] Has async/await rule
+- [ ] Has pytest rule
+- [ ] Has virtual environment rule
+- [ ] Has API versioning rule (`/api/v1/`)
+- [ ] Does NOT have TypeScript rules
+- [ ] Does NOT have Node.js-specific rules
+
+### 17.4 Verify No Node.js/Go Artifacts
+
+- [ ] No `package.json`
+- [ ] No `tsconfig.json`
+- [ ] No `node_modules/`
+- [ ] No `go.mod`
+- [ ] No `vitest.config.ts`
+
+---
+
+## Section 18: New Commands Verification
+
+### 18.1 Old Commands Removed
+
+```bash
+ls .claude/commands/set-clean-as-default.md 2>/dev/null && echo "EXISTS" || echo "GONE"
+ls .claude/commands/reset-to-defaults.md 2>/dev/null && echo "EXISTS" || echo "GONE"
+```
+
+- [ ] `set-clean-as-default.md` is GONE
+- [ ] `reset-to-defaults.md` is GONE
+
+### 18.2 New Commands Exist
+
+```bash
+ls .claude/commands/set-project-profile-default.md 2>/dev/null && echo "EXISTS" || echo "MISSING"
+ls .claude/commands/add-project-setup.md 2>/dev/null && echo "EXISTS" || echo "MISSING"
+```
+
+- [ ] `set-project-profile-default.md` EXISTS
+- [ ] `add-project-setup.md` EXISTS
+
+### 18.3 New Project Management Commands Exist
+
+```bash
+ls .claude/commands/projects-created.md 2>/dev/null && echo "EXISTS" || echo "MISSING"
+ls .claude/commands/remove-project.md 2>/dev/null && echo "EXISTS" || echo "MISSING"
+```
+
+- [ ] `projects-created.md` EXISTS
+- [ ] `remove-project.md` EXISTS
+
+### 18.4 Command Count is 23
+
+```bash
+ls .claude/commands/ | wc -l
+```
+
+- [ ] Total: 23 files
+
+### 18.5 New Profiles in Config
+
+```bash
+cat claude-mastery-project.conf
+```
+
+- [ ] `[vue]` profile exists
+- [ ] `[nuxt]` profile exists
+- [ ] `[svelte]` profile exists
+- [ ] `[sveltekit]` profile exists
+- [ ] `[angular]` profile exists
+- [ ] `[python-api]` profile exists — `language = python`, `framework = fastapi`
+- [ ] `[django]` profile exists — `language = python`, `framework = django`
+- [ ] `[flask]` profile exists — `language = python`, `framework = flask`
+- [ ] Total profiles: 15 (7 existing + 8 new)
+
+### 18.6 Documentation Sync
+
+- [ ] `help.md` lists `/set-project-profile-default` and `/add-project-setup`
+- [ ] `help.md` lists `/projects-created` and `/remove-project`
+- [ ] `help.md` does NOT list `/set-clean-as-default` or `/reset-to-defaults`
+- [ ] `help.md` header says "23 commands"
+- [ ] `CLAUDE.md` quick reference has all new commands (including `/projects-created`, `/remove-project`, `/convert-project-to-starter-kit`)
+- [ ] `README.md` says "23 Slash Commands" and lists all new commands
+- [ ] `docs/index.html` says "23 Slash Commands" and has command cards for all new commands
+- [ ] "Supported Technologies" section in README.md
+- [ ] "Supported Technologies" section in docs/index.html
+- [ ] Project structure trees in README.md and docs/index.html include `projects-created.md`, `remove-project.md`, and `convert-project-to-starter-kit.md`
+
+### 18.7 Project Registry
+
+- [ ] `/projects-created` reads from `~/.claude/starter-kit-projects.json`
+- [ ] `/remove-project` reads and writes `~/.claude/starter-kit-projects.json`
+- [ ] `/new-project` has a "Project Registry" section that writes to `~/.claude/starter-kit-projects.json`
+
+---
+
+## Section 19: /convert-project-to-starter-kit Verification
+
+> Verify the convert command merges starter kit infrastructure into an existing project non-destructively.
+
+### 19.1 Create Test Target
+
+```bash
+mkdir /tmp/test-convert && cd /tmp/test-convert && git init && touch README.md && git add . && git commit -m "init"
+```
+
+- [ ] Test repo created with initial commit
+
+### 19.2 Run Conversion
+
+In Claude Code (from the starter kit directory), run:
+
+```
+/convert-project-to-starter-kit /tmp/test-convert
+```
+
+### 19.3 Verify Pre-Conversion Commit
+
+```bash
+cd /tmp/test-convert && git log --oneline | head -5
+```
+
+- [ ] Pre-conversion commit exists ("chore: pre-conversion snapshot" or "chore: pre-conversion marker")
+- [ ] Conversion commit exists ("chore: merge Claude Code Starter Kit infrastructure")
+
+### 19.4 Verify Commands Copied
+
+```bash
+ls /tmp/test-convert/.claude/commands/ | wc -l
+```
+
+- [ ] `.claude/commands/` has 23 files
+
+### 19.5 Verify Hooks Copied
+
+```bash
+ls /tmp/test-convert/.claude/hooks/ | wc -l
+```
+
+- [ ] `.claude/hooks/` has 9 files (block-secrets.py + 8 .sh hooks)
+- [ ] All `.sh` files are executable: `ls -la /tmp/test-convert/.claude/hooks/*.sh`
+
+### 19.6 Verify Skills and Agents Copied
+
+- [ ] `.claude/skills/code-review/SKILL.md` exists
+- [ ] `.claude/skills/create-service/SKILL.md` exists
+- [ ] `.claude/agents/code-reviewer.md` exists
+- [ ] `.claude/agents/test-writer.md` exists
+
+### 19.7 Verify CLAUDE.md Created
+
+```bash
+cat /tmp/test-convert/CLAUDE.md
+```
+
+- [ ] CLAUDE.md exists with security-only rules (Rule 0, Rule 5, Rule 6)
+- [ ] Has "NEVER Publish Sensitive Data" section
+- [ ] Has "NEVER Hardcode Credentials" section
+- [ ] Has "ALWAYS Ask Before Deploying" section
+
+### 19.8 Verify settings.json
+
+```bash
+cat /tmp/test-convert/.claude/settings.json | python3 -m json.tool
+```
+
+- [ ] `.claude/settings.json` exists and is valid JSON
+- [ ] Has hooks wired for PreToolUse, PostToolUse, and Stop
+
+### 19.9 Verify Infrastructure Files
+
+- [ ] `CLAUDE.local.md` exists
+- [ ] `claude-mastery-project.conf` exists
+- [ ] `project-docs/ARCHITECTURE.md` exists
+- [ ] `project-docs/INFRASTRUCTURE.md` exists
+- [ ] `project-docs/DECISIONS.md` exists
+- [ ] `.gitignore` exists and includes `.env`
+- [ ] `.env.example` exists
+
+### 19.10 Verify Project Registry
+
+```bash
+cat ~/.claude/starter-kit-projects.json | python3 -m json.tool
+```
+
+- [ ] Registry has an entry with `"path": "/tmp/test-convert"`
+- [ ] Entry has `"profile": "converted"`
+- [ ] `/projects-created` shows the converted project
+
+### 19.11 Verify Revert Works
+
+```bash
+cd /tmp/test-convert && git revert HEAD --no-edit
+```
+
+- [ ] `git revert HEAD` completes cleanly
+- [ ] `.claude/commands/` no longer exists (reverted to pre-conversion state)
+
+### 19.12 Cleanup
+
+```bash
+rm -rf /tmp/test-convert
+```
+
+- [ ] Test project removed
+
+---
+
+## Section 20: Cleanup (Extended)
 
 After completing all tests:
 
 ```bash
 rm -rf ~/projects/TESTPROJECT
 rm -rf ~/projects/TESTPROJECT-CLEAN
+rm -rf ~/projects/TESTPROJECT-GO
+rm -rf ~/projects/TESTPROJECT-PYTHON
+rm -rf /tmp/test-convert
 ```
 
 - [ ] Test projects removed
@@ -944,7 +1341,12 @@ rm -rf ~/projects/TESTPROJECT-CLEAN
 | 12. CLAUDE.md Completeness | | | | |
 | 13. /new-project default | | | | |
 | 14. /new-project clean | | | | |
-| 15. Cleanup | | | | |
+| 15. /new-project go | | | | |
+| 16. SQL Wrapper | | | | |
+| 17. /new-project python | | | | |
+| 18. New Commands | | | | |
+| 19. Convert Command | | | | |
+| 20. Cleanup | | | | |
 | **TOTAL** | | | | |
 
 **Tested by:** _______________

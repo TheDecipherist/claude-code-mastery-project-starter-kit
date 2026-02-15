@@ -15,7 +15,7 @@
 
 This is a **scaffold template**, not a runnable application. It provides the infrastructure (commands, hooks, skills, agents, documentation templates) that makes Claude Code dramatically more effective. You use it to **create** projects, not run it directly.
 
-### Two Ways to Use It
+### Three Ways to Use It
 
 **A. Scaffold a new project (most common):**
 ```bash
@@ -25,7 +25,13 @@ cd ~/projects/my-app
 ```
 This creates a new project directory with all the Claude Code tooling pre-configured. Run `/quickstart` for a guided walkthrough.
 
-**B. Customize the template itself:**
+**B. Convert an existing project:**
+```bash
+/convert-project-to-starter-kit ~/projects/my-existing-app
+```
+Non-destructive merge — brings all starter kit infrastructure (commands, hooks, skills, agents, CLAUDE.md rules) into your existing project while preserving everything you already have. Creates a safety commit first so you can `git revert HEAD` to undo.
+
+**C. Customize the template itself:**
 Clone this repo and modify the commands, hooks, skills, and rules to match your team's standards. Then use your customized version as the source for `/new-project`.
 
 > **What NOT to do:** Don't clone this repo and run `pnpm dev` expecting a working app. This is the *template* that creates apps — it's not an app itself. If you're looking to build something, start with option A above.
@@ -55,7 +61,7 @@ cd ~/projects/my-app               # Enter your new project
 pnpm install && pnpm dev           # Start building
 ```
 
-Use `/help` to see all 20 commands at any time.
+Use `/help` to see all 23 commands at any time.
 
 ## See It In Action
 
@@ -75,13 +81,48 @@ Everything you need to start a Claude Code project the right way — security, a
 
 - **CLAUDE.md** — Battle-tested project instructions with 11 numbered critical rules for security, TypeScript, database wrappers, testing, and deployment
 - **Global CLAUDE.md** — Security gatekeeper for all projects. Never publish secrets, never commit .env files, standardized scaffolding rules
-- **20 Slash Commands** — `/help`, `/quickstart`, `/install-global`, `/setup`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-clean-as-default`, `/reset-to-defaults`
+- **23 Slash Commands** — `/help`, `/quickstart`, `/install-global`, `/setup`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-project-profile-default`, `/add-project-setup`, `/projects-created`, `/remove-project`, `/convert-project-to-starter-kit`
 - **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional — skips silently if not installed)
 - **Skills** — Context-aware templates: systematic code review checklist and full microservice scaffolding
 - **Custom Agents** — Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions
 - **Documentation Templates** — Pre-structured ARCHITECTURE.md, INFRASTRUCTURE.md, and DECISIONS.md templates
 - **Testing Templates** — Master test checklist, issue tracking log, and a singleton database wrapper that prevents connection pool explosion
 - **Live AI Monitor** — See every tool call, token, cost, and violation in real-time with `/what-is-my-ai-doing`. Zero token overhead (requires [RuleCatch](https://rulecatch.ai) — optional)
+
+## Supported Technologies
+
+This starter kit works with any language, framework, or database. Use `/new-project my-app clean` for zero opinions, or pick a profile that matches your stack.
+
+### Languages & Frameworks
+
+| Category | Technologies | Notes |
+|----------|-------------|-------|
+| **Languages** | Node.js/TypeScript, Go, Python | Full scaffolding support for all three |
+| **Frontend** | React, Vue 3, Svelte, SvelteKit, Angular, Next.js, Nuxt, Astro | CLI scaffold + CLAUDE.md rules per framework |
+| **Backend (Node.js)** | Fastify, Express, Hono | API scaffolding with `/create-api` |
+| **Backend (Go)** | Gin, Chi, Echo, Fiber, stdlib | Standard layout with cmd/internal/ |
+| **Backend (Python)** | FastAPI, Django, Flask | Async support, Pydantic, pytest |
+| **Database** | MongoDB, PostgreSQL, MySQL, MSSQL, SQLite | Centralized wrapper for each (NoSQL + SQL) |
+| **Hosting** | Dokploy, Vercel, Static (GitHub Pages, Netlify) | Deployment scripts + Docker |
+| **Testing** | Vitest, Playwright, pytest, Go test | Framework-appropriate test setup |
+| **CSS** | Tailwind CSS | Optional, any framework |
+
+### Recommended Stacks by Use Case
+
+| Use Case | Stack | Profile |
+|----------|-------|---------|
+| SPA Dashboard | Vite + React + Fastify + MongoDB | `default` |
+| REST API (Node.js) | Fastify + PostgreSQL | `api` with `postgres` |
+| Go Microservice | Gin + PostgreSQL | `go` with `postgres` |
+| Python API | FastAPI + PostgreSQL | `python-api` |
+| Vue SPA | Vue 3 + Vite + Tailwind | `vue` |
+| Nuxt Full-Stack | Nuxt + MongoDB + Docker | `nuxt` |
+| Svelte SPA | Svelte + Vite + Tailwind | `svelte` |
+| SvelteKit Full-Stack | SvelteKit + MongoDB + Docker | `sveltekit` |
+| Angular App | Angular + Tailwind | `angular` |
+| Django Web App | Django + PostgreSQL + Docker | `django` |
+| Content Site | Astro or SvelteKit | `static-site` or `sveltekit` |
+| AI goodies only | Any — you choose everything | `clean` |
 
 ---
 
@@ -222,8 +263,11 @@ project/
 │   │   ├── refactor.md          # /refactor — audit + refactor against all rules
 │   │   ├── install-global.md    # /install-global — merge global config into ~/.claude/
 │   │   ├── diagram.md           # /diagram — generate diagrams from actual code
-│   │   ├── set-clean-as-default.md # /set-clean-as-default — clean as default profile
-│   │   └── reset-to-defaults.md # /reset-to-defaults — reset to default profile
+│   │   ├── set-project-profile-default.md # /set-project-profile-default — set default profile
+│   │   ├── add-project-setup.md  # /add-project-setup — create a named profile
+│   │   ├── projects-created.md   # /projects-created — list all created projects
+│   │   ├── remove-project.md     # /remove-project — remove a project from registry
+│   │   └── convert-project-to-starter-kit.md # /convert-project-to-starter-kit — merge into existing project
 │   ├── skills/
 │   │   ├── code-review/SKILL.md # Triggered code review checklist
 │   │   └── create-service/SKILL.md # Service scaffolding template
@@ -684,13 +728,30 @@ Each task gets its own branch and its own directory. Main stays untouched. Enabl
 
 Audits your Dockerfile against 12 production best practices: multi-stage builds, layer caching, Alpine base images, non-root user, .dockerignore coverage, frozen lockfile, health checks, no secrets in build args, and pinned versions. Generates an optimized Dockerfile with before/after image size comparison.
 
-### `/set-clean-as-default`
+### `/set-project-profile-default`
 
-Sets `default_profile = clean` in `claude-mastery-project.conf` so `/new-project my-app` uses the `clean` profile automatically — all the AI goodies (commands, hooks, skills, agents), zero coding opinions. You can still override with `/new-project my-app default` or any other profile.
+Sets the default profile for `/new-project`. Accepts any profile name: `clean`, `default`, `go`, `vue`, `python-api`, etc. Also supports shorthand to create a custom default: `/set-project-profile-default mongo next tailwind docker` creates a `[user-default]` profile with those settings.
 
-### `/reset-to-defaults`
+### `/add-project-setup`
 
-Resets `default_profile = default` in `claude-mastery-project.conf` so `/new-project my-app` uses the full opinionated stack again (Next.js, MongoDB, Tailwind, Docker, CI, Rybbit, MCP servers).
+Interactive wizard that walks you through creating a named profile in `claude-mastery-project.conf`. Asks about language, framework, database, hosting, package manager, analytics, options, and MCP servers. The new profile can then be used with `/new-project my-app <profile-name>`.
+
+### `/projects-created`
+
+Lists every project scaffolded by `/new-project`, with creation date, profile used, language, framework, database, and location. Checks which projects still exist on disk and marks missing ones. Data is stored in `~/.claude/starter-kit-projects.json` (global — shared across all starter kit instances).
+
+### `/remove-project`
+
+Removes a project from the starter kit registry and optionally deletes its files from disk. Shows project details before taking action. Two options: remove from registry only (keep files) or delete everything (with safety checks for uncommitted git changes). Always asks for explicit confirmation before deleting.
+
+### `/convert-project-to-starter-kit`
+
+Merges all starter kit infrastructure into an existing project without destroying anything. Creates a safety commit first, detects your language and existing Claude setup, then asks how to handle conflicts (keep yours, replace, or choose per file). Copies commands, hooks, skills, agents, merges CLAUDE.md sections, deep-merges settings.json hooks, and adds infrastructure files (.gitignore, .env.example, project-docs templates). Registers the project so it appears in `/projects-created`. Use `--force` to skip prompts and use "keep existing, add missing" for everything. Undo with `git revert HEAD`.
+
+```bash
+/convert-project-to-starter-kit ~/projects/my-app
+/convert-project-to-starter-kit ~/projects/my-app --force
+```
 
 ### `/create-e2e`
 
@@ -739,9 +800,19 @@ Full project scaffolding with profiles:
 /new-project my-app fullstack next dokploy seo tailwind pnpm
 /new-project my-api api fastify dokploy docker multiregion
 /new-project my-site static-site
+/new-project my-api go                    # Go API with Gin, MongoDB, Docker
+/new-project my-api go chi postgres       # Go with Chi, PostgreSQL
+/new-project my-cli go cli                # Go CLI with Cobra
+/new-project my-app vue                    # Vue 3 SPA with Tailwind
+/new-project my-app nuxt                   # Nuxt full-stack with MongoDB, Docker
+/new-project my-app sveltekit              # SvelteKit full-stack
+/new-project my-api python-api             # FastAPI with PostgreSQL, Docker
+/new-project my-app django                 # Django full-stack
 ```
 
 **`clean`** — All Claude infrastructure (commands, skills, agents, hooks, project-docs, tests templates) with **zero coding opinions**. No TypeScript enforcement, no port assignments, no database wrapper, no quality gates. Your project, your rules — Claude just works.
+
+**`go`** — Go project scaffolding with standard layout (cmd/, internal/), Gin router, Makefile builds, golangci-lint, table-driven tests, multi-stage Docker with scratch base (5-15MB images). Supports Gin, Chi, Echo, Fiber, or stdlib net/http.
 
 **`default`** and other profiles — Full opinionated scaffolding with project type, framework, SSR, hosting (Dokploy/Vercel/static), package manager, database, extras (Tailwind, Prisma, Docker, CI), and MCP servers. Use `claude-mastery-project.conf` to save your preferred stack.
 

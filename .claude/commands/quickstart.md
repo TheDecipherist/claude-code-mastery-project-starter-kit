@@ -44,6 +44,15 @@ Validate: lowercase letters, numbers, and hyphens only. No spaces, no uppercase.
 Options:
 - **clean** — All Claude AI tools (commands, hooks, skills, agents) with zero coding opinions. You pick your own language, framework, and structure. Best for: experienced developers who want Claude's tooling without opinionated scaffolding.
 - **default** — Full opinionated stack: Next.js, TypeScript, MongoDB, Tailwind, Docker, CI, Rybbit analytics, Playwright tests. Best for: new projects that want everything pre-configured.
+- **go** — Go project with standard layout (cmd/internal/), Gin router, golangci-lint, Makefile builds, and multi-stage Docker. Best for: developers who prefer Go over Node.js.
+- **vue** — Vue 3 SPA with Composition API, Tailwind, Vite. Best for: Vue developers building SPAs.
+- **nuxt** — Nuxt full-stack with auto-imports, SSR, MongoDB, Docker. Best for: Vue developers who need SSR.
+- **svelte** — Svelte SPA with Tailwind, Vite. Best for: developers who prefer compiled frameworks.
+- **sveltekit** — SvelteKit full-stack with SSR, MongoDB, Docker. Best for: Svelte developers who need SSR + API routes.
+- **angular** — Angular standalone components with Tailwind. Best for: enterprise Angular teams.
+- **python-api** — FastAPI with PostgreSQL, Docker. Best for: Python API developers.
+- **django** — Django full-stack with PostgreSQL, Docker. Best for: Python web developers.
+- **flask** — Flask API with PostgreSQL, Docker. Best for: lightweight Python APIs.
 
 ## Step 3 — Tell Them to Scaffold
 

@@ -43,8 +43,11 @@
 | `/install-global` | Install/merge global Claude config into `~/.claude/` (one-time, never overwrites) |
 | `/setup` | Interactive .env configuration — GitHub, database, Docker, analytics, RuleCatch |
 | `/setup --reset` | Re-configure everything from scratch |
-| `/set-clean-as-default` | Make `clean` the default profile for `/new-project` (AI goodies, zero opinions) |
-| `/reset-to-defaults` | Reset `/new-project` back to the `default` profile (full opinionated stack) |
+| `/set-project-profile-default` | Set the default profile for `/new-project` (any profile: clean, go, vue, python-api, etc.) |
+| `/add-project-setup` | Interactive wizard to create a named profile in `claude-mastery-project.conf` |
+| `/projects-created` | List all projects created by the starter kit with creation dates |
+| `/remove-project <name>` | Remove a project from registry and optionally delete from disk |
+| `/convert-project-to-starter-kit` | Merge starter kit into an existing project (non-destructive) |
 | **RuleCatch** | |
 | `pnpm ai:monitor` | Live view of AI activity — tokens, cost, violations, tool usage (separate terminal) |
 | `/what-is-my-ai-doing` | Same as above — launches AI-Pooler monitor |
@@ -279,6 +282,61 @@ Run: `npx tsx scripts/db-query.ts find-expired-sessions`
 - **BulkWrite only** — atomic, better performance than individual operations
 - **$limit before $lookup** — prevents joining entire collections (massive perf hit)
 - **One place for test queries** — no scripts scattered across the project
+
+### 3b. SQL Database Access — Wrapper Only (`src/core/db/sql.ts`)
+
+When using PostgreSQL/MySQL/MSSQL/SQLite:
+
+- **ALL SQL database access goes through `src/core/db/sql.ts`. No exceptions.**
+- NEVER create connection pools anywhere else in the codebase
+- NEVER import `pg`/`mysql2`/`mssql`/`better-sqlite3` directly outside the wrapper
+- ALWAYS use parameterized queries (`$1`, `$2` placeholders) — NEVER string-interpolate values into SQL
+- Use `withTransaction()` for multi-statement atomic operations
+- Call `gracefulShutdown()` on SIGTERM/SIGINT — same pattern as MongoDB
+
+#### How to use the SQL wrapper
+
+```typescript
+// CORRECT — import from the centralized wrapper
+import { connect, queryOne, queryMany, insertOne, withTransaction, gracefulShutdown } from '@/core/db/sql.js';
+
+// WRONG — NEVER do this
+import { Pool } from 'pg';                // FORBIDDEN outside src/core/db/
+const pool = new Pool({ connectionString }); // FORBIDDEN — creates rogue pool
+```
+
+#### Reading data — ALWAYS parameterize
+
+```typescript
+const user = await queryOne<User>('SELECT * FROM users WHERE id = $1', [userId]);
+const orders = await queryMany<Order>('SELECT * FROM orders WHERE user_id = $1 AND status = $2 LIMIT $3', [userId, 'active', 20]);
+const total = await count('users', { role: 'admin' });
+```
+
+#### Writing data
+
+```typescript
+await insertOne('users', { email, name, created_at: new Date() });
+await updateOne('users', { id: userId }, { name: 'New Name', updated_at: new Date() });
+await deleteOne('tokens', { token: expiredToken });
+```
+
+#### Transactions
+
+```typescript
+await withTransaction(async (client) => {
+  await client.query('UPDATE accounts SET balance = balance - $1 WHERE id = $2', [100, fromId]);
+  await client.query('UPDATE accounts SET balance = balance + $1 WHERE id = $2', [100, toId]);
+});
+```
+
+#### Driver auto-detection
+
+The wrapper detects the driver from `DATABASE_URL`:
+- `postgresql://` or `postgres://` → `pg`
+- `mysql://` → `mysql2`
+- `mssql://` → `mssql`
+- `file:` or `sqlite:` → `better-sqlite3`
 
 ### 4. Testing — Explicit Success Criteria
 
@@ -523,7 +581,7 @@ project/
 ├── .gitignore
 ├── .dockerignore
 ├── package.json           # All scripts: dev, test, db:query, content:build, ai:monitor
-├── claude-mastery-project.conf # Profile presets for /new-project (clean, default, api, etc.)
+├── claude-mastery-project.conf # Profile presets for /new-project (clean, default, api, go, etc.)
 ├── playwright.config.ts   # E2E test config (test ports 4000/4010/4020, webServer)
 ├── vitest.config.ts       # Unit/integration test config
 └── tsconfig.json
@@ -576,6 +634,40 @@ try {
   return null; // silent failure
 }
 ```
+
+### Go (Gin / Chi / Echo / Fiber / stdlib)
+
+When working on a Go project (detected by `go.mod` in root or `language = go` in profile):
+
+- **Standard layout:** `cmd/` for entry points, `internal/` for private packages — follow Go conventions
+- **Go modules:** Always use `go.mod` / `go.sum` — NEVER use `GOPATH` mode or `dep`
+- **golangci-lint:** Run `golangci-lint run` before committing — config in `.golangci.yml`
+- **Table-driven tests:** Use `[]struct{ name string; ... }` pattern for multiple test cases
+- **context.Context:** Every I/O function accepts `ctx context.Context` as first parameter
+- **Interfaces:** Accept interfaces, return structs — define interfaces at the consumer
+- **Error handling:** NEVER ignore errors with `_` — always check and wrap with `fmt.Errorf("context: %w", err)`
+- **No global mutable state:** Pass dependencies via struct fields, not package-level vars
+- **Graceful shutdown:** Handle SIGINT/SIGTERM, close DB connections with `context.WithTimeout`
+- **API versioning:** Same rule — all endpoints under `/api/v1/` prefix
+- **Quality gates:** Same limits — no file > 300 lines, no function > 50 lines
+- **Makefile:** Use `make build`, `make test`, `make lint` — NOT raw `go` commands in scripts
+
+### Python (FastAPI / Django / Flask)
+
+When working on a Python project (detected by `pyproject.toml` in root or `language = python` in profile):
+
+- **Type hints ALWAYS:** Every function MUST have type hints for all parameters AND return type
+- **Modern syntax:** Use `str | None` (not `Optional[str]`), `list[str]` (not `List[str]`)
+- **Async consistently:** FastAPI handlers must be `async def` for I/O operations
+- **pytest only:** NEVER use unittest — use pytest with `@pytest.mark.parametrize` for table-driven tests
+- **Virtual environment:** ALWAYS use `.venv/` — NEVER install packages globally
+- **Pydantic models:** Use Pydantic `BaseModel` for all request/response schemas
+- **Pydantic settings:** Use `pydantic-settings` `BaseSettings` for environment config
+- **ruff:** Run `ruff check` before committing — config in `ruff.toml` or `pyproject.toml`
+- **API versioning:** Same rule — all endpoints under `/api/v1/` prefix
+- **Quality gates:** Same limits — no file > 300 lines, no function > 50 lines
+- **Makefile:** Use `make dev`, `make test`, `make lint` — NOT raw Python commands in scripts
+- **Graceful shutdown:** Handle SIGINT/SIGTERM, close database connections before exiting
 
 ---
 

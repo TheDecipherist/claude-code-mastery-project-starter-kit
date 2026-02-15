@@ -105,6 +105,7 @@
       <a href="#claude-md-rules">CLAUDE.md Rules</a>
       <a href="#hooks-detail">Hooks</a>
       <a href="#commands-detail">Slash Commands</a>
+      <a href="#supported-tech">Supported Technologies</a>
       <a href="#skills-detail">Skills</a>
       <a href="#agents-detail">Custom Agents</a>
       <a href="#database-wrapper">Database Wrapper</a>
@@ -165,6 +166,7 @@
         <a href="#claude-md-rules">CLAUDE.md Rules</a>
         <a href="#hooks-detail">Hooks</a>
         <a href="#commands-detail">Slash Commands</a>
+        <a href="#supported-tech">Supported Technologies</a>
         <a href="#skills-detail">Skills</a>
         <a href="#agents-detail">Custom Agents</a>
         <a href="#database-wrapper">Database Wrapper</a>
@@ -215,8 +217,8 @@
             <div class="feature-icon feature-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
-            <h3>20 Slash Commands</h3>
-            <p><code>/help</code>, <code>/quickstart</code>, <code>/install-global</code>, <code>/setup</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-clean-as-default</code>, <code>/reset-to-defaults</code></p>
+            <h3>23 Slash Commands</h3>
+            <p><code>/help</code>, <code>/quickstart</code>, <code>/install-global</code>, <code>/setup</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-project-profile-default</code>, <code>/add-project-setup</code>, <code>/projects-created</code>, <code>/remove-project</code>, <code>/convert-project-to-starter-kit</code></p>
           </div>
 
           <div class="feature-card">
@@ -268,14 +270,18 @@
           <strong>This is a scaffold template, not a runnable application.</strong> It provides the infrastructure (commands, hooks, skills, agents, documentation templates) that makes Claude Code dramatically more effective. You use it to <strong>create</strong> projects, not run it directly.
         </div>
 
-        <h3>Two Ways to Use It</h3>
-        <div class="check-before-grid" style="grid-template-columns: 1fr 1fr;">
+        <h3>Three Ways to Use It</h3>
+        <div class="check-before-grid" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="check-before-card">
             <h4>A. Scaffold a New Project</h4>
             <p>The most common path. Run <code>/new-project my-app clean</code> (or <code>default</code>) to create a new project directory with all Claude Code tooling pre-configured. Run <code>/quickstart</code> for a guided walkthrough.</p>
           </div>
           <div class="check-before-card">
-            <h4>B. Customize the Template</h4>
+            <h4>B. Convert an Existing Project</h4>
+            <p>Already have a project? Run <code>/convert-project-to-starter-kit ~/projects/my-app</code> to non-destructively merge all starter kit infrastructure into it. Preserves everything you have, adds what's missing. Undo with <code>git revert HEAD</code>.</p>
+          </div>
+          <div class="check-before-card">
+            <h4>C. Customize the Template</h4>
             <p>Clone this repo and modify the commands, hooks, skills, and rules to match your team's standards. Then use your customized version as the source for <code>/new-project</code>.</p>
           </div>
         </div>
@@ -351,7 +357,7 @@
 cd ~/projects/my-app               # Enter your new project
 /setup                             # Configure .env interactively
 pnpm install && pnpm dev           # Start building</code></pre>
-        <p>Use <code>/help</code> to see all 20 commands at any time.</p>
+        <p>Use <code>/help</code> to see all 23 commands at any time.</p>
       </section>
 
       <!-- Quick Start -->
@@ -480,8 +486,11 @@ cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/</code></pre>
 │   │   ├── refactor.md          # /refactor — audit + refactor against all rules
 │   │   ├── install-global.md    # /install-global — merge global config into ~/.claude/
 │   │   ├── diagram.md           # /diagram — generate diagrams from actual code
-│   │   ├── set-clean-as-default.md # /set-clean-as-default — clean as default profile
-│   │   └── reset-to-defaults.md # /reset-to-defaults — reset to default profile
+│   │   ├── set-project-profile-default.md # /set-project-profile-default — set default profile
+│   │   ├── add-project-setup.md  # /add-project-setup — create a named profile
+│   │   ├── projects-created.md   # /projects-created — list all created projects
+│   │   ├── remove-project.md     # /remove-project — remove a project from registry
+│   │   └── convert-project-to-starter-kit.md # /convert-project-to-starter-kit — merge into existing project
 │   ├── skills/
 │   │   ├── code-review/SKILL.md # Triggered code review checklist
 │   │   └── create-service/SKILL.md # Service scaffolding template
@@ -1125,21 +1134,92 @@ npx @rulecatch/ai-pooler@latest monitor -v</code></pre>
 /new-project my-app default
 /new-project my-app fullstack next dokploy seo tailwind pnpm
 /new-project my-api api fastify dokploy docker multiregion
-/new-project my-site static-site</code></pre>
+/new-project my-site static-site
+/new-project my-api go                    # Go API with Gin, MongoDB, Docker
+/new-project my-api go chi postgres       # Go with Chi, PostgreSQL
+/new-project my-cli go cli                # Go CLI with Cobra
+/new-project my-app vue                    # Vue 3 SPA with Tailwind
+/new-project my-app nuxt                   # Nuxt full-stack with MongoDB, Docker
+/new-project my-app sveltekit              # SvelteKit full-stack
+/new-project my-api python-api             # FastAPI with PostgreSQL, Docker
+/new-project my-app django                 # Django full-stack</code></pre>
             <p><strong><code>clean</code></strong> &mdash; All Claude infrastructure (commands, skills, agents, hooks, project-docs, tests templates) with <strong>zero coding opinions</strong>. No TypeScript enforcement, no port assignments, no database wrapper, no quality gates. Your project, your rules &mdash; Claude just works.</p>
+            <p><strong><code>go</code></strong> &mdash; Go project scaffolding with standard layout (cmd/, internal/), Gin router, Makefile builds, golangci-lint, table-driven tests, multi-stage Docker with scratch base (5-15MB images). Supports Gin, Chi, Echo, Fiber, or stdlib net/http.</p>
             <p><strong><code>default</code></strong> and other profiles &mdash; Full opinionated scaffolding with project type, framework, SSR, hosting (Dokploy/Vercel/static), package manager, database, extras (Tailwind, Prisma, Docker, CI), and MCP servers. Includes mandatory SEO for web projects and Dokploy deployment scripts with multi-region support.</p>
+            <p><strong><code>vue</code> / <code>nuxt</code> / <code>svelte</code> / <code>sveltekit</code> / <code>angular</code></strong> &mdash; Frontend framework scaffolding with CLI scaffold + starter kit overlay. Each gets framework-specific CLAUDE.md rules (Composition API for Vue, Runes for Svelte, Standalone Components for Angular).</p>
+            <p><strong><code>python-api</code> / <code>django</code> / <code>flask</code></strong> &mdash; Python project scaffolding with FastAPI/Django/Flask, pytest, ruff linter, virtual environment, and multi-stage Docker. Full type hints enforced.</p>
             <p>Use <code>claude-mastery-project.conf</code> profiles to save your preferred stack.</p>
           </div>
 
           <div class="command-card">
-            <h3><code>/set-clean-as-default</code></h3>
-            <p class="command-desc">Sets <code>default_profile = clean</code> in <code>claude-mastery-project.conf</code> so <code>/new-project my-app</code> uses the <code>clean</code> profile automatically &mdash; all the AI goodies (commands, hooks, skills, agents), zero coding opinions. You can still override with <code>/new-project my-app default</code> or any other profile name.</p>
+            <h3><code>/set-project-profile-default</code></h3>
+            <p class="command-desc">Sets the default profile for <code>/new-project</code>. Accepts any profile name: <code>clean</code>, <code>default</code>, <code>go</code>, <code>vue</code>, <code>python-api</code>, etc. Also supports shorthand: <code>/set-project-profile-default mongo next tailwind docker</code> creates a <code>[user-default]</code> profile with those settings.</p>
           </div>
 
           <div class="command-card">
-            <h3><code>/reset-to-defaults</code></h3>
-            <p class="command-desc">Resets <code>default_profile = default</code> in <code>claude-mastery-project.conf</code> so <code>/new-project my-app</code> uses the full opinionated stack again (Next.js, MongoDB, Tailwind, Docker, CI, Rybbit, MCP servers).</p>
+            <h3><code>/add-project-setup</code></h3>
+            <p class="command-desc">Interactive wizard to create a named profile in <code>claude-mastery-project.conf</code>. Asks about language, framework, database, hosting, and more. Use with <code>/new-project my-app &lt;profile-name&gt;</code>.</p>
           </div>
+
+          <div class="command-card">
+            <h3><code>/projects-created</code></h3>
+            <p class="command-desc">Lists every project scaffolded by <code>/new-project</code>, with creation date, profile, language, framework, database, and location. Checks which projects still exist on disk and marks missing ones. Data stored in <code>~/.claude/starter-kit-projects.json</code>.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/remove-project</code></h3>
+            <p class="command-desc">Removes a project from the starter kit registry and optionally deletes its files from disk. Shows project details, asks for confirmation, checks for uncommitted git changes before deletion. Use <code>/remove-project my-app</code> or run without arguments to pick from a list.</p>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/convert-project-to-starter-kit</code></h3>
+            <p class="command-desc">Merges all starter kit infrastructure into an existing project without destroying anything. Creates a safety commit, detects language and existing Claude setup, asks how to handle conflicts, then copies commands, hooks, skills, agents, merges CLAUDE.md sections, deep-merges settings.json, and adds infrastructure files. Registers the project in <code>~/.claude/starter-kit-projects.json</code>. Undo with <code>git revert HEAD</code>.</p>
+            <pre class="language-bash"><code class="language-bash">/convert-project-to-starter-kit ~/projects/my-app
+/convert-project-to-starter-kit ~/projects/my-app --force</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Supported Technologies -->
+      <section id="supported-tech">
+        <h2>Supported Technologies</h2>
+        <p>This starter kit works with any language, framework, or database. Use <code>/new-project my-app clean</code> for zero opinions, or pick a profile that matches your stack.</p>
+
+        <h3>Languages &amp; Frameworks</h3>
+        <div class="port-table-wrapper">
+          <table class="port-table">
+            <thead><tr><th>Category</th><th>Technologies</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Languages</strong></td><td>Node.js/TypeScript, Go, Python</td><td>Full scaffolding support</td></tr>
+              <tr><td><strong>Frontend</strong></td><td>React, Vue 3, Svelte, SvelteKit, Angular, Next.js, Nuxt, Astro</td><td>CLI scaffold + CLAUDE.md rules</td></tr>
+              <tr><td><strong>Backend (Node.js)</strong></td><td>Fastify, Express, Hono</td><td>API scaffolding with <code>/create-api</code></td></tr>
+              <tr><td><strong>Backend (Go)</strong></td><td>Gin, Chi, Echo, Fiber, stdlib</td><td>Standard layout cmd/internal/</td></tr>
+              <tr><td><strong>Backend (Python)</strong></td><td>FastAPI, Django, Flask</td><td>Async, Pydantic, pytest</td></tr>
+              <tr><td><strong>Database</strong></td><td>MongoDB, PostgreSQL, MySQL, MSSQL, SQLite</td><td>Centralized wrapper for each</td></tr>
+              <tr><td><strong>Hosting</strong></td><td>Dokploy, Vercel, Static</td><td>Deploy scripts + Docker</td></tr>
+              <tr><td><strong>Testing</strong></td><td>Vitest, Playwright, pytest, Go test</td><td>Framework-appropriate setup</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Recommended Stacks</h3>
+        <div class="port-table-wrapper">
+          <table class="port-table">
+            <thead><tr><th>Use Case</th><th>Stack</th><th>Profile</th></tr></thead>
+            <tbody>
+              <tr><td>SPA Dashboard</td><td>Vite + React + Fastify + MongoDB</td><td><code>default</code></td></tr>
+              <tr><td>REST API (Node.js)</td><td>Fastify + PostgreSQL</td><td><code>api</code> + <code>postgres</code></td></tr>
+              <tr><td>Go Microservice</td><td>Gin + PostgreSQL</td><td><code>go</code> + <code>postgres</code></td></tr>
+              <tr><td>Python API</td><td>FastAPI + PostgreSQL</td><td><code>python-api</code></td></tr>
+              <tr><td>Vue SPA</td><td>Vue 3 + Vite + Tailwind</td><td><code>vue</code></td></tr>
+              <tr><td>Nuxt Full-Stack</td><td>Nuxt + MongoDB + Docker</td><td><code>nuxt</code></td></tr>
+              <tr><td>SvelteKit Full-Stack</td><td>SvelteKit + MongoDB + Docker</td><td><code>sveltekit</code></td></tr>
+              <tr><td>Angular App</td><td>Angular + Tailwind</td><td><code>angular</code></td></tr>
+              <tr><td>Django Web App</td><td>Django + PostgreSQL + Docker</td><td><code>django</code></td></tr>
+              <tr><td>Content Site</td><td>Astro or SvelteKit</td><td><code>static-site</code></td></tr>
+              <tr><td>AI goodies only</td><td>Any &mdash; you choose</td><td><code>clean</code></td></tr>
+            </tbody>
+          </table>
         </div>
       </section>
 

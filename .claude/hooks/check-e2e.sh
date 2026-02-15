@@ -56,6 +56,12 @@ REAL_TESTS=$(find "$E2E_DIR" -name "*.spec.ts" -o -name "*.test.ts" 2>/dev/null 
     | grep -v "example-homepage.spec.ts" \
     | wc -l | tr -d ' ')
 
+# Also check for Go test files
+GO_TESTS=$(find "$E2E_DIR" -name '*_test.go' 2>/dev/null | wc -l | tr -d ' ')
+if [ "$REAL_TESTS" -eq 0 ] && [ "$GO_TESTS" -gt 0 ]; then
+    REAL_TESTS=$GO_TESTS
+fi
+
 if [ "$REAL_TESTS" -eq 0 ]; then
     echo "WARNING: No E2E tests found (only the example template exists)." >&2
     echo "Consider creating E2E tests: /create-e2e <feature>" >&2

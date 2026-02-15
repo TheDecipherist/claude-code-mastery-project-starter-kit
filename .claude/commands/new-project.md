@@ -63,13 +63,16 @@ Everything after the project name/path is shorthand options or a profile name.
 
 Parse remaining $ARGUMENTS for these keywords:
 
-**Profiles:** `clean`, `default`, `api`, `static-site`, `quick`, `enterprise` (from `claude-mastery-project.conf`)
+**Profiles:** `clean`, `default`, `api`, `static-site`, `quick`, `enterprise`, `go`, `vue`, `nuxt`, `svelte`, `sveltekit`, `angular`, `python-api`, `django`, `flask` (from `claude-mastery-project.conf`)
 **Special:** `clean` — Claude infrastructure only, zero coding opinions (see Clean Mode below)
+**Languages:** `go`, `golang` (triggers Go scaffolding — see Go Mode below) | `python`, `py` (triggers Python Mode below)
 **Project types:** `webapp`, `api`, `fullstack`, `cli`
-**Frameworks:** `vite`, `react`, `next`, `nextjs`, `astro`, `fastify`, `express`, `hono`
+**Frameworks:** `vite`, `react`, `next`, `nextjs`, `astro`, `fastify`, `express`, `hono`, `vue`, `nuxt`, `svelte`, `sveltekit`, `angular`
+**Go Frameworks:** `gin`, `chi`, `echo`, `fiber`, `stdlib`
+**Python Frameworks:** `fastapi`, `django`, `flask`
 **Options:** `seo`, `ssr`, `tailwind`, `prisma`, `docker`, `ci`, `multiregion`
 **Hosting:** `dokploy`, `vercel`, `static`
-**Database:** `mongo`, `postgres`, `sqlite`
+**Database:** `mongo`, `postgres`, `mysql`, `mssql`, `sqlite`
 **Analytics:** `rybbit`
 **MCP servers:** `playwright`, `context7`, `rulecatch`
 **NPM extras:** `ai-pooler` (installs @rulecatch/ai-pooler)
@@ -83,8 +86,66 @@ Examples:
 - `/new-project ./custom-path/my-app api fastify` — explicit path, ignores root_dir
 - `/new-project ~/code/my-app default` — explicit path, uses default profile
 - `/new-project my-app fullstack next mongo playwright context7 rulecatch` — full stack
+- `/new-project my-api go` — Go API with Gin, MongoDB, Docker
+- `/new-project my-api go chi postgres` — Go with Chi, PostgreSQL
+- `/new-project my-cli go cli` — Go CLI with Cobra
+- `/new-project my-app vue` — Vue 3 SPA with Tailwind
+- `/new-project my-app nuxt` — Nuxt full-stack with MongoDB, Docker
+- `/new-project my-app svelte` — Svelte SPA with Tailwind
+- `/new-project my-app sveltekit` — SvelteKit full-stack with MongoDB, Docker
+- `/new-project my-app angular` — Angular SPA with Tailwind
+- `/new-project my-api python-api` — FastAPI with PostgreSQL, Docker
+- `/new-project my-app django` — Django full-stack with PostgreSQL, Docker
+- `/new-project my-api flask` — Flask API with PostgreSQL, Docker
+- `/new-project my-api python fastapi postgres docker` — Python API with overrides
 
 Any keyword not provided = check `default_profile` in `[global]` first, then ask the user. If `default_profile` is set (e.g., `default_profile = clean`) and no profile was specified in the arguments, use that profile automatically.
+
+---
+
+## Project Registry — MANDATORY Final Step (ALL modes)
+
+**After EVERY successful project scaffold (Clean, Go, Python, or Node.js), register the project in `~/.claude/starter-kit-projects.json`.**
+
+This enables `/projects-created` and `/remove-project` to track all projects.
+
+### How to register
+
+1. Read `~/.claude/starter-kit-projects.json` (create if it doesn't exist)
+2. Append a new entry to the `projects` array:
+
+```json
+{
+  "name": "my-app",
+  "path": "/home/user/projects/my-app",
+  "profile": "default",
+  "language": "node",
+  "framework": "next",
+  "database": "mongo",
+  "createdAt": "2025-01-15T10:30:00Z"
+}
+```
+
+3. Write the updated file back
+
+**Field mapping:**
+- `name` — project directory name (last segment of path)
+- `path` — absolute path to the project directory
+- `profile` — profile name used (e.g., `clean`, `default`, `go`, `python-api`), or `custom` if built from shorthand args
+- `language` — `node`, `go`, or `python`
+- `framework` — the chosen framework (e.g., `next`, `gin`, `fastapi`), or `none` for clean mode
+- `database` — `mongo`, `postgres`, `mysql`, `mssql`, `sqlite`, or `none`
+- `createdAt` — ISO 8601 timestamp of creation
+
+**If the file doesn't exist yet**, create it with:
+
+```json
+{
+  "projects": []
+}
+```
+
+**This step happens AFTER git init and initial commit, as the very last action before displaying the verification checklist.**
 
 ---
 
@@ -258,6 +319,915 @@ If you must rename packages, modules, or key variables:
 
 ---
 
+## Go Mode — `go` / `golang`
+
+**If `go`, `golang`, or a Go framework (`gin`, `chi`, `echo`, `fiber`, `stdlib`) is detected in arguments, OR the resolved profile has `language = go`, skip ALL of Steps 1-2 below and follow this section instead.**
+
+Go Mode scaffolds a Go project with standard layout conventions (`cmd/`, `internal/`), a Makefile-based build system, golangci-lint, and multi-stage Docker with `scratch` base image.
+
+### Go Questions (skip any answered by arguments or profile)
+
+#### Question G1: Project Type
+"What type of Go project are you building?"
+- **API** — REST API server (Recommended)
+- **Web App** — HTTP server with templates
+- **CLI** — Command-line tool
+- **Full-Stack** — Go API backend + separate frontend
+
+#### Question G2: Framework (based on project type)
+
+**If API or Web App or Full-Stack:**
+"Which Go HTTP framework?"
+- **Gin** — Most popular Go web framework, fast, great middleware (Recommended)
+- **Chi** — Lightweight, idiomatic, stdlib-compatible router
+- **Echo** — High performance, extensible, automatic TLS
+- **Fiber** — Express-inspired, built on fasthttp
+- **stdlib** — Standard library `net/http` only, zero dependencies
+
+**If CLI:**
+- Use **Cobra** + **Viper** (no framework question needed)
+
+#### Question G3: Database
+"Which database?"
+- **MongoDB** — Document database (Recommended for APIs)
+- **PostgreSQL** — Relational database (Recommended for SQL)
+- **MySQL** — Relational, widely deployed
+- **MSSQL** — Microsoft SQL Server
+- **SQLite** — Embedded, file-based, zero config
+- **None** — No database
+
+#### Question G4: Hosting / Deployment
+"Where will this be deployed?" (same as Node.js options)
+- **Dokploy on Hostinger VPS** — Self-hosted Docker containers (Recommended)
+- **Vercel** — Not ideal for Go, but possible via serverless
+- **Static hosting** — Not applicable for Go APIs
+- **None / Decide later** — Skip deployment scaffolding
+
+#### Question G5: Extras (multi-select)
+"What extras do you want to include?"
+- **Docker** — Multi-stage build with scratch base (5-15MB images)
+- **GitHub Actions CI** — Automated testing pipeline (go test, go vet, golangci-lint)
+- **golangci-lint** — Comprehensive Go linter (recommended, on by default)
+
+### Go Project Structure
+
+```
+project/
+├── cmd/
+│   └── server/
+│       └── main.go              # Entry point
+├── internal/
+│   ├── handlers/
+│   │   └── health.go            # Health check handler
+│   ├── middleware/
+│   │   └── logging.go           # Request logging middleware
+│   ├── models/
+│   │   └── models.go            # Data models
+│   └── database/
+│       └── mongo.go             # Database layer (if MongoDB)
+├── tests/
+│   └── handlers_test.go         # Handler tests
+├── scripts/
+│   └── deploy.sh                # Deployment script (if Dokploy)
+├── project-docs/
+│   ├── ARCHITECTURE.md
+│   ├── INFRASTRUCTURE.md
+│   └── DECISIONS.md
+├── .claude/
+│   ├── commands/
+│   ├── skills/
+│   ├── agents/
+│   ├── hooks/
+│   └── settings.json
+├── go.mod
+├── go.sum
+├── Makefile
+├── Dockerfile                   # Multi-stage: golang:1.23-alpine → scratch
+├── .golangci.yml
+├── .env
+├── .env.example
+├── .gitignore
+├── .dockerignore
+├── CLAUDE.md
+├── CLAUDE.local.md
+└── README.md
+```
+
+### Go Template: `cmd/server/main.go` (Gin)
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3001"
+	}
+
+	if os.Getenv("GIN_MODE") == "" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	r := gin.New()
+	r.Use(gin.Logger(), gin.Recovery())
+
+	// Health check
+	r.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
+
+	// API v1 routes
+	v1 := r.Group("/api/v1")
+	{
+		v1.GET("/ping", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{"message": "pong"})
+		})
+	}
+
+	srv := &http.Server{
+		Addr:         ":" + port,
+		Handler:      r,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  60 * time.Second,
+	}
+
+	// Graceful shutdown
+	go func() {
+		log.Printf("Server starting on :%s", port)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Server failed: %v", err)
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutting down server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatalf("Server forced to shutdown: %v", err)
+	}
+	log.Println("Server exited")
+}
+```
+
+**For other frameworks, adapt accordingly:**
+- **Chi:** Use `chi.NewRouter()` with `chi.Use(middleware.Logger)` and `r.Route("/api/v1", ...)`
+- **Echo:** Use `echo.New()` with `e.Use(middleware.Logger())` and `e.Group("/api/v1")`
+- **Fiber:** Use `fiber.New()` with `app.Use(logger.New())` and `app.Group("/api/v1")`
+- **stdlib:** Use `http.NewServeMux()` with `mux.Handle("/api/v1/", ...)` and manual middleware
+
+### Go Template: `Makefile`
+
+```makefile
+BINARY_NAME=server
+BUILD_DIR=bin
+GO=go
+
+.PHONY: all build run dev test test-cover lint vet fmt check clean
+
+all: check build
+
+build:
+	CGO_ENABLED=0 $(GO) build -o $(BUILD_DIR)/$(BINARY_NAME) ./cmd/server
+
+run: build
+	./$(BUILD_DIR)/$(BINARY_NAME)
+
+dev:
+	@command -v air > /dev/null 2>&1 || $(GO) install github.com/air-verse/air@latest
+	air
+
+test:
+	$(GO) test ./... -v
+
+test-cover:
+	$(GO) test ./... -coverprofile=coverage.out
+	$(GO) tool cover -html=coverage.out -o coverage.html
+
+lint:
+	@command -v golangci-lint > /dev/null 2>&1 || $(GO) install github.com/golangci-lint/golangci-lint/cmd/golangci-lint@latest
+	golangci-lint run
+
+vet:
+	$(GO) vet ./...
+
+fmt:
+	$(GO) fmt ./...
+	goimports -w .
+
+check: vet lint
+
+clean:
+	rm -rf $(BUILD_DIR) coverage.out coverage.html
+```
+
+### Go Template: `Dockerfile` (multi-stage with scratch)
+
+```dockerfile
+# Stage 1: Builder
+FROM golang:1.23-alpine AS builder
+WORKDIR /app
+
+# Install git for go mod download (some deps need it)
+RUN apk add --no-cache git
+
+# Cache dependencies
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Build static binary
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /server ./cmd/server
+
+# Stage 2: Scratch (minimal image)
+FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /server /server
+
+EXPOSE 3001
+ENTRYPOINT ["/server"]
+```
+
+### Go Template: `.golangci.yml`
+
+```yaml
+run:
+  timeout: 3m
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+    - unused
+    - gosimple
+    - ineffassign
+    - typecheck
+    - gocritic
+    - gofmt
+    - goimports
+    - misspell
+    - nilerr
+    - exhaustive
+
+linters-settings:
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+  errcheck:
+    check-blank: true
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 50
+  max-same-issues: 10
+```
+
+### Go Template: `.gitignore`
+
+```
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test
+coverage.out
+coverage.html
+
+# Environment
+.env
+.env.*
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vendor (if not committed)
+# vendor/
+
+# Build artifacts
+dist/
+tmp/
+
+# Claude local overrides
+CLAUDE.local.md
+```
+
+### Go-Specific CLAUDE.md Rules
+
+When creating a Go project, the CLAUDE.md MUST include these Go-specific rules:
+
+```markdown
+### Go Rules
+
+#### Error Handling — NEVER Ignore Errors
+- ALWAYS check returned errors — never use `_` to discard an error
+- Use `fmt.Errorf("context: %w", err)` to wrap errors with context
+- Return errors to callers — don't log and continue silently
+- Use sentinel errors or custom error types for expected error conditions
+
+#### Context Propagation — ALWAYS Pass context.Context
+- Every function that does I/O (HTTP, DB, file) MUST accept `context.Context` as first param
+- NEVER use `context.Background()` in handlers — use the request context `c.Request.Context()`
+- Set timeouts on all external calls: `context.WithTimeout(ctx, 5*time.Second)`
+
+#### Testing — Table-Driven Tests
+- Use table-driven tests for functions with multiple input/output scenarios
+- Test files MUST be in the same package (white-box) or `_test` package (black-box)
+- Use `testify/assert` or stdlib `testing` — no other test frameworks
+- Run tests with `make test` or `go test ./... -v`
+
+#### Interfaces — Accept Interfaces, Return Structs
+- Define interfaces at the consumer, not the implementer
+- Keep interfaces small (1-3 methods)
+- Use interfaces for dependency injection (database, HTTP clients, etc.)
+
+#### No Global Mutable State
+- NEVER use package-level `var` for mutable state
+- Pass dependencies via struct fields or function parameters
+- Configuration should be loaded once at startup and passed down
+
+#### API Versioning
+- ALL endpoints MUST use `/api/v1/` prefix — same rule as Node.js projects
+
+#### Quality Gates
+- No file > 300 lines (split into separate files in the same package)
+- No function > 50 lines (extract helper functions)
+- `go vet` and `golangci-lint` must pass before committing
+- `go build ./...` must succeed with no errors
+
+#### Graceful Shutdown — MANDATORY
+- Every server MUST handle SIGINT and SIGTERM
+- Close database connections before exiting
+- Use `context.WithTimeout` for shutdown deadline
+```
+
+### Go Scaffolding Steps
+
+1. Create project directory
+2. Run `go mod init github.com/<username>/<project-name>` (get username from git config or ask)
+3. Create Go directory structure: `cmd/server/`, `internal/handlers/`, `internal/middleware/`, `internal/models/`, `internal/database/` (if DB selected), `tests/`, `scripts/`
+4. Write framework-specific `main.go` (using template above, adapted for chosen framework)
+5. Write `internal/handlers/health.go` — health check handler
+6. Write database layer `internal/database/` if database was selected
+7. Create `Makefile` (using template above)
+8. Create `Dockerfile` (multi-stage with scratch, using template above)
+9. Create `.golangci.yml` (using template above)
+10. Create Go-specific `CLAUDE.md` (with Go rules above + universal security rules)
+11. Copy `.claude/` contents from starter kit (commands, skills, agents, hooks, settings.json)
+12. Create `project-docs/` templates (ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md)
+13. Create `.env`, `.env.example`, `.gitignore` (Go-specific), `.dockerignore`
+14. Create `CLAUDE.local.md` template
+15. Create `README.md` with Go-specific instructions
+16. Create `scripts/deploy.sh` if Dokploy hosting was selected
+17. Run `go mod tidy` to resolve dependencies
+18. Initialize git, create initial commit: "Initial Go project scaffold"
+19. Display verification checklist
+
+### Go Verification Checklist
+
+After creation, verify and report:
+
+**Core files:**
+- [ ] `go.mod` exists with correct module path
+- [ ] `go.sum` exists (after `go mod tidy`)
+- [ ] `Makefile` exists with build, test, lint targets
+- [ ] `.env` exists
+- [ ] `.env.example` exists with PORT placeholder
+- [ ] `.gitignore` includes Go-specific entries (bin/, *.exe, .env)
+- [ ] `.dockerignore` exists
+- [ ] `CLAUDE.md` has Go-specific rules (error handling, context, testing)
+- [ ] `CLAUDE.local.md` exists
+
+**Structure:**
+- [ ] `cmd/server/main.go` exists with entry point
+- [ ] `internal/handlers/health.go` exists
+- [ ] `internal/middleware/` directory exists
+- [ ] `internal/models/` directory exists
+- [ ] `tests/` directory exists with at least one test
+- [ ] `project-docs/` has ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md
+- [ ] `.claude/` has commands, skills, agents, hooks, settings.json
+
+**Testing:**
+- [ ] `go build ./...` succeeds
+- [ ] `go vet ./...` passes
+- [ ] `go test ./...` runs (even if no tests yet)
+
+**Database (if selected):**
+- [ ] `internal/database/` exists with connection layer
+- [ ] Database URL in `.env.example`
+
+**Docker (if selected):**
+- [ ] `Dockerfile` exists with multi-stage build (golang:1.23-alpine → scratch)
+- [ ] Final image is minimal (no compiler, no source code)
+
+**Infrastructure:**
+- [ ] `scripts/deploy.sh` exists (if Dokploy selected)
+- [ ] `.golangci.yml` exists
+- [ ] Git initialized with initial commit
+
+**NOT present (Go projects should NOT have):**
+- [ ] No `package.json` — this is a Go project
+- [ ] No `tsconfig.json`
+- [ ] No `node_modules/`
+- [ ] No `vitest.config.ts` or `playwright.config.ts`
+
+Report any missing items.
+
+---
+
+## Python Mode — `python` / `py` / `fastapi` / `django` / `flask`
+
+**If `python`, `py`, or a Python framework (`fastapi`, `django`, `flask`) is detected in arguments, OR the resolved profile has `language = python`, skip ALL of Steps 1-2 below and follow this section instead.**
+
+Python Mode scaffolds a Python project with modern tooling: type hints, async support, pytest, ruff linter, and virtual environment management.
+
+### Python Questions (skip any answered by arguments or profile)
+
+#### Question P1: Project Type
+"What type of Python project are you building?"
+- **API** — REST API server (Recommended)
+- **Web App** — Server-rendered web application
+- **CLI** — Command-line tool
+- **Full-Stack** — Python API backend + separate frontend
+
+#### Question P2: Framework (based on project type)
+
+**If API or Full-Stack:**
+"Which Python framework?"
+- **FastAPI** — Modern, async, automatic OpenAPI docs, type-safe (Recommended)
+- **Django** — Full-featured, batteries-included, ORM, admin panel
+- **Flask** — Lightweight, flexible, large ecosystem
+
+**If CLI:**
+- Use **Typer** or **Click** (no framework question needed)
+
+**If Web App:**
+- **Django** — Full-featured with templates (Recommended)
+- **Flask** — Lightweight with Jinja2 templates
+- **FastAPI** — With Jinja2 templates
+
+#### Question P3: Database
+"Which database?"
+- **PostgreSQL** — Recommended for Python APIs
+- **MySQL** — Widely deployed
+- **SQLite** — Embedded, zero config
+- **MongoDB** — Document database
+- **None** — No database
+
+#### Question P4: Package Manager
+"Which package manager?"
+- **pip + venv** — Standard, universal (Recommended)
+- **uv** — Fast, modern pip replacement
+- **poetry** — Dependency management + packaging
+
+#### Question P5: Hosting / Deployment
+"Where will this be deployed?" (same as Node.js options)
+- **Dokploy on Hostinger VPS** — Self-hosted Docker containers (Recommended)
+- **Vercel** — Serverless Python
+- **None / Decide later** — Skip deployment scaffolding
+
+#### Question P6: Extras (multi-select)
+"What extras do you want to include?"
+- **Docker** — Multi-stage build with python:3.12-slim (Recommended)
+- **GitHub Actions CI** — Automated testing pipeline (pytest, ruff)
+
+### Python Project Structure
+
+```
+project/
+├── src/
+│   └── app/
+│       ├── __init__.py
+│       ├── main.py              # Entry point (FastAPI/Flask app)
+│       ├── config.py            # Pydantic BaseSettings for env vars
+│       ├── core/
+│       │   └── db.py            # Database wrapper
+│       ├── api/
+│       │   └── v1/
+│       │       ├── __init__.py
+│       │       └── health.py    # Health check endpoint
+│       ├── models/
+│       │   └── __init__.py      # Pydantic/SQLAlchemy models
+│       └── services/
+│           └── __init__.py      # Business logic
+├── tests/
+│   ├── conftest.py              # pytest fixtures
+│   ├── test_health.py           # Example test
+│   └── e2e/                     # E2E tests (if web)
+├── project-docs/
+│   ├── ARCHITECTURE.md
+│   ├── INFRASTRUCTURE.md
+│   └── DECISIONS.md
+├── .claude/
+│   ├── commands/
+│   ├── skills/
+│   ├── agents/
+│   ├── hooks/
+│   └── settings.json
+├── pyproject.toml               # Project metadata + tool config
+├── requirements.txt             # Production dependencies
+├── requirements-dev.txt         # Dev dependencies (pytest, ruff, etc.)
+├── ruff.toml                    # Linter config
+├── Makefile                     # dev, test, lint, format, run targets
+├── Dockerfile                   # Multi-stage: python:3.12-slim
+├── .env
+├── .env.example
+├── .gitignore                   # Python-specific (__pycache__, .venv, etc.)
+├── .dockerignore
+├── CLAUDE.md
+├── CLAUDE.local.md
+└── README.md
+```
+
+### Python Template: `src/app/main.py` (FastAPI)
+
+```python
+"""FastAPI application entry point."""
+import signal
+import sys
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
+from app.config import settings
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Startup and shutdown events."""
+    # Startup
+    print(f"Starting server on port {settings.port}")
+    yield
+    # Shutdown
+    print("Shutting down...")
+
+
+app = FastAPI(
+    title=settings.app_name,
+    version="0.1.0",
+    lifespan=lifespan,
+)
+
+
+@app.get("/health")
+async def health_check() -> dict[str, str]:
+    """Health check endpoint."""
+    return {"status": "ok"}
+
+
+# API v1 routes
+from app.api.v1 import health as health_router  # noqa: E402
+app.include_router(health_router.router, prefix="/api/v1")
+
+
+def handle_signal(signum: int, frame) -> None:
+    """Handle termination signals gracefully."""
+    print(f"Received signal {signum}, shutting down...")
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, handle_signal)
+signal.signal(signal.SIGTERM, handle_signal)
+```
+
+### Python Template: `src/app/config.py`
+
+```python
+"""Application configuration via environment variables."""
+from pydantic_settings import BaseSettings
+
+
+class Settings(BaseSettings):
+    """Application settings loaded from environment."""
+    app_name: str = "My API"
+    port: int = 3001
+    debug: bool = False
+    database_url: str = ""
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+
+settings = Settings()
+```
+
+### Python Template: `tests/conftest.py`
+
+```python
+"""Shared test fixtures."""
+import pytest
+from httpx import ASGITransport, AsyncClient
+
+from app.main import app
+
+
+@pytest.fixture
+async def client():
+    """Async HTTP client for testing."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        yield ac
+```
+
+### Python Template: `tests/test_health.py`
+
+```python
+"""Health check endpoint tests."""
+import pytest
+
+
+@pytest.mark.anyio
+async def test_health_returns_ok(client):
+    """Health endpoint should return status ok."""
+    response = await client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "ok"
+
+
+@pytest.mark.anyio
+async def test_api_v1_health(client):
+    """API v1 health endpoint should be accessible."""
+    response = await client.get("/api/v1/health")
+    assert response.status_code == 200
+```
+
+### Python Template: `pyproject.toml`
+
+```toml
+[project]
+name = "PROJECT_NAME"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "A", "SIM", "TCH"]
+ignore = ["E501"]
+```
+
+### Python Template: `Makefile`
+
+```makefile
+.PHONY: dev test lint format run install clean
+
+install:
+	python -m venv .venv
+	.venv/bin/pip install -r requirements.txt -r requirements-dev.txt
+
+dev:
+	.venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 3001
+
+run:
+	.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 3001
+
+test:
+	.venv/bin/pytest -v
+
+lint:
+	.venv/bin/ruff check src/ tests/
+
+format:
+	.venv/bin/ruff format src/ tests/
+
+clean:
+	rm -rf __pycache__ .pytest_cache .ruff_cache htmlcov .coverage
+	find . -type d -name __pycache__ -exec rm -rf {} +
+```
+
+### Python Template: `Dockerfile` (multi-stage)
+
+```dockerfile
+# Stage 1: Builder
+FROM python:3.12-slim AS builder
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# Stage 2: Runner
+FROM python:3.12-slim AS runner
+WORKDIR /app
+
+# Non-root user
+RUN groupadd --system app && useradd --system --gid app app
+
+COPY --from=builder /install /usr/local
+COPY src/ ./src/
+
+USER app
+EXPOSE 3001
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3001"]
+```
+
+### Python Template: `ruff.toml`
+
+```toml
+target-version = "py312"
+line-length = 100
+
+[lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "A", "SIM", "TCH"]
+ignore = ["E501"]
+
+[lint.isort]
+known-first-party = ["app"]
+```
+
+### Python Template: `.gitignore`
+
+```
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Environment
+.env
+.env.*
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Claude local overrides
+CLAUDE.local.md
+```
+
+### Python-Specific CLAUDE.md Rules
+
+When creating a Python project, the CLAUDE.md MUST include these Python-specific rules:
+
+```markdown
+### Python Rules
+
+#### Type Hints — ALWAYS
+- EVERY function MUST have type hints for all parameters AND return type
+- Use `str | None` (not `Optional[str]`) — Python 3.10+ union syntax
+- Use `list[str]` (not `List[str]`) — built-in generics
+- Pydantic models for all request/response shapes
+
+#### Async/Await — Consistently
+- FastAPI handlers MUST be `async def` when doing I/O
+- Use `asyncpg` for PostgreSQL, `aiomysql` for MySQL
+- NEVER mix sync and async database calls in the same project
+
+#### Testing — pytest Only
+- ALWAYS use pytest (never unittest)
+- Use `httpx.AsyncClient` for testing FastAPI endpoints
+- Use fixtures for shared setup (conftest.py)
+- Table-driven tests with `@pytest.mark.parametrize`
+
+#### Virtual Environment — MANDATORY
+- ALWAYS use a virtual environment (.venv/)
+- NEVER install packages globally
+- requirements.txt for production, requirements-dev.txt for dev tools
+
+#### API Versioning
+- ALL endpoints MUST use `/api/v1/` prefix — same rule as Node.js and Go
+
+#### Quality Gates
+- No file > 300 lines (split into modules)
+- No function > 50 lines (extract helper functions)
+- `ruff check` must pass before committing
+- `pytest` must pass before committing
+
+#### Graceful Shutdown — MANDATORY
+- Handle SIGINT and SIGTERM signals
+- Close database connections before exiting
+```
+
+### Python Scaffolding Steps
+
+1. Create project directory
+2. Create Python directory structure: `src/app/`, `src/app/core/`, `src/app/api/v1/`, `src/app/models/`, `src/app/services/`, `tests/`
+3. Write `src/app/main.py` (framework-specific entry point)
+4. Write `src/app/config.py` (Pydantic BaseSettings)
+5. Write `src/app/api/v1/health.py` (health check endpoint)
+6. Write database layer `src/app/core/db.py` if database was selected
+7. Write `tests/conftest.py` and `tests/test_health.py`
+8. Create `pyproject.toml`, `requirements.txt`, `requirements-dev.txt`
+9. Create `ruff.toml`
+10. Create `Makefile` with dev, test, lint, format, run targets
+11. Create `Dockerfile` (multi-stage with python:3.12-slim)
+12. Create Python-specific CLAUDE.md (with Python rules + universal security rules)
+13. Copy `.claude/` contents from starter kit (commands, skills, agents, hooks, settings.json)
+14. Create `project-docs/` templates (ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md)
+15. Create `.env`, `.env.example`, `.gitignore` (Python-specific), `.dockerignore`
+16. Create `CLAUDE.local.md` template
+17. Create `README.md` with Python-specific instructions
+18. Create virtual environment: `python -m venv .venv`
+19. Install dependencies: `.venv/bin/pip install -r requirements.txt -r requirements-dev.txt`
+20. Initialize git, create initial commit: "Initial Python project scaffold"
+21. Display verification checklist
+
+### Python Verification Checklist
+
+After creation, verify and report:
+
+**Core files:**
+- [ ] `pyproject.toml` exists with project metadata
+- [ ] `requirements.txt` exists
+- [ ] `requirements-dev.txt` exists
+- [ ] `ruff.toml` exists
+- [ ] `Makefile` exists with dev, test, lint targets
+- [ ] `.env` exists
+- [ ] `.env.example` exists
+- [ ] `.gitignore` includes Python-specific entries (__pycache__, .venv)
+- [ ] `.dockerignore` exists
+- [ ] `CLAUDE.md` has Python-specific rules
+- [ ] `CLAUDE.local.md` exists
+
+**Structure:**
+- [ ] `src/app/main.py` exists with entry point
+- [ ] `src/app/config.py` exists with settings
+- [ ] `src/app/api/v1/health.py` exists
+- [ ] `tests/conftest.py` exists
+- [ ] `tests/test_health.py` exists
+- [ ] `project-docs/` has ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md
+- [ ] `.claude/` has commands, skills, agents, hooks, settings.json
+
+**Testing:**
+- [ ] `.venv/` directory exists (virtual environment)
+- [ ] `make test` runs pytest successfully
+- [ ] `make lint` runs ruff successfully
+
+**Database (if selected):**
+- [ ] `src/app/core/db.py` exists with connection layer
+- [ ] Database URL in `.env.example`
+
+**Docker (if selected):**
+- [ ] `Dockerfile` exists with multi-stage build (python:3.12-slim)
+
+**NOT present (Python projects should NOT have):**
+- [ ] No `package.json` — this is a Python project
+- [ ] No `tsconfig.json`
+- [ ] No `node_modules/`
+- [ ] No `go.mod`
+
+Report any missing items.
+
+---
+
 ## Step 1 — Ask the User (skip questions answered by arguments)
 
 For any choices NOT provided via arguments, ask the user (use AskUserQuestion):
@@ -275,6 +1245,11 @@ For any choices NOT provided via arguments, ask the user (use AskUserQuestion):
 "Which framework do you want to use?"
 - **Vite + React** — Fastest HMR, lightweight, great for SPAs (Recommended)
 - **Next.js (App Router)** — SSR, server components, built-in routing
+- **Vue 3** — Composition API, progressive framework, reactive
+- **Nuxt** — Vue with SSR, auto-imports, file-based routing
+- **Svelte** — Compiled, minimal runtime, reactive by default
+- **SvelteKit** — Svelte with SSR, file-based routing, form actions
+- **Angular** — Enterprise, standalone components, signals
 - **Astro** — Content-first, island architecture, great for marketing/docs sites
 
 **If API:**
@@ -355,6 +1330,41 @@ project/
 └── scripts/
     ├── db-query.ts          # (MongoDB only) Test Query Master
     └── queries/             # (MongoDB only) Individual dev/test query files
+```
+
+## SQL Database Setup (projects with `postgres`, `mysql`, `mssql`, or `sqlite` database)
+
+When the project uses a SQL database (PostgreSQL, MySQL, MSSQL, or SQLite), scaffold the SQL wrapper:
+
+1. Copy `src/core/db/sql.ts` from the starter kit into the new project
+2. Install the appropriate driver based on database choice:
+   - PostgreSQL: `npm install pg @types/pg`
+   - MySQL: `npm install mysql2`
+   - MSSQL: `npm install mssql`
+   - SQLite: `npm install better-sqlite3 @types/better-sqlite3`
+3. Set `DATABASE_URL` in `.env.example` with placeholder
+4. Add SQL wrapper rules to the project's CLAUDE.md
+
+**The rule that MUST be in every SQL project's CLAUDE.md:**
+
+> ALL SQL database access goes through `src/core/db/sql.ts`. No exceptions.
+> NEVER create connection pools anywhere else.
+> NEVER import database drivers directly outside the wrapper.
+> ALWAYS use parameterized queries — NEVER string-interpolate values into SQL.
+
+**DATABASE_URL examples for .env.example:**
+```bash
+# PostgreSQL
+DATABASE_URL=postgresql://user:password@localhost:5432/mydb
+
+# MySQL
+DATABASE_URL=mysql://user:password@localhost:3306/mydb
+
+# MSSQL
+DATABASE_URL=mssql://user:password@localhost:1433/mydb
+
+# SQLite
+DATABASE_URL=file:./data/app.db
 ```
 
 ## MongoDB Test Query System (projects with `mongo` database)
@@ -623,6 +1633,84 @@ Sitemap: https://example.com/sitemap.xml
 - Register routes as plugins for encapsulation
 - Use `fastify-swagger` for auto-generated API docs
 - All routes under `/api/v1/` prefix
+
+### Vue 3
+
+**CLI scaffold:** `npm create vue@latest PROJECT -- --typescript --router --pinia`
+
+After scaffold:
+- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
+- Vitest is included by default from `create vue`
+
+**CLAUDE.md rules for Vue 3 projects:**
+```markdown
+### Vue 3 Rules
+- Composition API ONLY — never use Options API in new code
+- ALWAYS use `<script setup>` syntax (not `setup()` function)
+- Type defineProps and defineEmits: `defineProps<{ title: string }>()`
+- Use `ref()` for primitives, `reactive()` for objects
+- Prefer `computed()` over methods for derived state
+- Use `watchEffect()` over `watch()` when watching all dependencies
+```
+
+### Nuxt
+
+**CLI scaffold:** `npx nuxi@latest init PROJECT --package-manager pnpm`
+
+After scaffold:
+- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
+- Vitest and Playwright added via `npx nuxi module add @nuxt/test-utils`
+
+**CLAUDE.md rules for Nuxt projects:**
+```markdown
+### Nuxt Rules
+- Use auto-imports — do NOT manually import Vue composables or Nuxt utils
+- Use `useFetch()` / `useAsyncData()` for data fetching — NEVER raw `fetch` in components
+- API routes go in `server/api/` — file-based routing, no manual route registration
+- Use `definePageMeta()` for page-level metadata (layout, middleware)
+- `useState()` for shared reactive state across components
+```
+
+### Svelte / SvelteKit
+
+**CLI scaffold:** `npx sv create PROJECT` (select TypeScript skeleton)
+
+After scaffold:
+- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
+- `sv create` includes Vitest + Playwright if selected during setup
+
+**CLAUDE.md rules for Svelte/SvelteKit projects:**
+```markdown
+### Svelte Rules
+- Use Runes syntax: `$state()`, `$derived()`, `$effect()` — not legacy `$:` reactive statements
+- Use `$props()` for component props
+- SvelteKit: use `+page.ts` / `+page.server.ts` load functions for data fetching
+- SvelteKit: use form actions (`+page.server.ts` `actions`) for mutations
+- SvelteKit: use `$app/environment` for environment detection, NOT `process.env`
+```
+
+### Angular
+
+**CLI scaffold:** `npx @angular/cli new PROJECT --style=scss --routing --ssr=false`
+
+After scaffold:
+- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
+- Angular includes Jasmine by default — optionally add Vitest with `@analogjs/vitest-angular`
+- Add Playwright for E2E: `npm init playwright@latest`
+
+**CLAUDE.md rules for Angular projects:**
+```markdown
+### Angular Rules
+- Standalone components ONLY — never use NgModule for new components
+- Use Angular Signals (`signal()`, `computed()`, `effect()`) for reactive state
+- Use `inject()` for dependency injection — not constructor injection
+- Use `@defer` for lazy loading heavy components
+- Template syntax: use `@if`/`@for`/`@switch` (new control flow) — not `*ngIf`/`*ngFor`
+```
 
 ### Astro
 - Use content collections for structured content

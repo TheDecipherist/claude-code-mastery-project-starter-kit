@@ -10,7 +10,7 @@ Display the complete list of commands, skills, and agents available in this star
 **Print this exactly:**
 
 ```
-=== Claude Code Starter Kit — Command Reference ===
+=== Claude Code Starter Kit — Command Reference (23 commands) ===
 
 GETTING STARTED
   /help              List all commands, skills, and agents (this screen)
@@ -20,9 +20,12 @@ GETTING STARTED
   /setup --reset     Re-configure everything from scratch
 
 PROJECT SCAFFOLD
-  /new-project       Scaffold a new project from a profile (clean, default, api, etc.)
-  /set-clean-as-default  Make "clean" the default profile for /new-project
-  /reset-to-defaults     Reset /new-project back to the "default" profile
+  /new-project       Scaffold a new project from a profile (clean, default, api, go, vue, python-api, etc.)
+  /set-project-profile-default  Set the default profile for /new-project (any profile name)
+  /add-project-setup  Interactive wizard to create a named profile in claude-mastery-project.conf
+  /projects-created  List all projects created by the starter kit with creation dates
+  /remove-project    Remove a project from the registry and optionally delete it from disk
+  /convert-project-to-starter-kit  Merge starter kit into an existing project (non-destructive)
 
 CODE QUALITY
   /review            Systematic code review against 7-point checklist

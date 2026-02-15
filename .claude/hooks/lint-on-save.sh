@@ -36,6 +36,24 @@ case "$EXTENSION" in
             flake8 "$FILE_PATH" 2>&1 | head -20
         fi
         ;;
+    vue)
+        # Vue — run vue-tsc if available
+        if command -v npx &> /dev/null && [ -f "tsconfig.json" ]; then
+            npx vue-tsc --noEmit 2>&1 | head -20
+        fi
+        ;;
+    svelte)
+        # Svelte — run svelte-check if available
+        if command -v npx &> /dev/null; then
+            npx svelte-check --tsconfig ./tsconfig.json 2>&1 | head -20
+        fi
+        ;;
+    go)
+        # Go — run go vet if available
+        if command -v go &> /dev/null; then
+            go vet "$FILE_PATH" 2>&1 | head -20
+        fi
+        ;;
 esac
 
 exit 0
