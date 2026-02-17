@@ -345,6 +345,10 @@
             <h3><code>/update-project</code></h3>
             <p class="command-desc">Smart-merge the latest starter kit commands, hooks, skills, agents, and rules into an existing project. Shows a diff report before applying. Creates a safety commit for easy undo.</p>
           </div>
+          <div class="command-card">
+            <h3><code>/add-feature &lt;name&gt;</code></h3>
+            <p class="command-desc">Add capabilities (MongoDB, Docker, testing, etc.) to an existing project after scaffolding. Idempotent &mdash; safely updates already-installed features. Maintains a feature manifest so <code>/update-project</code> can sync feature files too.</p>
+          </div>
         </div>
 
         <h3 style="color: var(--accent-blue);">Infrastructure</h3>
@@ -400,10 +404,6 @@
           <div class="command-card">
             <h3><code>/remove-project &lt;name&gt;</code></h3>
             <p class="command-desc">Remove a project from registry and optionally delete from disk. Shows details first, asks for confirmation.</p>
-          </div>
-          <div class="command-card">
-            <h3><code>/update-project</code></h3>
-            <p class="command-desc">Smart-merge the latest starter kit into an existing project. Shows a diff report (new, updated, unchanged, custom files), creates a safety commit, and applies only what changed.</p>
           </div>
         </div>
       </section>
