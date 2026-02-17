@@ -311,17 +311,26 @@ If you must rename packages, modules, or key variables:
 ### Clean mode steps
 
 1. Resolve project path (same as Step 0 / 0.1 above)
-2. Create the project directory
-3. Copy `.claude/` contents from the starter kit — but only commands with `scope: project` in their YAML frontmatter (skills, agents, hooks, and settings.json are copied in full)
-4. Create project-docs/ with ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md templates
-5. Create tests/ with CHECKLIST.md and ISSUES_FOUND.md
-6. Create the clean CLAUDE.md (security rules only, as shown above)
-7. Create CLAUDE.local.md template
-8. Create .env (empty), .env.example (NODE_ENV + PORT only)
-9. Create .gitignore and .dockerignore with standard entries
-10. Create a minimal README.md
-11. Initialize git and create initial commit
-12. Report what was created
+2. **Run the batch scaffold script** — this replaces all individual file creation with a single command:
+
+```bash
+bash "$(pwd)/scripts/scaffold-clean.sh" "$PROJECT_PATH" "$PROJECT_NAME" "$(pwd)"
+```
+
+The script handles ALL of the following in one execution (~100ms) with a progress indicator:
+- Creates all directories (.claude/, project-docs/, tests/)
+- Copies 16 project-scoped commands, 2 skills, 2 agents, 3 hooks
+- Writes settings.json (clean mode — 3 hooks only)
+- Creates CLAUDE.md (security rules only), CLAUDE.local.md
+- Creates project-docs templates (ARCHITECTURE, INFRASTRUCTURE, DECISIONS)
+- Creates tests templates (CHECKLIST, ISSUES_FOUND)
+- Creates .env, .env.example, .gitignore, .dockerignore, README.md
+- Initializes git with initial commit
+- Registers the project in ~/.claude/starter-kit-projects.json
+
+**Do NOT create files individually — the script handles everything.**
+
+3. After the script completes, display the verification checklist (the script output includes a summary)
 
 ### Clean verification checklist
 
