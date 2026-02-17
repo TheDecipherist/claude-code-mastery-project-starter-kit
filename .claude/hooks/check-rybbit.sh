@@ -12,8 +12,17 @@ if [ -z "$COMMAND" ]; then
     exit 0
 fi
 
-# Only check deployment commands (not dev builds)
-if ! echo "$COMMAND" | grep -qEi '(docker\s+push|vercel\s+deploy|vercel\s+--prod|dokploy)'; then
+# Skip commands that are git operations — commits, adds, etc. are never deployments
+if echo "$COMMAND" | grep -qE 'git\s+(commit|add|push|merge|rebase|checkout|branch|tag|log|diff|status)'; then
+    exit 0
+fi
+
+# Only check actual deployment commands (not file writes that mention deployment keywords)
+# - docker push: actual push to registry
+# - vercel deploy/--prod: actual Vercel deploy
+# - curl.*application.deploy: actual Dokploy API call
+# Avoids false positives from heredocs, cat, echo, python file writes, etc.
+if ! echo "$COMMAND" | grep -qEi '(docker\s+push|vercel\s+deploy|vercel\s+--prod|curl.*application\.deploy)'; then
     exit 0
 fi
 

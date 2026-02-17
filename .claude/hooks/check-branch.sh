@@ -17,12 +17,34 @@ if ! echo "$COMMAND" | grep -qE 'git\s+commit'; then
     exit 0
 fi
 
-# Must be in a git repo
-if ! git rev-parse --is-inside-work-tree &>/dev/null; then
-    exit 0
+# Detect target directory from git -C <path> in the command
+# Only match real paths (starting with / ~ . or alphanumeric), not placeholders like <dir>
+TARGET_DIR=""
+if echo "$COMMAND" | grep -qE 'git\s+-C\s+[/~.\w]'; then
+    TARGET_DIR=$(echo "$COMMAND" | sed -nE 's/.*git\s+-C\s+([^ ]+)\s+.*/\1/p' | head -1)
 fi
 
-BRANCH=$(git branch --show-current 2>/dev/null)
+# Resolve git dir — if git -C was used with a valid path, check THAT repo
+if [ -n "$TARGET_DIR" ] && [ -d "$TARGET_DIR" ]; then
+    if ! git -C "$TARGET_DIR" rev-parse --is-inside-work-tree &>/dev/null; then
+        exit 0
+    fi
+    BRANCH=$(git -C "$TARGET_DIR" branch --show-current 2>/dev/null)
+    # Allow initial commits (no previous commits in the target repo)
+    if ! git -C "$TARGET_DIR" rev-parse HEAD &>/dev/null 2>&1; then
+        exit 0
+    fi
+else
+    # CWD-based git check
+    if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+        exit 0
+    fi
+    BRANCH=$(git branch --show-current 2>/dev/null)
+    # Allow initial commits (no previous commits yet)
+    if ! git rev-parse HEAD &>/dev/null 2>&1; then
+        exit 0
+    fi
+fi
 
 # Only care about main/master
 if [ "$BRANCH" != "main" ] && [ "$BRANCH" != "master" ]; then
