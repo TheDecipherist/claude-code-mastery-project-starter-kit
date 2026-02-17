@@ -38,12 +38,18 @@ SENSITIVE_PATTERNS = [
 
 try:
     data = json.load(sys.stdin)
+    tool_name = data.get('tool_name', '')
     file_path = data.get('tool_input', {}).get('file_path', '')
 
     if not file_path:
         sys.exit(0)
 
     path = Path(file_path)
+
+    # Allow Write to .env files (needed for /new-project scaffolding).
+    # Only block Read/Edit which could leak existing secrets.
+    if tool_name == 'Write' and path.name.startswith('.env'):
+        sys.exit(0)
 
     # Check exact filename matches
     if path.name in SENSITIVE_FILENAMES:
