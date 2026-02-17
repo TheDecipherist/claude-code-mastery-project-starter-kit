@@ -219,8 +219,8 @@
             <div class="feature-icon feature-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
-            <h3>24 Slash Commands</h3>
-            <p><code>/help</code>, <code>/quickstart</code>, <code>/install-global</code>, <code>/setup</code>, <code>/show-user-guide</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-project-profile-default</code>, <code>/add-project-setup</code>, <code>/projects-created</code>, <code>/remove-project</code>, <code>/convert-project-to-starter-kit</code></p>
+            <h3>25 Slash Commands</h3>
+            <p><code>/help</code>, <code>/quickstart</code>, <code>/install-global</code>, <code>/setup</code>, <code>/show-user-guide</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-project-profile-default</code>, <code>/add-project-setup</code>, <code>/projects-created</code>, <code>/remove-project</code>, <code>/convert-project-to-starter-kit</code>, <code>/update-project</code></p>
           </div>
 
           <div class="feature-card">
@@ -392,7 +392,7 @@
 cd ~/projects/my-app               # Enter your new project
 /setup                             # Configure .env interactively
 pnpm install && pnpm dev           # Start building</code></pre>
-        <p>Use <code>/help</code> to see all 24 commands at any time.</p>
+        <p>Use <code>/help</code> to see all 25 commands at any time.</p>
       </section>
 
       <!-- Quick Start -->
@@ -526,6 +526,7 @@ cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/</code></pre>
 │   │   ├── projects-created.md   # /projects-created — list all created projects
 │   │   ├── remove-project.md     # /remove-project — remove a project from registry
 │   │   ├── convert-project-to-starter-kit.md # /convert-project-to-starter-kit — merge into existing project
+│   │   ├── update-project.md      # /update-project — update a project with latest starter kit
 │   │   └── show-user-guide.md    # /show-user-guide — open the User Guide in browser
 │   ├── skills/
 │   │   ├── code-review/SKILL.md # Triggered code review checklist
@@ -1220,6 +1221,13 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
             <p class="command-desc">Merges all starter kit infrastructure into an existing project without destroying anything. Creates a safety commit, detects language and existing Claude setup, asks how to handle conflicts, then copies commands, hooks, skills, agents, merges CLAUDE.md sections, deep-merges settings.json, and adds infrastructure files. Registers the project in <code>~/.claude/starter-kit-projects.json</code>. Undo with <code>git revert HEAD</code>.</p>
             <pre class="language-bash"><code class="language-bash">/convert-project-to-starter-kit ~/projects/my-app
 /convert-project-to-starter-kit ~/projects/my-app --force</code></pre>
+          </div>
+
+          <div class="command-card">
+            <h3><code>/update-project</code></h3>
+            <p class="command-desc">Updates an existing starter-kit project with the latest commands, hooks, skills, agents, and rules. Smart merge &mdash; replaces starter kit files with newer versions while preserving any custom files. Shows a diff report before applying, creates a safety commit for easy undo.</p>
+            <pre class="language-bash"><code class="language-bash">/update-project              # Pick from registered projects
+/update-project --force      # Skip confirmation prompts</code></pre>
           </div>
         </div>
       </section>
@@ -2022,10 +2030,10 @@ npx @rulecatch/mcp-server init</code></pre>
         <div class="screenshot-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
 
           <div class="screenshot-card" style="background: var(--bg-secondary); border-radius: 0.75rem; overflow: hidden; border: 1px solid var(--border);">
-            <img src="screenshots/help-command.png" alt="/help command output showing all 24 commands" style="width: 100%; display: block;" loading="lazy">
+            <img src="screenshots/help-command.png" alt="/help command output showing all 25 commands" style="width: 100%; display: block;" loading="lazy">
             <div style="padding: 0.75rem 1rem;">
               <strong><code>/help</code> Command Output</strong>
-              <p style="margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.875rem;">All 24 commands organized by category &mdash; Setup, Code Quality, Git, API, Documentation, Monitoring</p>
+              <p style="margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.875rem;">All 25 commands organized by category &mdash; Setup, Code Quality, Git, API, Documentation, Monitoring</p>
             </div>
           </div>
 

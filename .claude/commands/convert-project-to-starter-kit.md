@@ -450,7 +450,7 @@ Registered in project registry. View with /projects-created.
 
 Next steps:
   1. Run /setup to configure environment variables
-  2. Run /help to see all 24 available commands
+  2. Run /help to see all 25 available commands
   3. Review CLAUDE.md and customize rules for your project
 ```
 

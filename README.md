@@ -61,14 +61,14 @@ cd ~/projects/my-app               # Enter your new project
 pnpm install && pnpm dev           # Start building
 ```
 
-Use `/help` to see all 24 commands at any time.
+Use `/help` to see all 25 commands at any time.
 
 ## See It In Action
 
 | | |
 |---|---|
 | ![/help command](docs/screenshots/help-command.png) | ![/review violations](docs/screenshots/review-violations.png) |
-| **`/help`** &mdash; All 24 commands | **`/review`** &mdash; Catching violations with severity ratings |
+| **`/help`** &mdash; All 25 commands | **`/review`** &mdash; Catching violations with severity ratings |
 | ![Auto-branch hook](docs/screenshots/auto-branch.png) | ![Lint-on-save hook](docs/screenshots/hooks-lint-on-save.png) |
 | **Auto-Branching** &mdash; Hook blocks commits to main | **Lint-on-Save** &mdash; TypeScript errors caught instantly |
 | ![/diagram architecture](docs/screenshots/diagram-architecture.png) | ![/setup flow](docs/screenshots/setup-flow.png) |
@@ -82,7 +82,7 @@ Everything you need to start a Claude Code project the right way — security, a
 
 - **CLAUDE.md** — Battle-tested project instructions with 11 numbered critical rules for security, TypeScript, database wrappers, testing, and deployment
 - **Global CLAUDE.md** — Security gatekeeper for all projects. Never publish secrets, never commit .env files, standardized scaffolding rules
-- **24 Slash Commands** — `/help`, `/quickstart`, `/install-global`, `/setup`, `/show-user-guide`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-project-profile-default`, `/add-project-setup`, `/projects-created`, `/remove-project`, `/convert-project-to-starter-kit`
+- **25 Slash Commands** — `/help`, `/quickstart`, `/install-global`, `/setup`, `/show-user-guide`, `/diagram`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/new-project`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/set-project-profile-default`, `/add-project-setup`, `/projects-created`, `/remove-project`, `/convert-project-to-starter-kit`, `/update-project`
 - **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional — skips silently if not installed)
 - **Skills** — Context-aware templates: systematic code review checklist and full microservice scaffolding
 - **Custom Agents** — Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions
@@ -304,6 +304,7 @@ project/
 │   │   ├── projects-created.md   # /projects-created — list all created projects
 │   │   ├── remove-project.md     # /remove-project — remove a project from registry
 │   │   ├── convert-project-to-starter-kit.md # /convert-project-to-starter-kit — merge into existing project
+│   │   ├── update-project.md      # /update-project — update a project with latest starter kit
 │   │   └── show-user-guide.md    # /show-user-guide — open the User Guide in browser
 │   ├── skills/
 │   │   ├── code-review/SKILL.md # Triggered code review checklist
@@ -790,6 +791,15 @@ Merges all starter kit infrastructure into an existing project without destroyin
 ```bash
 /convert-project-to-starter-kit ~/projects/my-app
 /convert-project-to-starter-kit ~/projects/my-app --force
+```
+
+### `/update-project`
+
+Updates an existing starter-kit project with the latest commands, hooks, skills, agents, and rules from the current starter kit source. Smart merge — replaces starter kit files with newer versions while preserving any custom files the user created. Shows a diff report before applying. Creates a safety commit first so you can `git revert HEAD` to undo.
+
+```bash
+/update-project              # Pick from registered projects
+/update-project --force      # Skip confirmation prompts
 ```
 
 ### `/create-e2e`

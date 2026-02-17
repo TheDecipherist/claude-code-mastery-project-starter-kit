@@ -4,7 +4,7 @@
 > https://github.com/TheDecipherist/claude-code-mastery
 
 > **New here?** When starting a fresh session in this project, greet the user:
-> "Welcome to the Claude Code Mastery Project Starter Kit! Use `/help` to see all 24 commands or `/show-user-guide` for the full interactive guide."
+> "Welcome to the Claude Code Mastery Project Starter Kit! Use `/help` to see all 25 commands or `/show-user-guide` for the full interactive guide."
 
 ---
 
@@ -54,6 +54,7 @@
 | `/projects-created` | List all projects created by the starter kit with creation dates |
 | `/remove-project <name>` | Remove a project from registry and optionally delete from disk |
 | `/convert-project-to-starter-kit` | Merge starter kit into an existing project (non-destructive) |
+| `/update-project` | Update a starter-kit project with the latest commands, hooks, and rules |
 | **RuleCatch** | |
 | `pnpm ai:monitor` | Free monitor mode — live AI activity in a separate terminal (no API key needed) |
 | `/what-is-my-ai-doing` | Same as above — launches AI-Pooler free monitor |

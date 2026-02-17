@@ -52,8 +52,10 @@ Are you starting a brand new project?
 │       └── /new-project my-app fullstack next dokploy tailwind pnpm
 │
 ├── NO → Do you have an existing project?
-│   └── YES → Use /convert-project-to-starter-kit
-│       └── /convert-project-to-starter-kit ~/projects/my-app
+│   ├── Not yet using starter kit?
+│   │   └── /convert-project-to-starter-kit ~/projects/my-app
+│   └── Already using starter kit? Want latest updates?
+│       └── /update-project
 │
 └── Want to customize the template itself?
     └── Clone the repo, modify commands/hooks/rules, use as your own source
@@ -112,7 +114,7 @@ After running `/new-project my-app clean`, here's what's in your project:
 ```
 my-app/
 ├── .claude/
-│   ├── commands/       ← 24 slash commands you can invoke
+│   ├── commands/       ← 25 slash commands you can invoke
 │   ├── skills/         ← Auto-triggered expertise templates
 │   ├── agents/         ← Specialist subagents (reviewer, test writer)
 │   ├── hooks/          ← 9 enforcement scripts that always run
@@ -481,6 +483,17 @@ Merges starter kit infrastructure into an existing project non-destructively:
 ```
 
 Creates a safety commit first. Detects your language, copies commands/hooks/skills/agents, merges CLAUDE.md sections and settings.json hooks. Undo with `git revert HEAD`.
+
+#### `/update-project`
+
+Updates an existing starter-kit project with the latest commands, hooks, skills, agents, and rules:
+
+```bash
+/update-project              # Pick from registered projects
+/update-project --force      # Skip confirmation prompts
+```
+
+Smart merge — replaces starter kit files with newer versions while preserving any custom files you created. Shows a diff report (new, updated, unchanged, custom) before applying. Creates a safety commit first so you can `git revert HEAD` to undo.
 
 ---
 
@@ -1187,7 +1200,7 @@ A: Yes. Create a `.md` file in `.claude/commands/`. The filename becomes the com
 A: `/review` is a structured prompt, not a linter. For comprehensive analysis, use it together with `/security-check` and the lint-on-save hook. RuleCatch provides automated monitoring across all sessions.
 
 **Q: How do I update the starter kit in an existing project?**
-A: Run `/convert-project-to-starter-kit` on your project. It merges new commands, hooks, and settings while preserving your customizations. If you've modified specific commands, it asks how to handle conflicts.
+A: Run `/update-project` to pull the latest commands, hooks, skills, and rules into a registered project. It shows a diff report before applying and preserves your custom files. For projects not yet using the starter kit, use `/convert-project-to-starter-kit` first.
 
 ### Database
 

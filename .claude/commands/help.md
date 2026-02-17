@@ -10,7 +10,7 @@ Display the complete list of commands, skills, and agents available in this star
 **Print this exactly:**
 
 ```
-=== Claude Code Starter Kit — Command Reference (24 commands) ===
+=== Claude Code Starter Kit — Command Reference (25 commands) ===
 
 GETTING STARTED
   /help              List all commands, skills, and agents (this screen)
@@ -27,6 +27,7 @@ PROJECT SCAFFOLD
   /projects-created  List all projects created by the starter kit with creation dates
   /remove-project    Remove a project from the registry and optionally delete it from disk
   /convert-project-to-starter-kit  Merge starter kit into an existing project (non-destructive)
+  /update-project    Update a starter-kit project with the latest commands, hooks, and rules
 
 CODE QUALITY
   /review            Systematic code review against 7-point checklist
