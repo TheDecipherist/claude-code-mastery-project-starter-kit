@@ -1,5 +1,6 @@
 ---
 description: Smart commit with context — generates conventional commit message
+scope: project
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git diff:*)
 argument-hint: [optional commit message override]
 ---

@@ -1,5 +1,6 @@
 ---
 description: Create a named project profile interactively
+scope: starter-kit
 allowed-tools: Read, Edit, AskUserQuestion
 ---
 

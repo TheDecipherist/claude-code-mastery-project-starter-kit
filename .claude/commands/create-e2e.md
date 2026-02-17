@@ -1,5 +1,6 @@
 ---
 description: Create a Playwright E2E test with explicit success criteria
+scope: project
 argument-hint: <feature-or-page-name>
 allowed-tools: Read, Write, Grep, Glob, Bash, AskUserQuestion
 ---

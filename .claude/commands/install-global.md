@@ -1,5 +1,6 @@
 ---
 description: Install global Claude config — merges into existing ~/.claude/ without overwriting
+scope: starter-kit
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 ---
 

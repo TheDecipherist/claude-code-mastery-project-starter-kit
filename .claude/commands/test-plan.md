@@ -1,5 +1,6 @@
 ---
 description: Generate a structured test plan for a feature
+scope: project
 argument-hint: <feature-name>
 ---
 

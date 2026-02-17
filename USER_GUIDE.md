@@ -114,7 +114,7 @@ After running `/new-project my-app clean`, here's what's in your project:
 ```
 my-app/
 ├── .claude/
-│   ├── commands/       ← 25 slash commands you can invoke
+│   ├── commands/       ← 25 slash commands (16 project + 9 kit management)
 │   ├── skills/         ← Auto-triggered expertise templates
 │   ├── agents/         ← Specialist subagents (reviewer, test writer)
 │   ├── hooks/          ← 9 enforcement scripts that always run

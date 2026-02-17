@@ -1,5 +1,6 @@
 ---
 description: Analyze and optimize Docker builds for production
+scope: project
 argument-hint: [dockerfile-path]
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 ---

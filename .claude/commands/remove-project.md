@@ -1,5 +1,6 @@
 ---
 description: Remove a project created by the starter kit
+scope: starter-kit
 argument-hint: <project-name>
 allowed-tools: Read, Edit, Bash(rm:*), Bash(ls:*), AskUserQuestion
 ---

@@ -1,5 +1,6 @@
 ---
 description: Create a new project with all scaffolding rules applied
+scope: starter-kit
 argument-hint: <path> [profile-or-options...]
 allowed-tools: Bash, Write, Read, AskUserQuestion
 ---
@@ -163,16 +164,22 @@ project/
 ├── CLAUDE.local.md        # Personal overrides template
 ├── .claude/
 │   ├── settings.json      # Hooks configuration
-│   ├── commands/
-│   │   ├── review.md
-│   │   ├── commit.md
-│   │   ├── progress.md
-│   │   ├── test-plan.md
+│   ├── commands/          # Only scope: project commands (16 of 25)
 │   │   ├── architecture.md
-│   │   ├── new-project.md
-│   │   ├── security-check.md
-│   │   ├── optimize-docker.md
+│   │   ├── commit.md
+│   │   ├── create-api.md
 │   │   ├── create-e2e.md
+│   │   ├── diagram.md
+│   │   ├── help.md
+│   │   ├── optimize-docker.md
+│   │   ├── progress.md
+│   │   ├── refactor.md
+│   │   ├── review.md
+│   │   ├── security-check.md
+│   │   ├── setup.md
+│   │   ├── show-user-guide.md
+│   │   ├── test-plan.md
+│   │   ├── what-is-my-ai-doing.md
 │   │   └── worktree.md
 │   ├── skills/
 │   │   ├── code-review/SKILL.md
@@ -305,7 +312,7 @@ If you must rename packages, modules, or key variables:
 
 1. Resolve project path (same as Step 0 / 0.1 above)
 2. Create the project directory
-3. Copy ALL `.claude/` contents from the starter kit (commands, skills, agents, hooks, settings.json)
+3. Copy `.claude/` contents from the starter kit — but only commands with `scope: project` in their YAML frontmatter (skills, agents, hooks, and settings.json are copied in full)
 4. Create project-docs/ with ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md templates
 5. Create tests/ with CHECKLIST.md and ISSUES_FOUND.md
 6. Create the clean CLAUDE.md (security rules only, as shown above)
@@ -318,7 +325,7 @@ If you must rename packages, modules, or key variables:
 
 ### Clean verification checklist
 
-- [ ] `.claude/` directory with all commands, skills, agents, hooks
+- [ ] `.claude/` directory with `scope: project` commands only (16), skills, agents, hooks
 - [ ] `.claude/settings.json` with hooks wired up
 - [ ] `CLAUDE.md` has ONLY security rules (no TypeScript, no ports, no quality gates)
 - [ ] `project-docs/` has all three templates
@@ -729,7 +736,7 @@ When creating a Go project, the CLAUDE.md MUST include these Go-specific rules:
 8. Create `Dockerfile` (multi-stage with scratch, using template above)
 9. Create `.golangci.yml` (using template above)
 10. Create Go-specific `CLAUDE.md` (with Go rules above + universal security rules)
-11. Copy `.claude/` contents from starter kit (commands, skills, agents, hooks, settings.json)
+11. Copy `.claude/` contents from starter kit — only commands with `scope: project` in frontmatter (skills, agents, hooks, settings.json copied in full)
 12. Create `project-docs/` templates (ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md)
 13. Create `.env`, `.env.example`, `.gitignore` (Go-specific), `.dockerignore`
 14. Create `CLAUDE.local.md` template
@@ -761,7 +768,7 @@ After creation, verify and report:
 - [ ] `internal/models/` directory exists
 - [ ] `tests/` directory exists with at least one test
 - [ ] `project-docs/` has ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md
-- [ ] `.claude/` has commands, skills, agents, hooks, settings.json
+- [ ] `.claude/` has `scope: project` commands only, skills, agents, hooks, settings.json
 
 **Testing:**
 - [ ] `go build ./...` succeeds
@@ -1206,7 +1213,7 @@ When creating a Python project, the CLAUDE.md MUST include these Python-specific
 10. Create `Makefile` with dev, test, lint, format, run targets
 11. Create `Dockerfile` (multi-stage with python:3.12-slim)
 12. Create Python-specific CLAUDE.md (with Python rules + universal security rules)
-13. Copy `.claude/` contents from starter kit (commands, skills, agents, hooks, settings.json)
+13. Copy `.claude/` contents from starter kit — only commands with `scope: project` in frontmatter (skills, agents, hooks, settings.json copied in full)
 14. Create `project-docs/` templates (ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md)
 15. Create `.env`, `.env.example`, `.gitignore` (Python-specific), `.dockerignore`
 16. Create `CLAUDE.local.md` template
@@ -1240,7 +1247,7 @@ After creation, verify and report:
 - [ ] `tests/conftest.py` exists
 - [ ] `tests/test_health.py` exists
 - [ ] `project-docs/` has ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md
-- [ ] `.claude/` has commands, skills, agents, hooks, settings.json
+- [ ] `.claude/` has `scope: project` commands only, skills, agents, hooks, settings.json
 
 **Testing:**
 - [ ] `.venv/` directory exists (virtual environment)
@@ -1685,7 +1692,7 @@ Sitemap: https://example.com/sitemap.xml
 **CLI scaffold:** `npm create vue@latest PROJECT -- --typescript --router --pinia`
 
 After scaffold:
-- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Copy `.claude/` — only commands with `scope: project` in frontmatter (skills, agents, hooks, settings.json copied in full)
 - Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
 - Vitest is included by default from `create vue`
 
@@ -1705,7 +1712,7 @@ After scaffold:
 **CLI scaffold:** `npx nuxi@latest init PROJECT --package-manager pnpm`
 
 After scaffold:
-- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Copy `.claude/` — only commands with `scope: project` in frontmatter (skills, agents, hooks, settings.json copied in full)
 - Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
 - Vitest and Playwright added via `npx nuxi module add @nuxt/test-utils`
 
@@ -1724,7 +1731,7 @@ After scaffold:
 **CLI scaffold:** `npx sv create PROJECT` (select TypeScript skeleton)
 
 After scaffold:
-- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Copy `.claude/` — only commands with `scope: project` in frontmatter (skills, agents, hooks, settings.json copied in full)
 - Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
 - `sv create` includes Vitest + Playwright if selected during setup
 
@@ -1743,7 +1750,7 @@ After scaffold:
 **CLI scaffold:** `npx @angular/cli new PROJECT --style=scss --routing --ssr=false`
 
 After scaffold:
-- Copy `.claude/` (commands, skills, agents, hooks, settings.json)
+- Copy `.claude/` — only commands with `scope: project` in frontmatter (skills, agents, hooks, settings.json copied in full)
 - Add `project-docs/`, CLAUDE.md, CLAUDE.local.md, `.env` files
 - Angular includes Jasmine by default — optionally add Vitest with `@analogjs/vitest-angular`
 - Add Playwright for E2E: `npm init playwright@latest`

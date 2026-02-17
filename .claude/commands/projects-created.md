@@ -1,5 +1,6 @@
 ---
 description: List all projects created by the starter kit
+scope: starter-kit
 allowed-tools: Read, Bash(ls:*), Bash(date:*), Bash(stat:*), Bash(wc:*)
 ---
 

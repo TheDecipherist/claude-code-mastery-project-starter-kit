@@ -1,5 +1,6 @@
 ---
 description: Refactor a file following all project best practices — split, type, extract, clean
+scope: project
 argument-hint: <file-path> [--dry-run]
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion
 ---

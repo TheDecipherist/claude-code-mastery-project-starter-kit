@@ -1185,7 +1185,7 @@ cat claude-mastery-project.conf
 - [ ] `help.md` lists `/show-user-guide`
 - [ ] `help.md` lists `/update-project`
 - [ ] `help.md` does NOT list `/set-clean-as-default` or `/reset-to-defaults`
-- [ ] `help.md` header says "25 commands"
+- [ ] `help.md` dynamically detects context (starter kit vs project) and adjusts command count
 - [ ] `CLAUDE.md` quick reference has all new commands (including `/projects-created`, `/remove-project`, `/convert-project-to-starter-kit`)
 - [ ] `README.md` says "25 Slash Commands" and lists all new commands
 - [ ] `docs/index.html` says "25 Slash Commands" and has command cards for all new commands
@@ -1193,7 +1193,23 @@ cat claude-mastery-project.conf
 - [ ] "Supported Technologies" section in docs/index.html
 - [ ] Project structure trees in README.md and docs/index.html include `projects-created.md`, `remove-project.md`, and `convert-project-to-starter-kit.md`
 
-### 18.7 Project Registry
+### 18.7 Command Scope Classification
+
+- [ ] All 25 commands have `scope:` in YAML frontmatter (`grep -c "^scope:" .claude/commands/*.md` returns 25)
+- [ ] 16 commands have `scope: project` (`grep -l "^scope: project" .claude/commands/*.md | wc -l`)
+- [ ] 9 commands have `scope: starter-kit` (`grep -l "^scope: starter-kit" .claude/commands/*.md | wc -l`)
+- [ ] `new-project.md` has `scope: starter-kit` (not copied to projects)
+- [ ] `help.md` has `scope: project` (copied to projects)
+- [ ] `show-user-guide.md` has `scope: project` (opens GitHub Pages URL, works anywhere)
+- [ ] `new-project.md` clean mode tree lists only `scope: project` commands (16 files)
+- [ ] `new-project.md` clean mode tree does NOT include `new-project.md`
+- [ ] `new-project.md` step 3 says "only commands with `scope: project`"
+- [ ] `convert-project-to-starter-kit.md` step 4 filters by `scope: project`
+- [ ] `update-project.md` step 3 table says "(scope: project only)" for Commands
+- [ ] `help.md` detects starter kit vs project context and adjusts output
+- [ ] CLAUDE.md has "Command Scope Classification" section
+
+### 18.8 Project Registry
 
 - [ ] `/projects-created` reads from `~/.claude/starter-kit-projects.json`
 - [ ] `/remove-project` reads and writes `~/.claude/starter-kit-projects.json`

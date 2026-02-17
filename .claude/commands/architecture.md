@@ -1,5 +1,6 @@
 ---
 description: Display system architecture and data flow
+scope: project
 ---
 
 # System Architecture

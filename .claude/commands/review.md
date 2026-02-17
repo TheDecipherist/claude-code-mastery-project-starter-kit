@@ -1,5 +1,6 @@
 ---
 description: Review code for bugs, security issues, and best practices
+scope: project
 allowed-tools: Read, Grep, Glob, Bash(git diff:*)
 ---
 

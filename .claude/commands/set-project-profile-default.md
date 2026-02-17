@@ -1,5 +1,6 @@
 ---
 description: Set the default profile for /new-project
+scope: starter-kit
 allowed-tools: Read, Edit, AskUserQuestion
 ---
 

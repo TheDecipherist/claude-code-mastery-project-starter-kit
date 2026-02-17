@@ -1,5 +1,6 @@
 ---
 description: Convert an existing project to use the Claude Code Starter Kit — non-destructive merge
+scope: starter-kit
 argument-hint: <project-path> [--force]
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 ---
@@ -204,7 +205,7 @@ mkdir -p "$TARGET/.claude/agents"
 
 For each category (commands, hooks, skills, agents), iterate through the source files:
 
-**For commands:** List all `$SOURCE/.claude/commands/*.md` files.
+**For commands:** List all `$SOURCE/.claude/commands/*.md` files that have `scope: project` in their YAML frontmatter. Skip any commands with `scope: starter-kit` — those are kit-management commands that don't belong in project repos.
 **For hooks:** List all `$SOURCE/.claude/hooks/*.sh` and `$SOURCE/.claude/hooks/*.py` files.
 **For skills:** List all `$SOURCE/.claude/skills/*/` directories (copy entire directory).
 **For agents:** List all `$SOURCE/.claude/agents/*.md` files.
@@ -450,7 +451,7 @@ Registered in project registry. View with /projects-created.
 
 Next steps:
   1. Run /setup to configure environment variables
-  2. Run /help to see all 25 available commands
+  2. Run /help to see all available commands
   3. Review CLAUDE.md and customize rules for your project
 ```
 

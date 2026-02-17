@@ -1,5 +1,6 @@
 ---
 description: Interactive project setup — configure .env, GitHub, Docker, analytics, and services
+scope: project
 argument-hint: [--reset]
 allowed-tools: Bash, Read, Write, Edit, AskUserQuestion
 ---

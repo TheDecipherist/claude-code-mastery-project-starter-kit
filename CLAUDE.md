@@ -55,6 +55,7 @@
 | `/remove-project <name>` | Remove a project from registry and optionally delete from disk |
 | `/convert-project-to-starter-kit` | Merge starter kit into an existing project (non-destructive) |
 | `/update-project` | Update a starter-kit project with the latest commands, hooks, and rules |
+| `/update-project --clean` | Remove starter-kit-scoped commands from a project (cleanup for older scaffolds) |
 | **RuleCatch** | |
 | `pnpm ai:monitor` | Free monitor mode — live AI activity in a separate terminal (no API key needed) |
 | `/what-is-my-ai-doing` | Same as above — launches AI-Pooler free monitor |
@@ -819,6 +820,19 @@ When creating a new `.claude/commands/*.md` or `.claude/hooks/*.sh`:
 5. **.claude/settings.json** — Wire up hooks (if adding a hook)
 
 **This is NOT optional.** Every command/hook must appear in all five locations before the commit.
+
+### Command Scope Classification
+
+Every command has a `scope:` field in its YAML frontmatter:
+
+- **`scope: project`** (16 commands) — Work inside any project. Copied to scaffolded projects by `/new-project`, `/convert-project-to-starter-kit`, and `/update-project`.
+- **`scope: starter-kit`** (9 commands) — Kit management only. Never copied to scaffolded projects.
+
+**Project commands:** `help`, `review`, `commit`, `progress`, `test-plan`, `architecture`, `security-check`, `optimize-docker`, `create-e2e`, `create-api`, `worktree`, `refactor`, `diagram`, `setup`, `what-is-my-ai-doing`, `show-user-guide`
+
+**Starter-kit commands:** `new-project`, `update-project`, `convert-project-to-starter-kit`, `install-global`, `projects-created`, `remove-project`, `set-project-profile-default`, `add-project-setup`, `quickstart`
+
+When distributing commands (new-project, convert, update), **always filter by `scope: project`** in the source command's frontmatter. Skills, agents, hooks, and settings.json are copied in full regardless of scope.
 
 ---
 

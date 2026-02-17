@@ -1,5 +1,6 @@
 ---
 description: Generate or update project diagrams by scanning actual code — architecture, API, database, infrastructure
+scope: project
 argument-hint: <type> [--update]
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 ---

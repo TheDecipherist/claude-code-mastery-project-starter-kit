@@ -1,5 +1,6 @@
 ---
 description: Interactive first-run walkthrough for new users
+scope: starter-kit
 allowed-tools: Bash(ls:*), Bash(cat:*), AskUserQuestion, Read
 ---
 

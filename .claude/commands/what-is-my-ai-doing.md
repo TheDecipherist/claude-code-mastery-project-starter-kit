@@ -1,5 +1,6 @@
 ---
 description: Live monitor of everything your AI is doing — tokens, cost, violations, tool usage
+scope: project
 argument-hint: [--json]
 allowed-tools: Bash, AskUserQuestion
 ---

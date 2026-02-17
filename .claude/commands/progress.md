@@ -1,5 +1,6 @@
 ---
 description: Show project progress — what's done, what's pending, what's next
+scope: project
 allowed-tools: Read, Bash(find:*), Bash(ls:*), Bash(wc:*), Bash(git log:*)
 ---
 

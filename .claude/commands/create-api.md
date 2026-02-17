@@ -1,5 +1,6 @@
 ---
 description: Scaffold a new API endpoint — route, handler, types, tests — wired into the server
+scope: project
 argument-hint: <resource-name> [--no-mongo]
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion
 ---

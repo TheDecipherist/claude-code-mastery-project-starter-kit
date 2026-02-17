@@ -1,5 +1,6 @@
 ---
 description: Create a git worktree + branch for an isolated task
+scope: project
 argument-hint: <branch-name> [base-branch]
 allowed-tools: Bash, Read, AskUserQuestion
 ---

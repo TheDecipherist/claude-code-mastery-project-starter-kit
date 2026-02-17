@@ -1,5 +1,6 @@
 ---
 description: Scan project for security issues — exposed secrets, missing .gitignore entries, unsafe patterns
+scope: project
 allowed-tools: Read, Grep, Glob, Bash(git:*), Bash(grep:*), Bash(find:*)
 ---
 

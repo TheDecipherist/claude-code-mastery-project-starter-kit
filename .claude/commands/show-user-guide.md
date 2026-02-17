@@ -1,5 +1,6 @@
 ---
 description: Open the comprehensive User Guide in your browser
+scope: project
 allowed-tools: Bash
 ---
 
@@ -54,4 +55,4 @@ After opening, tell the user:
 > User Guide opened in your browser.
 > - **Online:** https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/user-guide.html
 > - **Markdown:** `USER_GUIDE.md` (project root)
-> - **Tip:** Use `/help` to see all 24 commands at any time.
+> - **Tip:** Use `/help` to see all available commands at any time.

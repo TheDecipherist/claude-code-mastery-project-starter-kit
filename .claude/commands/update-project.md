@@ -1,6 +1,7 @@
 ---
 description: Update a starter-kit project with the latest commands, hooks, skills, and rules
-argument-hint: [--force]
+scope: starter-kit
+argument-hint: [--force | --clean]
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 ---
 
@@ -51,7 +52,9 @@ Store as `$SOURCE`.
 4. `$TARGET` is registered in `~/.claude/starter-kit-projects.json`
    - If not registered: "This project isn't in the registry. Use `/convert-project-to-starter-kit` instead."
 
-Parse `--force` from `$ARGUMENTS` — if present, set `$FORCE=true` (skips confirmation prompts).
+Parse flags from `$ARGUMENTS`:
+- `--force` → set `$FORCE=true` (skips confirmation prompts)
+- `--clean` → set `$CLEAN=true` (skip normal update, jump to **Clean Mode** section below)
 
 ---
 
@@ -86,10 +89,12 @@ Build a manifest of what the starter kit currently has vs what the target has.
 
 | Category | Source Location | Target Location |
 |----------|----------------|-----------------|
-| Commands | `$SOURCE/.claude/commands/*.md` | `$TARGET/.claude/commands/*.md` |
+| Commands | `$SOURCE/.claude/commands/*.md` (scope: project only) | `$TARGET/.claude/commands/*.md` |
 | Hooks | `$SOURCE/.claude/hooks/*.{sh,py}` | `$TARGET/.claude/hooks/*.{sh,py}` |
 | Skills | `$SOURCE/.claude/skills/*/SKILL.md` | `$TARGET/.claude/skills/*/SKILL.md` |
 | Agents | `$SOURCE/.claude/agents/*.md` | `$TARGET/.claude/agents/*.md` |
+
+**Command scope filtering:** Only include source commands that have `scope: project` in their YAML frontmatter. Commands with `scope: starter-kit` are kit-management commands and should never be copied to projects. If the target already has a starter-kit-scoped command (e.g., from a previous version), classify it as **CUSTOM** (user-created) — never overwrite or remove it.
 
 ### For each file, classify as:
 
@@ -257,3 +262,92 @@ Next: Run /help to see any new commands.
 3. **Git fails** — If any git operation fails (commit, add), stop with a clear error. Never leave the project in a half-updated state.
 
 4. **Custom files with same name as starter kit** — If a user happened to create a file with the same name as a starter kit file (e.g., `help.md`), it will show as UPDATED (content differs). The diff report makes this visible before applying.
+
+---
+
+## Clean Mode — `--clean`
+
+**If `$CLEAN` is true, skip Steps 2-7 entirely and run this flow instead.**
+
+Clean mode scans a project for commands that have `scope: starter-kit` in their frontmatter — these are kit-management commands that should NOT be in scaffolded projects. Older versions of the starter kit copied all commands without filtering, so existing projects may have them.
+
+### Clean Step 1 — Scan for starter-kit commands
+
+Read every `.md` file in `$TARGET/.claude/commands/`. For each file, parse the YAML frontmatter and check for `scope: starter-kit`.
+
+Build a list of files to remove.
+
+### Clean Step 2 — Display findings
+
+If no `scope: starter-kit` commands found:
+```
+No cleanup needed — this project has no starter-kit-scoped commands.
+```
+Stop here.
+
+If found, display the list:
+
+```
+=== Clean: Starter-Kit Commands Found ===
+
+These commands are kit-management tools that don't belong in project repos:
+
+  1. new-project.md          — Create a new project with all scaffolding rules applied
+  2. update-project.md       — Update a starter-kit project with the latest commands, hooks, skills, and rules
+  3. install-global.md       — Install global Claude config
+  4. convert-project-to-starter-kit.md — Merge starter kit into an existing project
+  5. quickstart.md           — Interactive first-run walkthrough for new users
+  6. projects-created.md     — List all projects created by the starter kit
+  7. remove-project.md       — Remove a project from the registry
+  8. set-project-profile-default.md — Set the default profile for /new-project
+  9. add-project-setup.md    — Create a named project profile
+
+Found N starter-kit commands that should be removed.
+```
+
+### Clean Step 3 — Ask what to remove
+
+Use AskUserQuestion:
+
+"Which commands do you want to remove?"
+- **Remove all N** (Recommended) — Delete all starter-kit-scoped commands
+- **Let me pick** — Show each file and ask individually
+
+**If "Remove all":** delete all listed files.
+
+**If "Let me pick":** for each file, ask via AskUserQuestion (batch up to 4 at a time):
+- "Remove `<filename>`? (<description>)"
+  - Yes, remove it
+  - No, keep it
+
+### Clean Step 4 — Execute removal
+
+For each file to remove:
+```bash
+rm "$TARGET/.claude/commands/<filename>"
+```
+
+### Clean Step 5 — Commit + Summary
+
+```bash
+cd "$TARGET"
+git add -A
+git commit -m "chore: remove starter-kit-scoped commands (clean)"
+```
+
+Display summary:
+
+```
+=== Clean Complete ===
+
+Removed N starter-kit commands:
+  - new-project.md
+  - update-project.md
+  - ...
+
+Kept N project commands.
+
+To undo: git revert HEAD
+```
+
+**If nothing was removed** (user said "no" to everything): skip the commit, note "No changes made."
