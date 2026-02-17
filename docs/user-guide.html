@@ -143,7 +143,7 @@
             <div class="feature-icon feature-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
-            <h3>24 Commands</h3>
+            <h3>25 Commands</h3>
             <p><em>On-demand tools</em> for common tasks</p>
           </div>
           <div class="feature-card">
@@ -211,7 +211,7 @@
         <p>After <code>/new-project my-app clean</code>, here's what's in your project:</p>
         <pre class="language-text"><code class="language-text">my-app/
 ├── .claude/
-│   ├── commands/       ← 24 slash commands
+│   ├── commands/       ← 25 slash commands
 │   ├── skills/         ← Auto-triggered expertise
 │   ├── agents/         ← Specialist subagents
 │   ├── hooks/          ← 9 enforcement scripts
@@ -277,7 +277,7 @@
       <!-- Part 3: Commands Deep Dive -->
       <section id="commands-deep-dive">
         <h2>Part 3: Commands Deep Dive</h2>
-        <p>All 24 commands grouped by category with real examples.</p>
+        <p>All 25 commands grouped by category with real examples.</p>
 
         <h3 style="color: var(--accent-cyan);">Getting Started</h3>
         <div class="commands-grid">
@@ -340,6 +340,10 @@
           <div class="command-card">
             <h3><code>/convert-project-to-starter-kit</code></h3>
             <p class="command-desc">Non-destructive merge of all starter kit infrastructure into an existing project. Creates safety commit first. Undo with <code>git revert HEAD</code>.</p>
+          </div>
+          <div class="command-card">
+            <h3><code>/update-project</code></h3>
+            <p class="command-desc">Smart-merge the latest starter kit commands, hooks, skills, agents, and rules into an existing project. Shows a diff report before applying. Creates a safety commit for easy undo.</p>
           </div>
         </div>
 
@@ -844,7 +848,7 @@ CMD ["node", "dist/index.js"]</code></pre>
           </div>
           <div class="command-card">
             <h3>How do I update the starter kit in an existing project?</h3>
-            <p class="command-desc">Run <code>/convert-project-to-starter-kit</code> again. It merges new commands and hooks while preserving your customizations.</p>
+            <p class="command-desc">Run <code>/update-project</code> &mdash; it picks from your registered projects, shows a diff report, and smart-merges only changed files. For first-time conversion, use <code>/convert-project-to-starter-kit</code>.</p>
           </div>
           <div class="command-card">
             <h3>Does this work with monorepos?</h3>
