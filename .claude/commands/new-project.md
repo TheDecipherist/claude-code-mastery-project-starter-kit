@@ -266,6 +266,22 @@ Before jumping to conclusions:
 
 ---
 
+## Git Workflow — Branch FIRST, Work Second
+
+**Auto-branch hook is ON by default.** A hook blocks commits to `main`. **ALWAYS check and branch BEFORE editing any files:**
+
+```bash
+# MANDATORY first step — do this BEFORE writing or editing anything:
+git branch --show-current
+# If on main → create a feature branch IMMEDIATELY:
+git checkout -b feat/<task-name>
+# NOW start working.
+```
+
+If you edit files on `main` and then try to commit, the hook will block you. Branch first — it takes 1 second and avoids wasted work.
+
+---
+
 ## Workflow Preferences
 
 - Quality over speed — if unsure, ask before executing

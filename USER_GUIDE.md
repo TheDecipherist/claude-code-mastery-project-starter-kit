@@ -1106,7 +1106,8 @@ pnpm test:kill-ports
 
 **"BLOCKED: You're on main"**
 - This is the auto-branch hook working correctly
-- Create a feature branch: `git checkout -b feat/my-feature`
+- **Prevention:** ALWAYS run `git branch --show-current` at the START of any task, before editing files. If on main, branch immediately: `git checkout -b feat/<task-name>`
+- **If already blocked:** Create the branch now: `git checkout -b feat/my-feature` — your staged changes carry over, then commit
 - Or disable with `auto_branch = false` in `claude-mastery-project.conf`
 
 **Accidentally committed to main**

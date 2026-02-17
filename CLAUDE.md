@@ -426,20 +426,33 @@ const orders = await getOrdersByUserId(user.id); // needs user.id
 
 ### 9. Git Workflow — NEVER Work Directly on Main
 
-**Auto-branch is ON by default.** Every command that modifies code will automatically create a feature branch when it detects you're on main. No manual step required.
+**Auto-branch is ON by default.** A hook blocks commits to `main`. To avoid wasted work, **ALWAYS check and branch BEFORE editing any files:**
 
-- Commands auto-create branches like `refactor/<name>`, `test/<name>`, `feat/<name>`, `chore/<name>`
-- You never work on main by accident — the commands handle it
+```bash
+# MANDATORY first step — do this BEFORE writing or editing anything:
+git branch --show-current
+# If on main → create a feature branch IMMEDIATELY:
+git checkout -b feat/<task-name>
+# NOW start working.
+```
+
+**Branch naming conventions:**
+- `feat/<name>` — new features
+- `fix/<name>` — bug fixes
+- `docs/<name>` — documentation changes
+- `refactor/<name>` — code refactors
+- `chore/<name>` — maintenance tasks
+- `test/<name>` — test additions
+
+**Why branch FIRST, not at commit time:**
+- The `check-branch.sh` hook blocks `git commit` on `main`
+- If you edit 10 files on `main` then try to commit, you'll be blocked and have to branch retroactively
+- Branching first costs 1 second. Branching after being blocked wastes time and creates messy history.
+
 - Use `/worktree <branch-name>` when you want a separate directory (parallel sessions)
 - If Claude screws up on a feature branch, delete it — main is untouched
 
 ```bash
-# What happens automatically:
-# 1. You run /refactor src/handlers/users.ts while on main
-# 2. Command creates branch: git checkout -b refactor/users
-# 3. Refactor happens on the new branch
-# 4. Main is never touched
-
 # For parallel sessions (separate directories):
 /worktree add-auth                # creates branch + separate working directory
 
