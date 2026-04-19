@@ -1,7 +1,5 @@
 # Claude Code Starter Kit
 
-[![CI](https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit/actions/workflows/ci.yml)
-
 > ## [View the Full Interactive Guide →](https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/)
 >
 > The GitHub Pages site has the complete documentation with syntax highlighting, navigation, and visual examples.
