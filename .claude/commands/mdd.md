@@ -1,16 +1,16 @@
 ---
-description: "MDD workflow — Document → Audit → Fix → Verify. Build features or audit existing code using Manual-First Development."
+description: "MDD workflow — Document → Audit → Fix → Verify. Build features or audit existing code using Manual-Driven Development."
 scope: project
 argument-hint: "<feature-description> or audit [section]"
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, Agent
-mdd_version: 5
+mdd_version: 6
 ---
 
-# MDD — Manual-First Development Workflow
+# MDD — Manual-Driven Development Workflow
 
 **$ARGUMENTS**
 
-MDD is the core development workflow. Every feature starts with documentation, every fix starts with an audit. No exceptions.
+MDD is the core development workflow. Each feature is driven by its document — written before a line of code, referenced throughout development, and kept in sync as the feature evolves. The document is the single source of truth for what is being built and why. Every fix starts with an audit. No exceptions.
 
 ## Step 0 — Worktree Check (before everything else)
 
