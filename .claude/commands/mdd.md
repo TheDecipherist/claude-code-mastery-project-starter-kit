@@ -3,7 +3,7 @@ description: "MDD workflow — Document → Audit → Fix → Verify. Build feat
 scope: project
 argument-hint: "<feature-description> or audit [section]"
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, AskUserQuestion, Agent
-mdd_version: 6
+mdd_version: 7
 ---
 
 # MDD — Manual-Driven Development Workflow
@@ -123,6 +123,69 @@ Parse `$ARGUMENTS` to determine the mode:
 ---
 
 ## BUILD MODE — New Feature Development
+
+### Phase 0 — Branch Safety Check
+
+Before gathering any context, verify the current branch is compatible with the requested feature.
+
+```bash
+BRANCH=$(git branch --show-current)
+AHEAD=$(git log --oneline main..HEAD 2>/dev/null | wc -l | tr -d ' ')
+```
+
+**Skip this check entirely if:**
+- Branch is `main` or `master` — auto-branch (end of this file) will create the right branch
+- Branch starts with `fix/mdd-audit-` — it is an audit branch, not a feature branch
+- Branch name contains significant keywords from `$ARGUMENTS` — it is a match
+
+**Detect a mismatch:**
+
+Derive a slug from `$ARGUMENTS` (e.g., "add payment system" → `payment-system`).  
+Strip the branch prefix (`feat/`, `fix/`, `refactor/`, etc.) to get the branch's feature name.  
+If the two names share fewer than half of their significant words → mismatch detected.
+
+**If a mismatch is detected**, ask the user via AskUserQuestion:
+
+```
+⚠️  Branch mismatch detected
+
+You are currently on: <branch-name>
+Commits ahead of main: <N>
+
+The feature you are starting ("<$ARGUMENTS>") does not appear to match this branch.
+
+MDD expects one feature per branch. Mixing unrelated features on the same branch
+makes PR review, rollback, and history harder — and breaks the MDD workflow.
+
+What would you like to do?
+
+  (a) Commit, merge, and branch fresh (recommended)
+      Stage current changes → commit → merge <branch-name> to main → create feat/<new-slug>
+  (b) Continue on this branch anyway
+      Work on the new feature here (not recommended — mixes features)
+  (c) Abort
+      Stop so I can handle git manually
+```
+
+**If (a) — Commit, merge, and branch fresh:**
+1. `git add -A` — stage all current changes
+2. Use the `/commit` skill to generate a conventional commit message
+3. Commit the staged changes
+4. `git checkout main`
+5. `git merge <branch-name> --no-ff -m "Merge <branch-name>: <feature summary>"`
+6. Ask: "Push `<branch-name>` to origin now? (yes / no)"
+   - If yes: `git push origin main`
+7. `git checkout -b feat/<new-feature-slug>`
+8. Report: "✅ Merged and branched to `feat/<new-feature-slug>`. Continuing with your MDD task..."
+9. Proceed to Phase 1.
+
+**If (b) — Continue on this branch anyway:**
+- Report: "⚠️  Continuing on `<branch-name>` — consider merging this branch before opening a PR."
+- Proceed to Phase 1.
+
+**If (c) — Abort:**
+- Report: "Aborted. Commit your current work, merge `<branch-name>` to main, then re-run `/mdd $ARGUMENTS` on a fresh branch."
+- Stop.
 
 ### Phase 1 — Understand the Feature
 
