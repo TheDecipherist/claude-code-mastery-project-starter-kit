@@ -1,3 +1,11 @@
+> ## ✨ MDD — Manual-Driven Development is now a standalone package
+>
+> MDD turns Claude Code into a structured development partner: every feature starts with documentation, every fix starts with an audit. **21 modes** covering build, audit, planning, ops runbooks, and more — all via `/mdd` in any Claude Code session.
+>
+> **Install:** `npm install -g @thedecipherist/mdd && mdd install`
+>
+> [GitHub →](https://github.com/TheDecipherist/mdd) &nbsp;·&nbsp; [npm →](https://www.npmjs.com/package/@thedecipherist/mdd)
+
 # Claude Code Starter Kit
 
 > ## [View the Full Interactive Guide →](https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/)
