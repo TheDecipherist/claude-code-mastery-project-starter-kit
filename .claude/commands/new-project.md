@@ -164,7 +164,7 @@ project/
 ├── CLAUDE.local.md        # Personal overrides template
 ├── .claude/
 │   ├── settings.json      # Hooks configuration
-│   ├── commands/          # Only scope: project commands (16 of 26)
+│   ├── commands/          # Only scope: project commands (16 of 27)
 │   │   ├── architecture.md
 │   │   ├── commit.md
 │   │   ├── create-api.md

@@ -18,56 +18,42 @@ Install the starter kit's global Claude configuration into `~/.claude/`. This is
 If `$ARGUMENTS` is `mdd` (i.e. the user ran `/install-global mdd`):
 
 - **Skip Steps 1–3 entirely** — do not touch CLAUDE.md, settings.json, or hooks
-- Jump directly to **MDD-Only Install** below, then stop
+- Jump directly to **MDD Install** below, then stop
 
 ---
 
-## MDD-Only Install — `/install-global mdd`
+## MDD Install — `/install-global mdd`
 
-Update the globally installed MDD commands in `~/.claude/commands/` without touching any other global config. Use this whenever the `/mdd` command has been updated in the starter kit and you want to push the new version to your global install.
-
-```bash
-mkdir -p ~/.claude/commands
-
-[ -f ~/.claude/commands/mdd.md ] && echo "MDD_EXISTS" || echo "MDD_CLEAN"
-[ -f ~/.claude/commands/install-mdd.md ] && echo "INSTALL_MDD_EXISTS" || echo "INSTALL_MDD_CLEAN"
-```
-
-For each file (`mdd.md`, `install-mdd.md`):
-
-Read `mdd_version` from source and installed (treat missing as 0):
-```bash
-SOURCE_VERSION=$(grep "^mdd_version:" .claude/commands/mdd.md | awk '{print $2}')
-SOURCE_VERSION=${SOURCE_VERSION:-0}
-INSTALLED_VERSION=$(grep "^mdd_version:" ~/.claude/commands/mdd.md 2>/dev/null | awk '{print $2}')
-INSTALLED_VERSION=${INSTALLED_VERSION:-0}
-```
-
-- If the file **already exists** and versions differ → overwrite (explicit update, no prompt needed)
-- If the file **already exists** and versions match → skip, report "already up to date"
-- If the file **does NOT exist** → copy it
-
-**After handling each file** (whether copied or skipped), always ensure the `(global)` prefix is present in the installed copy's `description` field. Run the sed unconditionally — it is idempotent and safe to run even if `(global)` is already present (the pattern only matches when `(global)` is absent):
+MDD is now a standalone npm package. Install or update it globally:
 
 ```bash
-# Ensure (global) prefix — idempotent: only adds if not already present
-sed -i 's/^description: "\([^(]\)/description: "(global) \1/' ~/.claude/commands/mdd.md
-sed -i 's/^description: "\([^(]\)/description: "(global) \1/' ~/.claude/commands/install-mdd.md
+# Check current state
+npm list -g @thedecipherist/mdd 2>/dev/null | grep @thedecipherist/mdd || echo "NOT_INSTALLED"
 ```
 
-This only modifies the installed copy at `~/.claude/commands/` — the source files in `.claude/commands/` are never touched.
+**If NOT_INSTALLED:**
+```bash
+npm install -g @thedecipherist/mdd
+mdd install
+```
+
+**If already installed**, check for updates:
+```bash
+INSTALLED=$(npm list -g @thedecipherist/mdd --depth=0 2>/dev/null | grep -oP '(?<=@thedecipherist/mdd@)\S+')
+LATEST=$(npm view @thedecipherist/mdd version 2>/dev/null)
+```
+
+- If `INSTALLED` differs from `LATEST` → run: `npm update -g @thedecipherist/mdd && mdd update`
+- If already at latest → report "mdd v<VERSION> is already up to date"
 
 Report:
 ```
-Global MDD Update
-==================
-  ✓ mdd.md — v<INSTALLED> → v<SOURCE> (updated) [labelled "global"]
-  ✓ install-mdd.md — updated [labelled "global"]
-  — OR —
-  ✓ mdd.md — v<VERSION> already up to date [labelled "global"]
-  ✓ install-mdd.md — already up to date [labelled "global"]
+MDD Install
+============
+  ✓ mdd v<VERSION> installed
+  ✓ Claude commands deployed to ~/.claude/commands/
 
-/mdd is now current in every project on this machine.
+/mdd is now available in every Claude Code session.
 ```
 
 **Stop here** — no further steps.
@@ -167,48 +153,34 @@ ls -la ~/.claude/ 2>/dev/null || echo "NO_GLOBAL_DIR"
      + lint-on-save.sh — installed
    ```
 
-## Step 3B — Optional: Install MDD Globally
+## Step 3B — Install MDD
 
-After hooks are installed, ask the user via AskUserQuestion:
+MDD is the companion development workflow for this starter kit. Install it by default.
 
-**Question:** "Do you also want to install MDD globally? This copies `/mdd` and `/install-mdd` to `~/.claude/commands/` so they're available from every project without needing the starter kit open."
+Ask the user via AskUserQuestion:
+
+**Question:** "Install MDD — the Manual-Driven Development workflow? This adds `/mdd` to Claude Code globally (21 modes: build, audit, planning, ops runbooks, and more)."
 
 **Options:**
-- **"Yes, install MDD globally"** — proceed below
-- **"No, skip"** — skip to Step 4
+- **"Yes, install MDD" (Recommended)** — proceed below
+- **"No, skip MDD"** — skip to Step 4
 
-**If yes:**
+**If yes (default):**
 
 ```bash
-mkdir -p ~/.claude/commands
-
-# Check current state
-[ -f ~/.claude/commands/mdd.md ] && echo "MDD_EXISTS" || echo "MDD_CLEAN"
-[ -f ~/.claude/commands/install-mdd.md ] && echo "INSTALL_MDD_EXISTS" || echo "INSTALL_MDD_CLEAN"
+npm list -g @thedecipherist/mdd 2>/dev/null | grep @thedecipherist/mdd || echo "NOT_INSTALLED"
 ```
 
-For each file (`mdd.md`, `install-mdd.md`):
-- Read `mdd_version` from source and installed (treat missing as 0)
-- If the file **already exists** at `~/.claude/commands/` → ask: "mdd.md already exists globally (installed: v<INSTALLED_VERSION>, available: v<SOURCE_VERSION>). Overwrite? (yes / keep existing)"
-- If it **does NOT exist** → copy it from `.claude/commands/`
-
-**After handling each file** (whether copied, updated, or skipped), always ensure the `(global)` prefix is present. Run the sed unconditionally — it is idempotent and only adds the prefix if absent:
-```bash
-sed -i 's/^description: "\([^(]\)/description: "(global) \1/' ~/.claude/commands/mdd.md
-sed -i 's/^description: "\([^(]\)/description: "(global) \1/' ~/.claude/commands/install-mdd.md
-```
+- If **NOT_INSTALLED**: run `npm install -g @thedecipherist/mdd && mdd install`
+- If **already installed**: run `mdd install` (idempotent — skips files that are up to date)
 
 Report:
 ```
-Global MDD install:
-  + mdd.md — installed [labelled "global"]
-  + install-mdd.md — installed [labelled "global"]
-```
-or
-```
-Global MDD install:
-  ✓ mdd.md — already up to date [labelled "global"]
-  + install-mdd.md — installed [labelled "global"]
+MDD install:
+  ✓ @thedecipherist/mdd installed/updated
+  ✓ Claude commands deployed to ~/.claude/commands/
+
+Run /mdd in any Claude Code session to get started.
 ```
 
 ---
@@ -243,9 +215,15 @@ Global Config Installation Complete
 ~/.claude/hooks/:
   [X hooks installed / X already existed]
 
+MDD (@thedecipherist/mdd):
+  [installed vX.X.X / already up to date / skipped]
+
 Your existing rules were NOT overwritten.
 New sections were appended. Review ~/.claude/CLAUDE.md to customize.
 
 TIP: Update the Identity section with your GitHub username:
   ~/.claude/CLAUDE.md → ## Identity
+
+Next: /new-project my-app clean   — scaffold your first project
+      /mdd <feature>              — start building with MDD
 ```
