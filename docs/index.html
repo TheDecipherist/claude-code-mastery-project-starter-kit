@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Claude Code Starter Kit — MDD Workflow &amp; TypeScript Best Practices</title>
-  <meta name="description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 26 commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
+  <meta name="description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
 
   <link rel="canonical" href="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/">
   <meta name="author" content="TheDecipherist">
@@ -14,13 +14,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/">
   <meta property="og:title" content="Claude Code Starter Kit — MDD Workflow &amp; TypeScript Best Practices">
-  <meta property="og:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 26 commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
+  <meta property="og:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
   <meta property="og:image" content="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/thedecipherist.png">
   <meta property="og:site_name" content="Claude Code Starter Kit">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Claude Code Starter Kit — MDD Workflow &amp; TypeScript Best Practices">
-  <meta name="twitter:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 26 commands, 9 hooks, TypeScript-first. Clone and start building.">
+  <meta name="twitter:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 9 hooks, TypeScript-first. Clone and start building.">
   <meta name="twitter:image" content="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/thedecipherist.png">
 
   <script type="application/ld+json">
@@ -29,7 +29,7 @@
     "@type": "SoftwareApplication",
     "name": "Claude Code Starter Kit",
     "alternateName": ["Claude Code MDD Starter Kit", "MDD Starter Kit"],
-    "description": "The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 26 slash commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.",
+    "description": "The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 slash commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.",
     "url": "https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/",
     "author": {
       "@type": "Person",
@@ -1626,19 +1626,19 @@ fi</code></pre>
               <li><strong>Smart merge</strong> &mdash; if you already have a global <code>CLAUDE.md</code>, it appends missing sections without overwriting yours</li>
               <li><strong>settings.json</strong> &mdash; merges deny rules and hooks (never removes existing ones)</li>
               <li><strong>Hooks</strong> &mdash; copies <code>block-secrets.py</code>, <code>verify-no-secrets.sh</code>, and <code>check-rulecatch.sh</code> to <code>~/.claude/hooks/</code></li>
-              <li><strong>MDD global install</strong> &mdash; copies <code>/mdd</code> and <code>/install-mdd</code> to <code>~/.claude/commands/</code> (say yes to this prompt)</li>
+              <li><strong>MDD global install</strong> &mdash; installs <code>@thedecipherist/mdd</code> npm package and deploys all MDD commands to <code>~/.claude/commands/</code> (say yes to this prompt)</li>
             </ul>
             <p>Reports exactly what was added, skipped, and merged. Your existing config is never overwritten.</p>
             <p style="margin-top: 0.75rem;"><strong>Already set up? Update MDD only:</strong></p>
-            <pre class="language-bash"><code class="language-bash">/install-global mdd    # overwrites only mdd.md + install-mdd.md — skips everything else</code></pre>
-            <p style="font-size: 0.88em; color: var(--text-muted, #888);">Use this whenever the starter kit ships an updated <code>/mdd</code> command and you want to push it to your global install without re-running the full setup.</p>
+            <pre class="language-bash"><code class="language-bash">/install-global mdd    # updates @thedecipherist/mdd npm package only — skips everything else</code></pre>
+            <p style="font-size: 0.88em; color: var(--text-muted, #888);">Use this whenever a new MDD version is available and you want to update the global commands without re-running the full setup.</p>
           </div>
 
           <div class="command-card">
             <h3><code>/install-mdd [path]</code></h3>
             <p class="command-desc">Install the MDD workflow into a specific project explicitly &mdash; use this for team setups or when you want the structure in place before the first run. If you&rsquo;ve installed MDD globally, <code>/mdd</code> bootstraps itself and you don&rsquo;t need this.</p>
             <ul>
-              <li>Copies the <code>/mdd</code> slash command to <code>.claude/commands/</code></li>
+              <li>Scaffolds <code>.mdd/</code> directory structure (requires <code>@thedecipherist/mdd</code> npm package)</li>
               <li>Scaffolds <code>.mdd/docs/</code>, <code>.mdd/audits/</code>, and <code>.mdd/.startup.md</code></li>
               <li>Adds <code>.mdd/audits/</code> to <code>.gitignore</code> (audit reports are ephemeral)</li>
               <li>Works on any stack &mdash; pass a path or run from within the target project</li>
@@ -2750,10 +2750,10 @@ npx @rulecatch/mcp-server init</code></pre>
         <div class="screenshot-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
 
           <div class="screenshot-card" style="background: var(--bg-secondary); border-radius: 0.75rem; overflow: hidden; border: 1px solid var(--border);">
-            <img src="screenshots/help-command.png" alt="/help command output showing all 26 commands" style="width: 100%; display: block;" loading="lazy">
+            <img src="screenshots/help-command.png" alt="/help command output showing all 27 commands" style="width: 100%; display: block;" loading="lazy">
             <div style="padding: 0.75rem 1rem;">
               <strong><code>/help</code> Command Output</strong>
-              <p style="margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.875rem;">All 26 commands organized by category &mdash; Setup, Kit Management, Code Quality, Development, Infrastructure, Monitoring</p>
+              <p style="margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.875rem;">All 27 commands organized by category &mdash; Setup, Kit Management, Code Quality, Development, Infrastructure, Monitoring</p>
             </div>
           </div>
 

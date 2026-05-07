@@ -1,19 +1,21 @@
 ---
-description: "Install MDD workflow into any existing project — copies the /mdd command and scaffolds the .mdd/ directory structure"
+description: "Install MDD workflow into any existing project — scaffolds the .mdd/ directory structure"
 scope: starter-kit
 argument-hint: "[/path/to/project]"
 allowed-tools: Read, Write, Edit, Bash, Glob, AskUserQuestion
-mdd_version: 1
+mdd_version: 2
 ---
 
 # Install MDD
 
-Install the Manual-First Development (MDD) workflow into an existing project.
+Install the Manual-Driven Development (MDD) workflow into an existing project.
+
+MDD is a standalone npm package. The `/mdd` command is global — it lives in `~/.claude/commands/` and is available in every Claude Code session once installed. This command scaffolds the project-side `.mdd/` directory structure and verifies the package is installed.
 
 **What gets installed:**
-- `.claude/commands/mdd.md` — the `/mdd` slash command
 - `.mdd/docs/` — where feature documentation lives
 - `.mdd/audits/` — where audit reports land (gitignored)
+- `.mdd/ops/` — where ops runbooks live
 - `.mdd/.startup.md` — status/notes file shown at session start
 
 **What does NOT change:**
@@ -34,7 +36,32 @@ echo "Target: $TARGET"
 
 If the directory doesn't exist, stop and tell the user: `"Directory not found: $TARGET"`
 
-## Step 2 — Check Current State
+## Step 2 — Check the mdd npm Package
+
+```bash
+npm list -g @thedecipherist/mdd 2>/dev/null | grep @thedecipherist/mdd || echo "NOT_INSTALLED"
+```
+
+**If NOT_INSTALLED:**
+```
+⚠️  The mdd npm package is not installed.
+
+MDD commands live globally — install the package first:
+
+  npm install -g @thedecipherist/mdd
+  mdd install
+
+Then re-run /install-mdd to scaffold the project directory structure.
+```
+Stop here and wait for the user to install the package.
+
+**If installed:**
+```bash
+npm list -g @thedecipherist/mdd --depth=0 2>/dev/null | grep -oP '(?<=@thedecipherist/mdd@)\S+'
+```
+Report the installed version and continue.
+
+## Step 3 — Check Current State
 
 ```bash
 # Is it a git repo?
@@ -42,72 +69,27 @@ git -C "$TARGET" rev-parse --git-dir 2>/dev/null && echo "GIT_REPO" || echo "NOT
 
 # Is MDD already installed?
 [ -d "$TARGET/.mdd" ] && echo "MDD_EXISTS" || echo "MDD_CLEAN"
-[ -f "$TARGET/.claude/commands/mdd.md" ] && echo "CMD_EXISTS" || echo "CMD_CLEAN"
 ```
 
-If MDD is already installed (`.mdd/` exists AND `mdd.md` is present):
-
-Read `mdd_version` from both files:
-```bash
-SOURCE_VERSION=$(grep "^mdd_version:" "$SOURCE_MDD" | awk '{print $2}')
-SOURCE_VERSION=${SOURCE_VERSION:-0}
-INSTALLED_VERSION=$(grep "^mdd_version:" "$TARGET/.claude/commands/mdd.md" | awk '{print $2}')
-INSTALLED_VERSION=${INSTALLED_VERSION:-0}
-```
-
-If versions differ, present an upgrade prompt:
+If MDD is already installed (`.mdd/` exists):
 ```
 ✅ MDD is already installed in this project.
 
-  Installed: v<INSTALLED_VERSION>
-  Available: v<SOURCE_VERSION>  ← upgrade available
-
-Upgrade mdd.md from v<INSTALLED_VERSION> to v<SOURCE_VERSION>?
-Your docs, audits, and .startup.md are not affected. (yes / no)
-```
-
-If versions are equal:
-```
-✅ MDD is already installed (v<VERSION> — up to date).
-
-Everything looks good. You can re-run the installer if you need to
-repair missing directories or re-generate a blank .mdd/.startup.md.
+Re-run to repair missing directories or re-generate a blank .mdd/.startup.md.
 ```
 Ask: "Repair / re-generate any missing MDD files? (yes / no)"
 
 If no: exit with `"Nothing changed."`
 If yes: continue (existing docs and audits are preserved — only missing pieces are created).
 
-## Step 3 — Find the mdd.md Source
-
-Look for `mdd.md` in this order:
-
-```bash
-# 1. Global install (preferred — works from any project)
-[ -f ~/.claude/commands/mdd.md ] && echo "GLOBAL" && exit 0
-
-# 2. Starter kit local (running from the starter kit directory)
-[ -f .claude/commands/mdd.md ] && echo "LOCAL" && exit 0
-
-echo "NOT_FOUND"
-```
-
-- **GLOBAL** → source is `~/.claude/commands/mdd.md`
-- **LOCAL** → source is `.claude/commands/mdd.md` (relative to CWD, which is the starter kit)
-- **NOT_FOUND** → stop and tell the user:
-  ```
-  Could not find mdd.md to install.
-
-  Run /install-global first to install MDD globally, then re-run /install-mdd.
-  Or run /install-mdd from the Claude Code Mastery Starter Kit directory.
-  ```
-
 ## Step 4 — Scaffold .mdd/ Structure
 
 ```bash
 mkdir -p "$TARGET/.mdd/docs"
 mkdir -p "$TARGET/.mdd/audits"
-echo "Directories created: .mdd/docs/ .mdd/audits/"
+mkdir -p "$TARGET/.mdd/ops"
+mkdir -p "$TARGET/.mdd/jobs"
+echo "Directories created: .mdd/docs/ .mdd/audits/ .mdd/ops/ .mdd/jobs/"
 ```
 
 Create `.mdd/.startup.md` only if it doesn't already exist:
@@ -120,19 +102,19 @@ Generated: (run /mdd status to populate) | Branch: (unknown)
 Framework: (unknown) | DB: (unknown) | Host: (unknown)
 
 ## Features Documented
-(none yet -- run /mdd add <feature> to create your first doc)
+(none yet — run /mdd <feature> to create your first doc)
 
 ## Last Audit
-(no audit run yet -- run /mdd audit to generate findings)
+(no audit run yet — run /mdd audit to generate findings)
 
 ## Rules Summary
 Read CLAUDE.md for the full rulebook. Key rules:
 - TypeScript always, strict mode, no any
-- StrictDB only -- no raw database drivers
+- StrictDB only — no raw database drivers
 - /api/v1/ prefix on all endpoints
 - No file > 300 lines, no function > 50 lines
 - Never commit .env or secrets
-- Always branch -- never commit to main
+- Always branch — never commit to main
 
 ---
 
@@ -140,52 +122,38 @@ Read CLAUDE.md for the full rulebook. Key rules:
 (add notes with: /mdd note "your note here")
 ```
 
-## Step 5 — Install the /mdd Command
+## Step 5 — Update .gitignore
 
-```bash
-mkdir -p "$TARGET/.claude/commands"
-```
+Read `$TARGET/.gitignore` (if it exists). Check if `.mdd/audits/` and `.mdd/jobs/` are already ignored.
 
-Copy `mdd.md` from the source found in Step 3 to `$TARGET/.claude/commands/mdd.md`.
-
-If the file already exists at the target, read both versions and ask:
-> "mdd.md already exists in this project (installed: v<INSTALLED_VERSION>, available: v<SOURCE_VERSION>). Update? (yes / keep existing)"
-
-If "keep existing": skip the copy.
-If "yes": overwrite.
-
-## Step 6 — Update .gitignore
-
-Read `$TARGET/.gitignore` (if it exists). Check if `.mdd/audits/` is already ignored.
-
-If NOT present, append:
+For any that are missing, append:
 
 ```
 # MDD audit reports (ephemeral — regenerated by /mdd audit)
 .mdd/audits/
+# MDD active jobs (ephemeral — deleted on completion)
+.mdd/jobs/
 ```
 
-Report: `"Added .mdd/audits/ to .gitignore"` or `".gitignore already covers .mdd/audits/ — skipped"`
+If no `.gitignore` exists, create one with those entries.
 
-If no `.gitignore` exists, create one with just that entry.
-
-## Step 7 — Report
+## Step 6 — Report
 
 ```
 ✅ MDD Installed
 
 Target: <resolved path>
+MDD package: v<VERSION> (global)
 
 Created:
-  .mdd/docs/          — add feature docs with /mdd <feature-name>
-  .mdd/audits/        — audit reports land here (gitignored)
-  .mdd/.startup.md    — status file shown at session start
-
-Command:
-  .claude/commands/mdd.md  — /mdd slash command [installed / already present]
+  .mdd/docs/     — add feature docs with /mdd <feature-name>
+  .mdd/audits/   — audit reports land here (gitignored)
+  .mdd/ops/      — deployment runbooks (/mdd ops)
+  .mdd/.startup.md — status file shown at session start
 
 .gitignore:
   .mdd/audits/ [added / already present]
+  .mdd/jobs/   [added / already present]
 
 Next steps:
   1. Open a Claude Code session in <project name>
