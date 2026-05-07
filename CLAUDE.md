@@ -383,6 +383,8 @@ const orders = await getOrdersByUserId(user.id); // needs user.id
 
 MDD is no longer part of the starter kit. It lives in its own npm package at `https://github.com/TheDecipherist/mdd`.
 
+The MDD terminal dashboard (mdd-tui) is a separate package at `https://github.com/TheDecipherist/mdd-tui`.
+
 To update MDD: edit files in `~/projects/mdd/commands/`, bump `mdd_version` in `commands/mdd.md` frontmatter AND `version` in `package.json`, build (`pnpm build`), then `npm publish --access public`.
 
 To install or update MDD globally: `npm install -g @thedecipherist/mdd && mdd install` (or run `/install-global mdd` in Claude Code — same thing).

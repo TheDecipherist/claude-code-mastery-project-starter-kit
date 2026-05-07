@@ -438,7 +438,7 @@ mdd status       # same — all three open the dashboard
 
 The dashboard auto-detects drift by running `git log` against each doc's `last_synced` frontmatter field. Docs whose `source_files` have changed since last sync are marked ⚠️ drifted.
 
-npm: [mdd-tui](https://www.npmjs.com/package/mdd-tui) · GitHub: [TheDecipherist/mdd](https://github.com/TheDecipherist/mdd)
+npm: [mdd-tui](https://www.npmjs.com/package/mdd-tui) · GitHub: [TheDecipherist/mdd-tui](https://github.com/TheDecipherist/mdd-tui)
 
 > **Recommended: install MDD globally.** Run `/install-global` once and answer "yes" to the MDD prompt — `/mdd` is then available in every project on your machine with no per-project setup. Update the starter kit once and every project picks up the new version automatically on the next session. When you run `/mdd` for the first time in a fresh project, it auto-creates the `.mdd/` structure (docs, audits, ops, `.startup.md`) — no separate `/install-mdd` step needed.
 
