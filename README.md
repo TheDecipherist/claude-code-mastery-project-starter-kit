@@ -106,9 +106,12 @@ Everything you need to start a Claude Code project the right way — security, a
 
 ## MDD Workflow — Manual-Driven Development ✨ Standalone Package
 
-> **We used MDD to audit this starter kit.** Result: 20 findings discovered, 17 fixed, and 125 tests written from zero — all in **48 minutes**. The methodology the starter kit teaches was used to audit the starter kit itself.
+> **MDD has been separated into its own standalone npm package.** It is no longer bundled with this starter kit — you install it independently and use it in any project, with or without the starter kit.
 
-> **MDD is now a standalone npm package** — available independently of this starter kit. Install it globally and use it in any project.
+[![GitHub](https://img.shields.io/badge/GitHub-TheDecipherist%2Fmdd-181717?style=flat-square&logo=github)](https://github.com/TheDecipherist/mdd)
+[![npm](https://img.shields.io/badge/npm-%40thedecipherist%2Fmdd-CB3837?style=flat-square&logo=npm)](https://www.npmjs.com/package/@thedecipherist/mdd)
+
+> **We used MDD to audit this starter kit.** Result: 20 findings discovered, 17 fixed, and 125 tests written from zero — all in **48 minutes**. The methodology the starter kit teaches was used to audit the starter kit itself.
 
 ```bash
 npm install -g @thedecipherist/mdd    # install the MDD package
