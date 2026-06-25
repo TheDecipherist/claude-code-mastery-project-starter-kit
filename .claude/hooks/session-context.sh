@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # session-context.sh
 # Fires on: SessionStart (startup, clear, compact)
 # Injects .mdd/.startup.md into Claude's context so every session
