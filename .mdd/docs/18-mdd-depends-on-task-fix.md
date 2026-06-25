@@ -14,6 +14,8 @@ last_synced: 2026-04-17
 status: complete
 phase: all
 mdd_version: 1
+tags: [mdd, depends-on, task-type, dependency-graph, graph-mode, data-cleanup, frontmatter, workflow]
+path: MDD Workflow / Core Refinements
 known_issues: []
 ---
 

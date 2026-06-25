@@ -14,6 +14,8 @@ last_synced: 2026-04-16
 status: complete
 phase: all
 mdd_version: 1
+tags: [mdd, task-type, frontmatter, drift-detection, frozen-docs, workflow, doc-types, scan-mode]
+path: MDD Workflow / Core Refinements
 known_issues: []
 ---
 
