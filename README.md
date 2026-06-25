@@ -1,3 +1,11 @@
+> ## ✨ MDD — Manual-Driven Development is now a standalone package
+>
+> MDD turns Claude Code into a structured development partner: every feature starts with documentation, every fix starts with an audit. **21 modes** covering build, audit, planning, ops runbooks, and more — all via `/mdd` in any Claude Code session.
+>
+> **Install:** `npm install -g @thedecipherist/mdd && mdd install`
+>
+> [GitHub →](https://github.com/TheDecipherist/mdd) &nbsp;·&nbsp; [npm →](https://www.npmjs.com/package/@thedecipherist/mdd)
+
 # Claude Code Starter Kit
 
 > ## [View the Full Interactive Guide →](https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/)
@@ -58,7 +66,7 @@ cd my-app              /commit              /create-e2e          deploy         
 ### First 5 Minutes
 
 ```bash
-/install-global                    # One-time: install global Claude config
+/install-global                    # One-time: installs global Claude config + MDD (prompted, default yes)
 /new-project my-app clean          # Scaffold a project (or: default for full stack)
 cd ~/projects/my-app               # Enter your new project
 /setup                             # Configure .env interactively
@@ -79,7 +87,7 @@ Use `/help` to see all 27 commands at any time.
 | | |
 |---|---|
 | ![/help command](docs/screenshots/help-command.png) | ![/review violations](docs/screenshots/review-violations.png) |
-| **`/help`** &mdash; All 26 commands | **`/review`** &mdash; Catching violations with severity ratings |
+| **`/help`** &mdash; All 27 commands | **`/review`** &mdash; Catching violations with severity ratings |
 | ![Auto-branch hook](docs/screenshots/auto-branch.png) | ![Lint-on-save hook](docs/screenshots/hooks-lint-on-save.png) |
 | **Auto-Branching** &mdash; Hook blocks commits to main | **Lint-on-Save** &mdash; TypeScript errors caught instantly |
 | ![/diagram architecture](docs/screenshots/diagram-architecture.png) | ![/setup flow](docs/screenshots/setup-flow.png) |
@@ -93,9 +101,10 @@ Everything you need to start a Claude Code project the right way — security, a
 
 - **CLAUDE.md** — Battle-tested project instructions with 11 numbered critical rules for security, TypeScript, database access, testing, and deployment
 - **Global CLAUDE.md** — Security gatekeeper for all projects. Never publish secrets, never commit .env files, standardized scaffolding rules
-- **28 Slash Commands** (17 project + 11 kit management)
-  - **Project** (copied into every scaffolded project): `/mdd`, `/help`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/diagram`, `/setup`, `/show-user-guide`
+- **27 Slash Commands** (16 project + 11 kit management)
+  - **Project** (copied into every scaffolded project): `/help`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/diagram`, `/setup`, `/show-user-guide`
   - **Kit management** (starter kit only): `/new-project`, `/update-project`, `/convert-project-to-starter-kit`, `/install-global`, `/install-mdd`, `/quickstart`, `/projects-created`, `/remove-project`, `/set-project-profile-default`, `/add-project-setup`, `/add-feature`
+  - **MDD workflow** — separate package: `npm install -g @thedecipherist/mdd && mdd install` → adds `/mdd` globally (21 modes)
 - **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional — skips silently if not installed)
 - **Skills** — Context-aware templates: systematic code review checklist and full microservice scaffolding
 - **Custom Agents** — Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions
@@ -103,13 +112,21 @@ Everything you need to start a Claude Code project the right way — security, a
 - **Testing Templates** — Master test checklist, issue tracking log, and StrictDB integration that prevents connection pool explosion
 - **Live AI Monitor** — See every tool call, token, cost, and violation in real-time with `/what-is-my-ai-doing`. Free monitor mode works instantly — no API key, no account. Run `pnpm ai:monitor` in a separate terminal. Zero token overhead
 
-## MDD Workflow — Manual-First Development ✨ NEW
+## MDD Workflow — Manual-Driven Development ✨ Standalone Package
 
-> **We used MDD to audit this starter kit.** Result: 20 findings discovered, 17 fixed, and 125 tests written from zero — all in **23 minutes**. The methodology the starter kit teaches was used to audit the starter kit itself.
+> **MDD has been separated into its own standalone npm package.** It is no longer bundled with this starter kit — you install it independently and use it in any project, with or without the starter kit.
 
-> **Parallel workflows supported.** `/mdd` now asks if you want to work in an isolated worktree — run multiple `/mdd` sessions simultaneously, each in its own directory and branch. Use `/worktree` for complete isolation.
+[![GitHub](https://img.shields.io/badge/GitHub-TheDecipherist%2Fmdd-181717?style=flat-square&logo=github)](https://github.com/TheDecipherist/mdd)
+[![npm](https://img.shields.io/badge/npm-%40thedecipherist%2Fmdd-CB3837?style=flat-square&logo=npm)](https://www.npmjs.com/package/@thedecipherist/mdd)
 
-MDD is the built-in development methodology that turns Claude Code from a code generator into a development partner. Every feature starts with documentation. Every fix starts with an audit.
+> **We used MDD to audit this starter kit.** Result: 20 findings discovered, 17 fixed, and 125 tests written from zero — all in **48 minutes**. The methodology the starter kit teaches was used to audit the starter kit itself.
+
+```bash
+npm install -g @thedecipherist/mdd    # install the MDD package
+mdd install           # deploy /mdd command to ~/.claude/commands/
+```
+
+MDD is the companion development methodology that turns Claude Code from a code generator into a structured development partner. Every feature starts with documentation. Every fix starts with an audit.
 
 ### The Problem
 
@@ -294,7 +311,7 @@ Every phase reads the output of the previous phase, compressing context further 
 - If any wave has executed features (docs with `docPath`), warns and asks how to handle them
 - Cancelled initiatives are still visible in the TUI dashboard (shown in gray)
 
-**MDD versioning** — every file created or updated by MDD is stamped with `mdd_version: N` in its frontmatter, where N matches the version declared in `mdd.md`. `/mdd status` shows a breakdown of which files are on which version so you can see at a glance what's out of sync. When you update MDD via `/install-mdd` or `/install-global mdd`, both commands compare `mdd_version` between the source and installed file and prompt before overwriting — no silent overwrites. Files without `mdd_version` (created before versioning was introduced) are treated as version 0 and flagged as outdated.
+**MDD versioning** — every file created or updated by MDD is stamped with `mdd_version: N` in its frontmatter, where N matches the version declared in the `@thedecipherist/mdd` package. `/mdd status` shows a breakdown of which docs are on which version. Update MDD with `npm install -g @thedecipherist/mdd && mdd install` (or `/install-global mdd`). Files without `mdd_version` (created before versioning was introduced) are treated as version 0 and flagged as outdated.
 
 ### The `.mdd/` Directory
 
@@ -392,7 +409,7 @@ The `mdd` package is a companion terminal dashboard for MDD workspaces. Run it i
 ![MDD Dashboard — terminal TUI showing feature docs, drift status, and doc content](docs/screenshots/mdd_dashboard.png)
 
 ```bash
-npm install -g mdd-tui
+npm install -g @thedecipherist/mdd-tui
 ```
 
 Then inside any project with a `.mdd/` folder:
@@ -432,7 +449,7 @@ mdd status       # same — all three open the dashboard
 
 The dashboard auto-detects drift by running `git log` against each doc's `last_synced` frontmatter field. Docs whose `source_files` have changed since last sync are marked ⚠️ drifted.
 
-npm: [mdd-tui](https://www.npmjs.com/package/mdd-tui) · GitHub: [TheDecipherist/mdd](https://github.com/TheDecipherist/mdd)
+npm: [mdd-tui](https://www.npmjs.com/package/mdd-tui) · GitHub: [TheDecipherist/mdd-tui](https://github.com/TheDecipherist/mdd-tui)
 
 > **Recommended: install MDD globally.** Run `/install-global` once and answer "yes" to the MDD prompt — `/mdd` is then available in every project on your machine with no per-project setup. Update the starter kit once and every project picks up the new version automatically on the next session. When you run `/mdd` for the first time in a fresh project, it auto-creates the `.mdd/` structure (docs, audits, ops, `.startup.md`) — no separate `/install-mdd` step needed.
 
@@ -790,7 +807,7 @@ project/
 ├── .claude/
 │   ├── settings.json            # Hooks configuration
 │   ├── commands/
-│   │   ├── mdd.md               # /mdd — MDD workflow (build, audit, status)
+│   │   │                        # /mdd — installed globally via: npm install -g @thedecipherist/mdd && mdd install
 │   │   ├── help.md              # /help — list all commands, skills, and agents
 │   │   ├── quickstart.md        # /quickstart — interactive first-run walkthrough
 │   │   ├── review.md            # /review — code review
@@ -1222,7 +1239,7 @@ One-time setup: installs the starter kit's global Claude config into `~/.claude/
 /install-global mdd    # update only the global MDD commands — skips everything else
 ```
 
-The `mdd` parameter is for when you've already run the full install once and just want to push an updated `/mdd` command to your global config. It overwrites `mdd.md` and `install-mdd.md` in `~/.claude/commands/` and nothing else.
+The `mdd` parameter installs or updates the `@thedecipherist/mdd` npm package and runs `mdd install` to deploy the latest Claude commands to `~/.claude/commands/`. Nothing else is touched.
 
 Then in any project, just run:
 ```bash

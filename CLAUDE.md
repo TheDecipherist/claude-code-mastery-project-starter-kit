@@ -4,7 +4,7 @@
 > https://github.com/TheDecipherist/claude-code-mastery
 
 > **New here?** When starting a fresh session in this project, greet the user:
-> "Welcome to the Claude Code Mastery Project Starter Kit! Use `/help` to see all 26 commands or `/show-user-guide` for the full interactive guide."
+> "Welcome to the Claude Code Mastery Project Starter Kit! Use `/help` to see all 27 commands or `/show-user-guide` for the full interactive guide."
 
 ---
 
@@ -47,8 +47,8 @@
 | `/show-user-guide` | Open the comprehensive User Guide in your browser |
 | **Setup** | |
 | `/install-global` | Install/merge global Claude config into `~/.claude/` (one-time, never overwrites) |
-| `/install-global mdd` | Update only the global MDD commands (`mdd.md`, `install-mdd.md`) — skips all other config |
-| `/install-mdd [path]` | Install MDD workflow into any existing project — copies `/mdd` command + scaffolds `.mdd/` |
+| `/install-global mdd` | Install or update the MDD npm package globally (`npm install -g @thedecipherist/mdd && mdd install`) |
+| `/install-mdd [path]` | Install MDD workflow into any existing project — scaffolds `.mdd/` directory structure (requires `@thedecipherist/mdd` npm package) |
 | `/setup` | Interactive .env configuration — GitHub, database, Docker, analytics, RuleCatch |
 | `/setup --reset` | Re-configure everything from scratch |
 | `/set-project-profile-default` | Set the default profile for `/new-project` (any profile: clean, go, vue, python-api, etc.) |
@@ -379,16 +379,15 @@ const user = await getUserById(id);
 const orders = await getOrdersByUserId(user.id); // needs user.id
 ```
 
-### 9. MDD Version — ALWAYS Bump When Editing mdd.md
+### 9. MDD — Standalone Package
 
-When modifying `.claude/commands/mdd.md` for any reason (new mode, bug fix, behaviour change), **always increment `mdd_version`** in the frontmatter (line 6) before committing. A pre-commit hook enforces this and will block the commit if the version wasn't bumped.
+MDD is no longer part of the starter kit. It lives in its own npm package at `https://github.com/TheDecipherist/mdd`.
 
-```
-# In .claude/commands/mdd.md frontmatter:
-mdd_version: 4   ← increment this when changing the file
-```
+The MDD terminal dashboard (mdd-tui) is a separate package at `https://github.com/TheDecipherist/mdd-tui`.
 
-This is what allows `/install-global mdd` to detect that an update is available and push the new version to every project on the machine.
+To update MDD: edit files in `~/projects/mdd/commands/`, bump `mdd_version` in `commands/mdd.md` frontmatter AND `version` in `package.json`, build (`pnpm build`), then `npm publish --access public`.
+
+To install or update MDD globally: `npm install -g @thedecipherist/mdd && mdd install` (or run `/install-global mdd` in Claude Code — same thing).
 
 ### 10. Git Workflow — NEVER Work Directly on Main
 
