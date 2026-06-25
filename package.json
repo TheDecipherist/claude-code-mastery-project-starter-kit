@@ -1,9 +1,24 @@
 {
-  "name": "claude-code-mastery-starter-kit",
+  "name": "@claude-code-mastery/starter-kit",
   "version": "1.0.0",
-  "description": "Production-ready project starter kit based on Claude Code Mastery Guides V1-V5",
+  "description": "Production-ready Claude Code starter kit — commands, hooks, skills, and agents for AI-assisted development",
   "type": "module",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "@claude-code-mastery/starter-kit": "./bin/cli.js"
+  },
+  "files": [
+    ".claude/commands/",
+    ".claude/hooks/",
+    ".claude/skills/",
+    ".claude/agents/",
+    ".claude/settings.json",
+    "bin/",
+    "claude-mastery-project.conf",
+    "global-claude-md/"
+  ],
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "dev:website": "PORT=3000 tsx watch src/index.ts",

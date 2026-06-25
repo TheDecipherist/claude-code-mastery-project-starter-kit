@@ -15,15 +15,17 @@ const EXPECTED_HOOKS = [
   'check-branch.sh',
   'check-e2e.sh',
   'check-env-sync.sh',
+  'check-mdd-version.sh',
   'check-ports.sh',
   'check-rybbit.sh',
   'check-rulecatch.sh',
   'lint-on-save.sh',
+  'session-context.sh',
   'verify-no-secrets.sh',
 ];
 
 describe('Hook files', () => {
-  it('should have exactly 9 hooks', () => {
+  it('should have exactly 11 hooks', () => {
     const hookFiles = fs.readdirSync(HOOKS_DIR).filter((f) => f.endsWith('.sh') || f.endsWith('.py'));
     expect(hookFiles.sort()).toEqual(EXPECTED_HOOKS.sort());
   });
