@@ -14,6 +14,8 @@ data_flow: greenfield
 last_synced: 2026-04-16
 status: complete
 phase: all
+tags: [mdd, versioning, frontmatter, mdd-version, install-mdd, install-global, metadata, compatibility]
+path: MDD Workflow / Core Refinements
 known_issues: []
 ---
 

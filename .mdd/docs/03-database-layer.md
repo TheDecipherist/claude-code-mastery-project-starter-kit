@@ -11,6 +11,8 @@ test_files: []
 last_synced: 2026-03-01
 status: complete
 phase: all
+tags: [database, strictdb, mongodb, postgresql, orm, queries, connection-pooling, data-access]
+path: Core Infrastructure / Database Layer
 known_issues:
   - StrictDB's registerCollection queues registrations but no validation of schema shapes before connect
 ---

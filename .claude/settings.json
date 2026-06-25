@@ -39,6 +39,10 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/check-e2e.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/check-mdd-version.sh"
           }
         ]
       }

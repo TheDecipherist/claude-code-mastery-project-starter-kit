@@ -19,6 +19,8 @@ last_synced: 2026-04-16
 status: complete
 phase: all
 mdd_version: 1
+tags: [mdd, initiatives, waves, planning, milestones, plan-mode, hierarchy, roadmap]
+path: MDD Workflow / Planning
 known_issues: []
 ---
 

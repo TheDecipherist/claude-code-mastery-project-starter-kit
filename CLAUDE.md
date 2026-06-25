@@ -379,7 +379,18 @@ const user = await getUserById(id);
 const orders = await getOrdersByUserId(user.id); // needs user.id
 ```
 
-### 9. Git Workflow — NEVER Work Directly on Main
+### 9. MDD Version — ALWAYS Bump When Editing mdd.md
+
+When modifying `.claude/commands/mdd.md` for any reason (new mode, bug fix, behaviour change), **always increment `mdd_version`** in the frontmatter (line 6) before committing. A pre-commit hook enforces this and will block the commit if the version wasn't bumped.
+
+```
+# In .claude/commands/mdd.md frontmatter:
+mdd_version: 4   ← increment this when changing the file
+```
+
+This is what allows `/install-global mdd` to detect that an update is available and push the new version to every project on the machine.
+
+### 10. Git Workflow — NEVER Work Directly on Main
 
 **Auto-branch is ON by default.** A hook blocks commits to `main`. To avoid wasted work, **ALWAYS check and branch BEFORE editing any files:**
 
@@ -428,7 +439,7 @@ git checkout -b feat/<task-name>
 - Worktrees let you run multiple Claude sessions in parallel without conflicts
 - RuleCatch catches violations Claude missed — last line of defense before merge
 
-### 10. Docker Push Gate — Local Test Before Push
+### 11. Docker Push Gate — Local Test Before Push
 
 **Disabled by default.** When enabled (`docker_test_before_push = true` in `claude-mastery-project.conf`), ANY `docker push` is BLOCKED until the image passes local verification:
 
