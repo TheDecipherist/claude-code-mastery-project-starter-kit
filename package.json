@@ -62,8 +62,8 @@
     "docker:optimize": "echo 'Run /optimize-docker in Claude Code to audit your Dockerfile'",
     "clean": "rm -rf dist coverage test-results playwright-report",
     "precommit": "tsc --noEmit",
-    "prepack": "cp README.md README.github.md && cp README.npm.md README.md",
-    "postpack": "mv README.github.md README.md"
+    "prepack": "mv README.md _gh_readme.md && cp README.npm.md README.md",
+    "postpack": "mv _gh_readme.md README.md"
   },
   "engines": {
     "node": ">=20.0.0"
