@@ -80,7 +80,29 @@ export function rewriteHookPath(command, starterKitDir) {
 export function copyPackageFiles(homeDir = os.homedir()) {
   const { starterKitDir } = paths(homeDir);
   ensureDir(starterKitDir);
+  // Copy .claude/ subdirectory contents (commands, hooks, skills, agents, .starter-kit, settings.json)
   fs.cpSync(path.join(PKG_ROOT, '.claude'), starterKitDir, { recursive: true, force: true });
+  // Copy root template files that command files reference via $SOURCE/<file>
+  const rootTemplates = [
+    'CLAUDE.md',
+    '.env.example',
+    '.gitignore',
+    '.dockerignore',
+    'vitest.config.ts',
+    'playwright.config.ts',
+    'tsconfig.json',
+    'scripts',
+  ];
+  for (const name of rootTemplates) {
+    const src = path.join(PKG_ROOT, name);
+    if (!fs.existsSync(src)) continue;
+    const dest = path.join(starterKitDir, name);
+    if (fs.statSync(src).isDirectory()) {
+      fs.cpSync(src, dest, { recursive: true, force: true });
+    } else {
+      fs.copyFileSync(src, dest);
+    }
+  }
   const pkg = JSON.parse(fs.readFileSync(path.join(PKG_ROOT, 'package.json'), 'utf8'));
   fs.writeFileSync(path.join(starterKitDir, 'version'), pkg.version, 'utf8');
   console.log(`  Copied package files → ${starterKitDir}`);
