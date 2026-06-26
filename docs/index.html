@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Claude Code Starter Kit — MDD Workflow &amp; TypeScript Best Practices</title>
-  <meta name="description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
+  <meta name="description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 10 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
 
   <link rel="canonical" href="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/">
   <meta name="author" content="TheDecipherist">
@@ -14,13 +14,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/">
   <meta property="og:title" content="Claude Code Starter Kit — MDD Workflow &amp; TypeScript Best Practices">
-  <meta property="og:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
+  <meta property="og:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 10 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.">
   <meta property="og:image" content="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/thedecipherist.png">
   <meta property="og:site_name" content="Claude Code Starter Kit">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Claude Code Starter Kit — MDD Workflow &amp; TypeScript Best Practices">
-  <meta name="twitter:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 9 hooks, TypeScript-first. Clone and start building.">
+  <meta name="twitter:description" content="The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 commands, 10 hooks, TypeScript-first. Install via npm or clone. Start building.">
   <meta name="twitter:image" content="https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/thedecipherist.png">
 
   <script type="application/ld+json">
@@ -29,7 +29,7 @@
     "@type": "SoftwareApplication",
     "name": "Claude Code Starter Kit",
     "alternateName": ["Claude Code MDD Starter Kit", "MDD Starter Kit"],
-    "description": "The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 slash commands, 9 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.",
+    "description": "The Claude Code Starter Kit with built-in MDD (Manual-First Development) workflow. 27 slash commands, 10 hooks, TypeScript-first quality gates. The definitive starting point for Claude Code projects.",
     "url": "https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/",
     "author": {
       "@type": "Person",
@@ -185,7 +185,7 @@
     <div class="container hero-content">
       <div class="hero-badge">Based on Claude Code Mastery V1&ndash;V5</div>
       <h1>The Definitive Starting Point<br>for Claude Code Projects</h1>
-      <p class="hero-subtitle">A ready-to-use project template with every best practice baked in, including the MDD (Manual-First Development) workflow. Stop reading 4,000+ lines of guides &mdash; clone this and start building.</p>
+      <p class="hero-subtitle">A ready-to-use project template with every best practice baked in, including the MDD (Manual-First Development) workflow. Stop reading 4,000+ lines of guides - install and start building.</p>
       <div class="hero-actions">
         <a href="https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit" target="_blank" rel="noopener" class="btn btn-primary">
           <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -193,6 +193,7 @@
         </a>
         <a href="#quick-start" class="btn btn-secondary">Quick Start</a>
       </div>
+      <p style="margin-top: 1.25rem; font-size: 0.9em; color: var(--text-secondary);"><strong>Install globally in one command:</strong> <code style="background: rgba(255,255,255,0.1); padding: 0.2em 0.5em; border-radius: 4px;">npx @claude-code-mastery/starter-kit init</code></p>
     </div>
   </section>
 
@@ -264,14 +265,14 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
             </div>
             <h3>10 Hooks</h3>
-            <p>Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, RuleCatch monitoring (optional &mdash; skips silently if not installed), and SessionStart context injection (session-context.sh) &mdash; injects <code>.mdd/.startup.md</code> at session start so Claude is oriented in ~100 tokens.</p>
+            <p>Deterministic enforcement that always runs. Blocks dangerous shell commands, lints on save, scans for leaked credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, RuleCatch monitoring (optional - skips silently if not installed), and file length warnings that fire when a file exceeds the 300-line limit.</p>
           </div>
 
           <div class="feature-card">
             <div class="feature-icon feature-icon-blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
-            <h3>28 Slash Commands (17 project + 11 kit management)</h3>
+            <h3>27 Slash Commands (16 project + 11 kit management)</h3>
             <p><code>/mdd</code>, <code>/help</code>, <code>/quickstart</code>, <code>/install-global</code>, <code>/install-mdd</code>, <code>/setup</code>, <code>/show-user-guide</code>, <code>/diagram</code>, <code>/review</code>, <code>/commit</code>, <code>/progress</code>, <code>/test-plan</code>, <code>/architecture</code>, <code>/new-project</code>, <code>/security-check</code>, <code>/optimize-docker</code>, <code>/create-e2e</code>, <code>/create-api</code>, <code>/worktree</code>, <code>/what-is-my-ai-doing</code>, <code>/refactor</code>, <code>/set-project-profile-default</code>, <code>/add-project-setup</code>, <code>/projects-created</code>, <code>/remove-project</code>, <code>/convert-project-to-starter-kit</code>, <code>/update-project</code>, <code>/add-feature</code></p>
           </div>
 
@@ -608,19 +609,7 @@ Read CLAUDE.md for full rules. Key rules:
           </tbody>
         </table>
 
-        <p>The hook that powers this is <code>session-context.sh</code> &mdash; wired to fire on <code>startup</code>, <code>clear</code>, and <code>compact</code> sources. The <code>resume</code> source is intentionally excluded: when resuming a session, Claude already has the transcript and injecting context again wastes tokens.</p>
-
-        <pre><code class="language-json">"SessionStart": [
-  {
-    "matcher": "startup|clear|compact",
-    "hooks": [
-      {
-        "type": "command",
-        "command": "bash .claude/hooks/session-context.sh"
-      }
-    ]
-  }
-]</code></pre>
+        <p>Startup context injection was previously handled by <code>session-context.sh</code>, which was wired to fire on <code>startup</code>, <code>clear</code>, and <code>compact</code> sources. This hook was removed in v1.2. Session context is now handled differently - the MDD snapshot is rendered by the MDD package itself rather than a shell hook.</p>
 
         <p><strong>Why not just use CLAUDE.md?</strong> CLAUDE.md is rules. <code>.startup.md</code> is state. Rules change rarely &mdash; you write them once and they compound over time. State changes constantly &mdash; current branch, active features, open findings. Mixing them means Claude re-reads your entire rulebook to find out what branch you are on. Separating them means each file stays small, focused, and cheap to load.</p>
 
@@ -1023,7 +1012,13 @@ pnpm install && pnpm dev           # Start building</code></pre>
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h3>Clone and Customize</h3>
+            <h3>Install</h3>
+
+            <p><strong>Option A - npm (recommended)</strong></p>
+            <pre class="language-bash"><code class="language-bash">npx @claude-code-mastery/starter-kit init</code></pre>
+            <p>Installs 27 commands, 10 hooks, and 10 skills into <code>~/.claude/</code> so they work in every Claude Code session globally. No cloning or manual copying required.</p>
+
+            <p style="margin-top: 1rem;"><strong>Option B - Clone (if you want to customize templates)</strong></p>
             <pre class="language-bash"><code class="language-bash"># Clone the starter kit
 git clone https://github.com/TheDecipherist/claude-code-mastery-project-starter-kit my-project
 cd my-project
@@ -1050,7 +1045,7 @@ cp .env.example .env</code></pre>
               <pre class="language-bash"><code class="language-bash">cp global-claude-md/CLAUDE.md ~/.claude/CLAUDE.md
 cp global-claude-md/settings.json ~/.claude/settings.json
 mkdir -p ~/.claude/hooks
-cp .claude/hooks/block-secrets.py ~/.claude/hooks/
+cp .claude/hooks/block-dangerous-bash.py ~/.claude/hooks/
 cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/
 cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/</code></pre>
             </details>
@@ -1159,15 +1154,16 @@ cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/</code></pre>
 │   │   ├── code-reviewer.md     # Read-only review subagent
 │   │   └── test-writer.md       # Test writing subagent
 │   └── hooks/
-│       ├── block-secrets.py     # PreToolUse: block sensitive files
-│       ├── check-rybbit.sh      # PreToolUse: block deploy without Rybbit
+│       ├── block-dangerous-bash.py # PreToolUse: block destructive shell commands
 │       ├── check-branch.sh      # PreToolUse: block commits on main
-│       ├── check-ports.sh       # PreToolUse: block if port in use
 │       ├── check-e2e.sh         # PreToolUse: block push without E2E tests
-│       ├── lint-on-save.sh      # PostToolUse: lint after writes
-│       ├── verify-no-secrets.sh # Stop: check for secrets
+│       ├── check-env-sync.sh    # Stop: warn on .env/.env.example drift
+│       ├── check-file-length.py # PostToolUse: warn when file exceeds 300 lines
+│       ├── check-ports.sh       # PreToolUse: block if port in use
 │       ├── check-rulecatch.sh   # Stop: report RuleCatch violations
-│       └── check-env-sync.sh    # Stop: warn on .env/.env.example drift
+│       ├── check-rybbit.sh      # PreToolUse: block deploy without Rybbit
+│       ├── lint-on-save.sh      # PostToolUse: lint after writes
+│       └── verify-no-secrets.sh # Stop: check for secrets
 ├── project-docs/
 │   ├── ARCHITECTURE.md          # System overview (authoritative)
 │   ├── INFRASTRUCTURE.md        # Deployment details
@@ -1452,20 +1448,22 @@ const orders = await getOrders();      // waits unnecessarily</code></pre>
           <div class="hook-stage">
             <div class="hook-stage-header">
               <span class="hook-stage-tag hook-pre">PreToolUse</span>
-              <h3>block-secrets.py</h3>
+              <h3>block-dangerous-bash.py</h3>
             </div>
-            <p>Runs <strong>before</strong> Claude reads or edits any file. Blocks access to sensitive files like <code>.env</code>, <code>credentials.json</code>, SSH keys, and <code>.npmrc</code>.</p>
-            <pre class="language-python"><code class="language-python"># Files that should NEVER be read or edited by Claude
-SENSITIVE_FILENAMES = {
-    '.env', '.env.local', '.env.production',
-    'secrets.json', 'id_rsa', 'id_ed25519',
-    '.npmrc', 'credentials.json',
-    'service-account.json',
-}
+            <p>Runs <strong>before</strong> Claude executes any Bash command. Blocks destructive shell commands that could cause irreversible damage: <code>rm -rf</code>, <code>kill -9</code>, force pushes to protected branches, and similar commands that bypass normal safeguards.</p>
+            <pre class="language-python"><code class="language-python"># Commands that should NEVER be run without explicit user confirmation
+DANGEROUS_PATTERNS = [
+    r'rm\s+-rf',
+    r'kill\s+-9',
+    r'git\s+push\s+--force',
+    r'git\s+push\s+-f\b',
+    r'chmod\s+777',
+    r'>\s*/dev/sd',
+]
 
 # Exit code 2 = block operation and tell Claude why
-if path.name in SENSITIVE_FILENAMES:
-    print(f"BLOCKED: Access to '{file_path}' denied.", file=sys.stderr)
+if any(re.search(p, command) for p in DANGEROUS_PATTERNS):
+    print(f"BLOCKED: Dangerous command detected.", file=sys.stderr)
     sys.exit(2)</code></pre>
           </div>
 
@@ -1525,6 +1523,14 @@ esac</code></pre>
 
           <div class="hook-stage">
             <div class="hook-stage-header">
+              <span class="hook-stage-tag hook-post">PostToolUse</span>
+              <h3>check-file-length.py</h3>
+            </div>
+            <p>Runs <strong>after</strong> Claude writes or edits a file. Counts the lines in the modified file and prints a warning if it exceeds 300 lines. Never blocks - just reminds Claude to split the file before it grows any further. Keeps the 300-line rule in CLAUDE.md enforceable in practice.</p>
+          </div>
+
+          <div class="hook-stage">
+            <div class="hook-stage-header">
               <span class="hook-stage-tag hook-stop">Stop</span>
               <h3>verify-no-secrets.sh</h3>
             </div>
@@ -1569,12 +1575,9 @@ fi</code></pre>
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Read|Edit|Write",
-        "hooks": [{ "type": "command", "command": "python3 .claude/hooks/block-secrets.py" }]
-      },
-      {
         "matcher": "Bash",
         "hooks": [
+          { "type": "command", "command": "python3 .claude/hooks/block-dangerous-bash.py" },
           { "type": "command", "command": "bash .claude/hooks/check-rybbit.sh" },
           { "type": "command", "command": "bash .claude/hooks/check-branch.sh" },
           { "type": "command", "command": "bash .claude/hooks/check-ports.sh" },
@@ -1582,10 +1585,15 @@ fi</code></pre>
         ]
       }
     ],
-    "PostToolUse": [{
-      "matcher": "Write",
-      "hooks": [{ "type": "command", "command": "bash .claude/hooks/lint-on-save.sh" }]
-    }],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/lint-on-save.sh" },
+          { "type": "command", "command": "python3 .claude/hooks/check-file-length.py" }
+        ]
+      }
+    ],
     "Stop": [{
       "hooks": [
         { "type": "command", "command": "bash .claude/hooks/verify-no-secrets.sh" },
@@ -1639,7 +1647,7 @@ fi</code></pre>
             <ul>
               <li><strong>Smart merge</strong> &mdash; if you already have a global <code>CLAUDE.md</code>, it appends missing sections without overwriting yours</li>
               <li><strong>settings.json</strong> &mdash; merges deny rules and hooks (never removes existing ones)</li>
-              <li><strong>Hooks</strong> &mdash; copies <code>block-secrets.py</code>, <code>verify-no-secrets.sh</code>, and <code>check-rulecatch.sh</code> to <code>~/.claude/hooks/</code></li>
+              <li><strong>Hooks</strong> &mdash; copies <code>block-dangerous-bash.py</code>, <code>verify-no-secrets.sh</code>, and <code>check-rulecatch.sh</code> to <code>~/.claude/hooks/</code></li>
               <li><strong>MDD global install</strong> &mdash; installs <code>@thedecipherist/mdd</code> npm package and deploys all MDD commands to <code>~/.claude/commands/</code> (say yes to this prompt)</li>
             </ul>
             <p>Reports exactly what was added, skipped, and merged. Your existing config is never overwritten.</p>
@@ -1942,6 +1950,14 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
             <tbody>
               <tr><td>Code Review</td><td><code>review</code>, <code>audit</code>, <code>check code</code>, <code>security review</code></td><td>Loads a systematic 7-point review checklist with severity ratings</td></tr>
               <tr><td>Create Service</td><td><code>create service</code>, <code>new service</code>, <code>scaffold service</code></td><td>Scaffolds a microservice with server/handlers/adapters pattern</td></tr>
+              <tr><td>Test Writer</td><td><code>write tests</code>, <code>add tests</code>, <code>test this</code></td><td>Writes tests with explicit assertions and realistic data; enforces the minimum 3-assertions rule</td></tr>
+              <tr><td>Debugger</td><td><code>crash</code>, <code>stack trace</code>, <code>error</code>, <code>not working</code>, <code>intermittent</code></td><td>Root cause diagnosis for crashes, stack traces, and intermittent bugs - reports cause and fix, never guesses</td></tr>
+              <tr><td>Dependency Vetting</td><td><code>add package</code>, <code>install</code>, <code>safe to use</code>, <code>should I add</code></td><td>Supply-chain risk check before adding a package - checks download counts, maintainer count, and last publish date</td></tr>
+              <tr><td>Design Review</td><td><code>design review</code>, <code>UI feedback</code>, <code>accessibility</code>, <code>usability</code></td><td>Usability, accessibility, and visual feedback on UI components</td></tr>
+              <tr><td>MongoDB Rules</td><td><code>mongodb</code>, <code>strictdb</code>, <code>query</code>, <code>collection</code>, <code>aggregation</code></td><td>Native driver and StrictDB patterns for MongoDB data access - prevents common anti-patterns</td></tr>
+              <tr><td>API Conventions</td><td><code>api route</code>, <code>endpoint</code>, <code>handler</code>, <code>service layer</code></td><td>Routing and layering conventions for service code - keeps handlers, adapters, and server code properly separated</td></tr>
+              <tr><td>MCP Builder</td><td><code>mcp server</code>, <code>mcp tool</code>, <code>build mcp</code>, <code>tool registration</code></td><td>MCP server development patterns and tool registration - covers schema, error handling, and transport setup</td></tr>
+              <tr><td>Terminal TUI</td><td><code>tui</code>, <code>terminal ui</code>, <code>ink</code>, <code>react tui</code></td><td>Ink + React TUI patterns covering resize handling, input management, and layout constraints</td></tr>
             </tbody>
           </table>
         </div>
@@ -1953,6 +1969,9 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
           <li>&ldquo;Audit the authentication module&rdquo; &rarr; Code Review skill activates</li>
           <li>&ldquo;Create a new payment service&rdquo; &rarr; Create Service skill activates</li>
           <li>&ldquo;Scaffold a notification service&rdquo; &rarr; Create Service skill activates</li>
+          <li>&ldquo;Write tests for this handler&rdquo; &rarr; Test Writer skill activates</li>
+          <li>&ldquo;Is it safe to add this package?&rdquo; &rarr; Dependency Vetting skill activates</li>
+          <li>&ldquo;I&rsquo;m getting a stack trace here&rdquo; &rarr; Debugger skill activates</li>
         </ul>
 
         <h3>Skills vs Commands</h3>
@@ -2000,6 +2019,54 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
 │  → Third-party APIs, etc.                            │
 └─────────────────────────────────────────────────────┘</code></pre>
           <p>Includes <code>package.json</code>, <code>tsconfig.json</code>, entry point with error handlers, health check endpoint, and a post-creation verification checklist.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Test Writer Skill</h3>
+          <p><strong>Triggers:</strong> <code>write tests</code>, <code>add tests</code>, <code>test this</code></p>
+          <p>Enforces the minimum 3-assertions rule on every test: URL check, element visibility check, and data correctness check. Uses realistic test data (not placeholder strings like "test" or "asdf"). Covers happy path, error cases, and edge cases in the same block rather than writing a separate test for each.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Debugger Skill</h3>
+          <p><strong>Triggers:</strong> <code>crash</code>, <code>stack trace</code>, <code>error</code>, <code>not working</code>, <code>intermittent</code></p>
+          <p>Diagnoses failures by root cause, not symptom. For crashes and stack traces it traces back to the origin rather than the nearest catch block. For intermittent bugs it identifies the race condition or timing assumption. Returns a concrete cause and fix - never "try restarting".</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Dependency Vetting Skill</h3>
+          <p><strong>Triggers:</strong> <code>add package</code>, <code>install</code>, <code>safe to use</code>, <code>should I add</code></p>
+          <p>Checks supply-chain risk before any new package lands in the project. Looks at weekly download counts, number of active maintainers, last publish date, and whether the package has known CVEs. Returns a risk verdict with evidence - not just a gut feeling.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Design Review Skill</h3>
+          <p><strong>Triggers:</strong> <code>design review</code>, <code>UI feedback</code>, <code>accessibility</code>, <code>usability</code></p>
+          <p>Reviews UI components for usability, accessibility (WCAG), and visual feedback. Flags missing focus states, poor contrast, unlabeled interactive elements, and layouts that break at narrow widths. Reports findings with severity and a specific fix.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>MongoDB Rules Skill</h3>
+          <p><strong>Triggers:</strong> <code>mongodb</code>, <code>strictdb</code>, <code>query</code>, <code>collection</code>, <code>aggregation</code></p>
+          <p>Loads the StrictDB and native driver conventions for MongoDB data access. Prevents common anti-patterns: missing indexes on query fields, read-modify-write counter updates (use <code>$inc</code>), and unguarded <code>$where</code> or <code>$function</code> operators. Inline reference so conventions shape code as it's written.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>API Conventions Skill</h3>
+          <p><strong>Triggers:</strong> <code>api route</code>, <code>endpoint</code>, <code>handler</code>, <code>service layer</code></p>
+          <p>Loads the routing and layering rules for service code: where routes live, what belongs in handlers vs adapters, how to version endpoints, and how error responses should be shaped. Keeps Claude oriented to the project's actual structure when writing or modifying service code.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>MCP Builder Skill</h3>
+          <p><strong>Triggers:</strong> <code>mcp server</code>, <code>mcp tool</code>, <code>build mcp</code>, <code>tool registration</code></p>
+          <p>Covers MCP server development from transport setup to tool registration. Includes schema patterns for input validation, error response shapes, and the difference between tools, resources, and prompts. Useful when building custom MCP servers or extending existing ones.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Terminal TUI Skill</h3>
+          <p><strong>Triggers:</strong> <code>tui</code>, <code>terminal ui</code>, <code>ink</code>, <code>react tui</code></p>
+          <p>Ink + React patterns for building terminal UIs. Covers resize event handling, keyboard input management, focus state, scroll containers, and layout constraints that differ from browser React. Includes patterns for the status bar, panel splits, and modal overlays.</p>
         </div>
       </section>
 
