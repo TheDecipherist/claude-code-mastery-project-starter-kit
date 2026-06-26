@@ -1,6 +1,6 @@
 # @claude-code-mastery/starter-kit
 
-A Claude Code toolkit that installs 27 commands, 10 skills, 10 hooks, and scaffolding templates into Claude Code globally - so every project you open already has them available.
+A Claude Code toolkit that installs 27 commands, 11 skills, 10 hooks, and scaffolding templates into Claude Code globally - so every project you open already has them available.
 
 **Requires:** Node.js 20+ and [Claude Code](https://claude.ai/code)
 
@@ -25,7 +25,7 @@ After `init`, your `~/.claude/` directory looks like this:
 ├── starter-kit/                  <- package files live here (single source of truth)
 │   ├── commands/                 <- 27 slash commands
 │   ├── hooks/                    <- 10 lifecycle hooks
-│   ├── skills/                   <- 10 skill files
+│   ├── skills/                   <- 11 skill files
 │   └── .starter-kit/             <- scaffolding templates for /new-project
 ├── commands/
 │   ├── new-project.md  -> (symlink to starter-kit/commands/new-project.md)
@@ -84,6 +84,7 @@ Skills are expertise files Claude loads when relevant. These install automatical
 - `create-service` - scaffolding patterns for new services
 - `mcp-builder` - MCP server development patterns
 - `terminal-tui` - Ink + React TUI patterns, resize handling
+- `schema-source-of-truth` - one canonical Zod schema per entity, derived across all layers; catches the same shape defined four times drift
 
 ---
 

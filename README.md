@@ -8,7 +8,7 @@
 
 > ## 📦 The starter kit is now on npm
 >
-> Install once and all 27 commands, 10 hooks, and 10 skills are globally available in every Claude Code session. No need to clone this repo or always have the mastery project open.
+> Install once and all 27 commands, 10 hooks, and 11 skills are globally available in every Claude Code session. No need to clone this repo or always have the mastery project open.
 >
 > ```bash
 > npx @claude-code-mastery/starter-kit init
@@ -1503,17 +1503,28 @@ Claude monitors your conversation for specific keywords. When it detects a match
 
 | Skill | Trigger Keywords | What It Does |
 |-------|-----------------|--------------|
-| Code Review | `review`, `audit`, `check code`, `security review` | Loads a systematic 7-point review checklist with severity ratings |
+| Code Review | `review`, `audit`, `check code`, `security review` | Systematic 7-point review checklist with severity ratings |
 | Create Service | `create service`, `new service`, `scaffold service` | Scaffolds a microservice with server/handlers/adapters pattern |
+| Test Writer | `write tests`, `add tests`, `test this` | Tests with explicit assertions and realistic data; enforces the 3-assertion minimum |
+| Debugger | `crash`, `stack trace`, `error`, `not working` | Root cause diagnosis - traces back to the origin, never guesses |
+| Dependency Vetting | `add package`, `install`, `safe to use` | Supply-chain risk check before a package lands in the project |
+| Design Review | `design review`, `UI feedback`, `accessibility` | Usability, accessibility, and visual feedback on UI components |
+| MongoDB Rules | `mongodb`, `strictdb`, `query`, `aggregation` | StrictDB and native driver patterns for MongoDB data access |
+| API Conventions | `api route`, `endpoint`, `handler`, `service layer` | Routing and layering rules that keep handlers, adapters, and server code separated |
+| MCP Builder | `mcp server`, `mcp tool`, `build mcp` | MCP server development patterns and tool registration |
+| Terminal TUI | `tui`, `terminal ui`, `ink`, `react tui` | Ink + React TUI patterns, resize handling, keyboard input |
+| Schema Source of Truth | `define schema`, `zod schema`, `shared type`, `validate request` | One canonical Zod schema per entity derived across all layers - kills the same-shape-defined-four-times problem |
 
 ### How to Activate Skills
 
-**You don't** — just use natural language. Say things like:
+**You don't** - just use natural language. Say things like:
 
 - "Review this file for security issues" → Code Review skill activates
-- "Audit the authentication module" → Code Review skill activates
 - "Create a new payment service" → Create Service skill activates
-- "Scaffold a notification service" → Create Service skill activates
+- "Write tests for this handler" → Test Writer skill activates
+- "I'm getting a stack trace here" → Debugger skill activates
+- "Should I add this package?" → Dependency Vetting skill activates
+- "Define a User schema for the API" → Schema Source of Truth skill activates
 
 ### Skills vs Commands
 
