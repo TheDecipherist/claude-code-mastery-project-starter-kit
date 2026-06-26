@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 
 # Update Starter Kit Project
 
-Update an existing starter-kit project with the latest commands, hooks, skills, agents, and rules from the current starter kit source. Smart merge — replaces starter kit files with newer versions while preserving any custom files the user created themselves.
+Update an existing starter-kit project with the latest commands, hooks, skills, and rules from the current starter kit source. Smart merge — replaces starter kit files with newer versions while preserving any custom files the user created themselves.
 
 **Arguments:** $ARGUMENTS
 
@@ -92,7 +92,6 @@ Build a manifest of what the starter kit currently has vs what the target has.
 | Commands | `$SOURCE/.claude/commands/*.md` (scope: project only) | `$TARGET/.claude/commands/*.md` |
 | Hooks | `$SOURCE/.claude/hooks/*.{sh,py}` | `$TARGET/.claude/hooks/*.{sh,py}` |
 | Skills | `$SOURCE/.claude/skills/*/SKILL.md` | `$TARGET/.claude/skills/*/SKILL.md` |
-| Agents | `$SOURCE/.claude/agents/*.md` | `$TARGET/.claude/agents/*.md` |
 
 **Command scope filtering:** Only include source commands that have `scope: project` in their YAML frontmatter. Commands with `scope: starter-kit` are kit-management commands and should never be copied to projects. If the target already has a starter-kit-scoped command (e.g., from a previous version), classify it as **CUSTOM** (user-created) — never overwrite or remove it.
 
@@ -120,7 +119,7 @@ Commands:
 Hooks:
   + NEW:       (none)
   ↻ UPDATED:   check-branch.sh
-  = UNCHANGED: block-secrets.py, lint-on-save.sh, ...
+  = UNCHANGED: lint-on-save.sh, verify-no-secrets.sh, ...
   ○ CUSTOM:    (none)
 
 Skills:     (all unchanged)
@@ -200,6 +199,8 @@ For each **UPDATED** file: overwrite target with source version.
 For **CUSTOM** and **UNCHANGED**: skip entirely.
 
 For skills: copy the entire skill directory (e.g., `$SOURCE/.claude/skills/code-review/` → `$TARGET/.claude/skills/code-review/`).
+
+> Never copy `.starter-kit/` into a project. It is kit-internal scaffolding for `/new-project` and has no role in a scaffolded project.
 
 Make hooks executable:
 ```bash

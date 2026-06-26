@@ -1,7 +1,6 @@
 ---
 description: Install global Claude config — merges into existing ~/.claude/ without overwriting
 scope: starter-kit
-argument-hint: "[mdd]"
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 ---
 
@@ -12,53 +11,6 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 Install the starter kit's global Claude configuration into `~/.claude/`. This is a one-time setup that gives you security rules, hooks, and settings across ALL projects.
 
 **Smart merge:** If you already have a global config, this merges new content — it never overwrites your existing rules.
-
-## Step 0 — Check for Targeted Install
-
-If `$ARGUMENTS` is `mdd` (i.e. the user ran `/install-global mdd`):
-
-- **Skip Steps 1–3 entirely** — do not touch CLAUDE.md, settings.json, or hooks
-- Jump directly to **MDD Install** below, then stop
-
----
-
-## MDD Install — `/install-global mdd`
-
-MDD is now a standalone npm package. Install or update it globally:
-
-```bash
-# Check current state
-npm list -g @thedecipherist/mdd 2>/dev/null | grep @thedecipherist/mdd || echo "NOT_INSTALLED"
-```
-
-**If NOT_INSTALLED:**
-```bash
-npm install -g @thedecipherist/mdd
-mdd install
-```
-
-**If already installed**, check for updates:
-```bash
-INSTALLED=$(npm list -g @thedecipherist/mdd --depth=0 2>/dev/null | grep -oP '(?<=@thedecipherist/mdd@)\S+')
-LATEST=$(npm view @thedecipherist/mdd version 2>/dev/null)
-```
-
-- If `INSTALLED` differs from `LATEST` → run: `npm update -g @thedecipherist/mdd && mdd update`
-- If already at latest → report "mdd v<VERSION> is already up to date"
-
-Report:
-```
-MDD Install
-============
-  ✓ mdd v<VERSION> installed
-  ✓ Claude commands deployed to ~/.claude/commands/
-
-/mdd is now available in every Claude Code session.
-```
-
-**Stop here** — no further steps.
-
----
 
 ## Step 1 — Check What Exists
 
@@ -122,7 +74,7 @@ ls -la ~/.claude/ 2>/dev/null || echo "NO_GLOBAL_DIR"
    ```
    Global settings.json merge:
      + Added deny rule: Read(.env.production)
-     ✓ Hook block-secrets.py — already present, skipped
+     ✓ Hook verify-no-secrets.sh — already present, skipped
      + Added Stop hook: verify-no-secrets.sh
    ```
 
@@ -148,42 +100,10 @@ ls -la ~/.claude/ 2>/dev/null || echo "NO_GLOBAL_DIR"
 4. Report:
    ```
    Global hooks:
-     + block-secrets.py — installed
+     + verify-no-secrets.sh — installed
      ✓ verify-no-secrets.sh — already exists, skipped
      + lint-on-save.sh — installed
    ```
-
-## Step 3B — Install MDD
-
-MDD is the companion development workflow for this starter kit. Install it by default.
-
-Ask the user via AskUserQuestion:
-
-**Question:** "Install MDD — the Manual-Driven Development workflow? This adds `/mdd` to Claude Code globally (21 modes: build, audit, planning, ops runbooks, and more)."
-
-**Options:**
-- **"Yes, install MDD" (Recommended)** — proceed below
-- **"No, skip MDD"** — skip to Step 4
-
-**If yes (default):**
-
-```bash
-npm list -g @thedecipherist/mdd 2>/dev/null | grep @thedecipherist/mdd || echo "NOT_INSTALLED"
-```
-
-- If **NOT_INSTALLED**: run `npm install -g @thedecipherist/mdd && mdd install`
-- If **already installed**: run `mdd install` (idempotent — skips files that are up to date)
-
-Report:
-```
-MDD install:
-  ✓ @thedecipherist/mdd installed/updated
-  ✓ Claude commands deployed to ~/.claude/commands/
-
-Run /mdd in any Claude Code session to get started.
-```
-
----
 
 ## Step 4 — Verify Installation
 
@@ -215,9 +135,6 @@ Global Config Installation Complete
 ~/.claude/hooks/:
   [X hooks installed / X already existed]
 
-MDD (@thedecipherist/mdd):
-  [installed vX.X.X / already up to date / skipped]
-
 Your existing rules were NOT overwritten.
 New sections were appended. Review ~/.claude/CLAUDE.md to customize.
 
@@ -225,5 +142,4 @@ TIP: Update the Identity section with your GitHub username:
   ~/.claude/CLAUDE.md → ## Identity
 
 Next: /new-project my-app clean   — scaffold your first project
-      /mdd <feature>              — start building with MDD
 ```

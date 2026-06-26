@@ -1,49 +1,14 @@
 {
   "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "startup|clear|compact",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/session-context.sh"
-          }
-        ]
-      }
-    ],
     "PreToolUse": [
-      {
-        "matcher": "Read|Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 .claude/hooks/block-secrets.py"
-          }
-        ]
-      },
       {
         "matcher": "Bash",
         "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/check-rybbit.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/check-branch.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/check-ports.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/check-e2e.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/check-mdd-version.sh"
-          }
+          { "type": "command", "command": "bash .claude/hooks/check-rybbit.sh" },
+          { "type": "command", "command": "bash .claude/hooks/check-branch.sh" },
+          { "type": "command", "command": "bash .claude/hooks/check-ports.sh" },
+          { "type": "command", "command": "bash .claude/hooks/check-e2e.sh" },
+          { "type": "command", "command": "python3 .claude/hooks/block-dangerous-bash.py" }
         ]
       }
     ],
@@ -51,28 +16,17 @@
       {
         "matcher": "Write|Edit",
         "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/lint-on-save.sh"
-          }
+          { "type": "command", "command": "bash .claude/hooks/lint-on-save.sh" },
+          { "type": "command", "command": "python3 .claude/hooks/check-file-length.py" }
         ]
       }
     ],
     "Stop": [
       {
         "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/verify-no-secrets.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/check-rulecatch.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/check-env-sync.sh"
-          }
+          { "type": "command", "command": "bash .claude/hooks/verify-no-secrets.sh" },
+          { "type": "command", "command": "bash .claude/hooks/check-rulecatch.sh" },
+          { "type": "command", "command": "bash .claude/hooks/check-env-sync.sh" }
         ]
       }
     ]

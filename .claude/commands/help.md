@@ -1,12 +1,12 @@
 ---
-description: List all available commands, skills, and agents
+description: List all available commands and skills
 scope: project
 allowed-tools: Read, Glob
 ---
 
 # Help — All Available Commands
 
-Display the complete list of commands, skills, and agents available in this project.
+Display the complete list of commands and skills available in this project.
 
 ## Step 1 — Detect Context
 
@@ -34,7 +34,7 @@ Format the output as a grouped reference. Use the categories below for organizat
 === Claude Code Starter Kit — Command Reference ({N} commands) ===
 
 GETTING STARTED
-  /help              List all commands, skills, and agents (this screen)
+  /help              List all commands and skills (this screen)
   /quickstart        Interactive first-run walkthrough for new users
   /install-global    Install/merge global Claude config into ~/.claude/
   /setup             Interactive .env configuration — GitHub, database, Docker, analytics
@@ -84,20 +84,31 @@ Group installed commands into the same categories (GETTING STARTED, CODE QUALITY
 ### Always append (both contexts):
 
 ```
-=== Skills (activate automatically) ===
+=== Skills ===
 
+Auto-activate when Claude detects the work — no command needed:
+
+  API Conventions    Triggers: writing routes, handlers, or adapters
+                     Service structure — routing, layering, where code lives
+  MongoDB Rules      Triggers: queries, aggregations, indexes, connections, schema
+                     Driver, StrictDB, and data-modeling rules for MongoDB
   Code Review        Triggers: "review", "audit", "check code", "security review"
-                     Loads a systematic review checklist with severity-rated findings
+                     Systematic review with severity-rated, cited findings (read-only)
+  Debugger           Triggers: "crash", "stack trace", "fails in prod", "root cause"
+                     Diagnoses failures by root cause, not symptom (read-only)
+  Design Review      Triggers: "review UI", "layout", "accessibility", "does this look right"
+                     Critiques UI/UX for usability, accessibility, distinctiveness (read-only)
+  Test Writer        Triggers: "write tests", "add a test", "cover this"
+                     Writes tests that catch bugs, with explicit assertions
+  Dependency Vetting Triggers: "is this package safe", "should I add", "can I trust"
+                     Vets a package for supply-chain risk before you install it (read-only)
+
+Invoke explicitly (they write files):
 
   Create Service     Triggers: "create service", "new service", "scaffold service"
                      Scaffolds a microservice with server/handlers/adapters pattern
-
-Skills activate when Claude detects relevant keywords — no command needed.
-
-=== Custom Agents ===
-
-  Code Reviewer      Read-only security & quality audit (Tools: Read, Grep, Glob)
-  Test Writer        Creates tests with explicit assertions (Tools: Read, Write, Grep, Glob, Bash)
+  MCP Builder        Triggers: "MCP server", "expose as tools", "wrap this API"
+                     Builds an MCP server with well-designed tools and evals
 
 === Tips ===
 
@@ -106,4 +117,4 @@ Skills activate when Claude detects relevant keywords — no command needed.
   Use /help anytime to see this list again.
 ```
 
-**Note:** Only show Skills and Agents sections if the corresponding directories (`.claude/skills/`, `.claude/agents/`) exist and contain files.
+**Note:** Only show the Skills section if `.claude/skills/` exists and contains files.

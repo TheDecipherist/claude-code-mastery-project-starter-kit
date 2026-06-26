@@ -88,9 +88,16 @@ export function copyPackageFiles(homeDir = os.homedir()) {
 
 export function symlinkAll(homeDir = os.homedir()) {
   const { claudeDir, starterKitDir } = paths(homeDir);
-  symlinkFiles(path.join(starterKitDir, 'commands'), path.join(claudeDir, 'commands'));
-  symlinkDirs(path.join(starterKitDir, 'skills'),   path.join(claudeDir, 'skills'));
-  symlinkFiles(path.join(starterKitDir, 'agents'),  path.join(claudeDir, 'agents'));
+  symlinkFiles(path.join(starterKitDir, 'commands'),     path.join(claudeDir, 'commands'));
+  symlinkDirs(path.join(starterKitDir, 'skills'),        path.join(claudeDir, 'skills'));
+  symlinkFiles(path.join(starterKitDir, 'agents'),       path.join(claudeDir, 'agents'));
+  // Expose scaffolding templates at ~/.claude/.starter-kit/ so command files can
+  // reference .claude/.starter-kit/ from any project without a local kit install.
+  symlinkEntry(
+    path.join(starterKitDir, '.starter-kit'),
+    path.join(claudeDir, '.starter-kit'),
+    '.starter-kit',
+  );
 }
 
 export function mergeSettings(homeDir = os.homedir()) {

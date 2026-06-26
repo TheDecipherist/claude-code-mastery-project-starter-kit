@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 
 # Convert Existing Project to Starter Kit
 
-Merge all Claude Code Starter Kit infrastructure (commands, hooks, skills, agents, CLAUDE.md rules, project-docs templates) into an existing project. Non-destructive — preserves everything the user already has.
+Merge all Claude Code Starter Kit infrastructure (commands, hooks, skills, CLAUDE.md rules, project-docs templates) into an existing project. Non-destructive — preserves everything the user already has.
 
 **Arguments:** $ARGUMENTS
 
@@ -98,7 +98,6 @@ Count and report:
 - `.claude/commands/*.md` files → `$EXISTING_COMMANDS` count
 - `.claude/hooks/*.sh` + `.claude/hooks/*.py` files → `$EXISTING_HOOKS` count
 - `.claude/skills/*/` directories → `$EXISTING_SKILLS` count
-- `.claude/agents/*.md` files → `$EXISTING_AGENTS` count
 - Check existence of: `.claude/settings.json`, `CLAUDE.md`, `CLAUDE.local.md`, `claude-mastery-project.conf`
 
 ### Existing project infrastructure
@@ -158,8 +157,6 @@ Only ask about categories where the target has existing files. Use AskUserQuesti
   - Replace all with starter kit versions
 
 **Q4: Agents** (only if `$EXISTING_AGENTS > 0`)
-- "How should we handle your existing agents?"
-  - Keep all mine, add only missing starter kit agents (Recommended)
   - Replace all with starter kit versions
 
 **Batch 2 (if applicable):**
@@ -198,17 +195,17 @@ Store each answer. Default for `--force`: "keep mine, add missing" for all categ
 mkdir -p "$TARGET/.claude/commands"
 mkdir -p "$TARGET/.claude/hooks"
 mkdir -p "$TARGET/.claude/skills"
-mkdir -p "$TARGET/.claude/agents"
 ```
 
 ### Copy files per category
 
-For each category (commands, hooks, skills, agents), iterate through the source files:
+For each category (commands, hooks, skills), iterate through the source files:
+
+> Do not merge `.starter-kit/` into the target. It is kit-internal scaffolding used only by `/new-project` inside the starter kit itself.
 
 **For commands:** List all `$SOURCE/.claude/commands/*.md` files that have `scope: project` in their YAML frontmatter. Skip any commands with `scope: starter-kit` — those are kit-management commands that don't belong in project repos.
 **For hooks:** List all `$SOURCE/.claude/hooks/*.sh` and `$SOURCE/.claude/hooks/*.py` files.
 **For skills:** List all `$SOURCE/.claude/skills/*/` directories (copy entire directory).
-**For agents:** List all `$SOURCE/.claude/agents/*.md` files.
 
 For each file/directory:
 

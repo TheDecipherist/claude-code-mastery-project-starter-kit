@@ -70,7 +70,6 @@ Steps:
    cp -rn ~/.claude/starter-kit/commands/ .claude/commands/
    cp -rn ~/.claude/starter-kit/hooks/ .claude/hooks/
    cp -rn ~/.claude/starter-kit/skills/ .claude/skills/
-   cp -rn ~/.claude/starter-kit/agents/ .claude/agents/
    ```
    (`-n` = no-clobber: never overwrites existing files)
 4. If `.claude/settings.json` does not exist in the project, copy from the starter-kit:
