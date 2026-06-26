@@ -31,7 +31,7 @@ git branch --show-current
 3. **Error Handling** — No swallowed errors, proper logging, user-friendly messages
 4. **Performance** — No N+1 queries, no memory leaks, proper pagination
 5. **Testing** — New code has tests, tests have explicit assertions
-6. **Database** — Using StrictDB directly, no raw driver imports
+6. **Database** — StrictDB if installed, otherwise the native driver (in the adapter); never Mongoose, never a raw driver in handlers
 7. **API Versioning** — All endpoints use `/api/v1/` prefix
 
 ## RuleCatch Report

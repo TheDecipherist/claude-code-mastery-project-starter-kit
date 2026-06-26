@@ -19,7 +19,7 @@
 
 ## What Is This?
 
-This is a **scaffold template**, not a runnable application. It provides the infrastructure (commands, hooks, skills, agents, documentation templates) that makes Claude Code dramatically more effective. You use it to **create** projects, not run it directly.
+This is a **scaffold template**, not a runnable application. It provides the infrastructure (commands, hooks, skills, documentation templates) that makes Claude Code dramatically more effective. You use it to **create** projects, not run it directly.
 
 ### Three Ways to Use It
 
@@ -35,7 +35,7 @@ This creates a new project directory with all the Claude Code tooling pre-config
 ```bash
 /convert-project-to-starter-kit ~/projects/my-existing-app
 ```
-Non-destructive merge — brings all starter kit infrastructure (commands, hooks, skills, agents, CLAUDE.md rules) into your existing project while preserving everything you already have. Creates a safety commit first so you can `git revert HEAD` to undo.
+Non-destructive merge — brings all starter kit infrastructure (commands, hooks, skills, CLAUDE.md rules) into your existing project while preserving everything you already have. Creates a safety commit first so you can `git revert HEAD` to undo.
 
 **C. Customize the template itself:**
 Clone this repo and modify the commands, hooks, skills, and rules to match your team's standards. Then use your customized version as the source for `/new-project`.
@@ -105,9 +105,8 @@ Everything you need to start a Claude Code project the right way — security, a
   - **Project** (copied into every scaffolded project): `/help`, `/review`, `/commit`, `/progress`, `/test-plan`, `/architecture`, `/security-check`, `/optimize-docker`, `/create-e2e`, `/create-api`, `/worktree`, `/what-is-my-ai-doing`, `/refactor`, `/diagram`, `/setup`, `/show-user-guide`
   - **Kit management** (starter kit only): `/new-project`, `/update-project`, `/convert-project-to-starter-kit`, `/install-global`, `/install-mdd`, `/quickstart`, `/projects-created`, `/remove-project`, `/set-project-profile-default`, `/add-project-setup`, `/add-feature`
   - **MDD workflow** — separate package: `npm install -g @thedecipherist/mdd && mdd install` → adds `/mdd` globally (21 modes)
-- **9 Hooks** — Deterministic enforcement that always runs. Block secrets, lint on save, verify no credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional — skips silently if not installed)
-- **Skills** — Context-aware templates: systematic code review checklist and full microservice scaffolding
-- **Custom Agents** — Read-only code reviewer for security audits. Test writer that creates tests with explicit assertions
+- **10 Hooks** — Deterministic enforcement that always runs. Block dangerous bash commands, enforce file-length limits, lint on save, verify no committed credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional — skips silently if not installed)
+- **9 Skills** — Context-aware expertise: code review, debugging, design review, test writing, API conventions, MongoDB rules, microservice scaffolding, MCP server building, and dependency vetting
 - **Documentation Templates** — Pre-structured ARCHITECTURE.md, INFRASTRUCTURE.md, and DECISIONS.md templates
 - **Testing Templates** — Master test checklist, issue tracking log, and StrictDB integration that prevents connection pool explosion
 - **Live AI Monitor** — See every tool call, token, cost, and violation in real-time with `/what-is-my-ai-doing`. Free monitor mode works instantly — no API key, no account. Run `pnpm ai:monitor` in a separate terminal. Zero token overhead
@@ -713,7 +712,7 @@ cp .env.example .env
 /install-global
 ```
 
-This installs global CLAUDE.md rules, settings.json hooks, and enforcement scripts (`block-secrets.py`, `verify-no-secrets.sh`, `check-rulecatch.sh`) into `~/.claude/`. If you already have a global config, it merges without overwriting.
+This installs global CLAUDE.md rules, settings.json hooks, and enforcement scripts (`verify-no-secrets.sh`, `check-rulecatch.sh`) into `~/.claude/`. If you already have a global config, it merges without overwriting.
 
 <details>
 <summary>Manual setup (if you prefer)</summary>
@@ -722,7 +721,6 @@ This installs global CLAUDE.md rules, settings.json hooks, and enforcement scrip
 cp global-claude-md/CLAUDE.md ~/.claude/CLAUDE.md
 cp global-claude-md/settings.json ~/.claude/settings.json
 mkdir -p ~/.claude/hooks
-cp .claude/hooks/block-secrets.py ~/.claude/hooks/
 cp .claude/hooks/verify-no-secrets.sh ~/.claude/hooks/
 cp .claude/hooks/check-rulecatch.sh ~/.claude/hooks/
 ```
@@ -808,7 +806,7 @@ project/
 │   ├── settings.json            # Hooks configuration
 │   ├── commands/
 │   │   │                        # /mdd — installed globally via: npm install -g @thedecipherist/mdd && mdd install
-│   │   ├── help.md              # /help — list all commands, skills, and agents
+│   │   ├── help.md              # /help — list all commands and skills
 │   │   ├── quickstart.md        # /quickstart — interactive first-run walkthrough
 │   │   ├── review.md            # /review — code review
 │   │   ├── commit.md            # /commit — smart commit
@@ -836,21 +834,26 @@ project/
 │   │   ├── add-feature.md         # /add-feature — add capabilities post-scaffolding
 │   │   └── show-user-guide.md    # /show-user-guide — open the User Guide in browser
 │   ├── skills/
-│   │   ├── code-review/SKILL.md # Triggered code review checklist
-│   │   └── create-service/SKILL.md # Service scaffolding template
-│   ├── agents/
-│   │   ├── code-reviewer.md     # Read-only review subagent
-│   │   └── test-writer.md       # Test writing subagent
+│   │   ├── api-conventions/SKILL.md    # Service structure conventions
+│   │   ├── code-review/SKILL.md        # Triggered code review checklist
+│   │   ├── create-service/SKILL.md     # Service scaffolding template
+│   │   ├── debugger/SKILL.md           # Root-cause failure diagnosis
+│   │   ├── dependency-vetting/SKILL.md # Supply-chain check before install
+│   │   ├── design-review/SKILL.md      # UI/UX + accessibility critique
+│   │   ├── mcp-builder/SKILL.md        # Build MCP servers with evals
+│   │   ├── mongodb-rules/SKILL.md      # Driver/StrictDB + data-modeling rules
+│   │   └── test-writer/SKILL.md        # Tests with explicit assertions
 │   └── hooks/
-│       ├── block-secrets.py     # PreToolUse: block sensitive files
-│       ├── check-rybbit.sh      # PreToolUse: block deploy without Rybbit
-│       ├── check-branch.sh      # PreToolUse: block commits on main
-│       ├── check-ports.sh       # PreToolUse: block if port in use
-│       ├── check-e2e.sh         # PreToolUse: block push without E2E tests
-│       ├── lint-on-save.sh      # PostToolUse: lint after writes
-│       ├── verify-no-secrets.sh # Stop: check for secrets
-│       ├── check-rulecatch.sh   # Stop: report RuleCatch violations
-│       └── check-env-sync.sh    # Stop: warn on .env/.env.example drift
+│       ├── check-rybbit.sh         # PreToolUse: block deploy without Rybbit
+│       ├── check-branch.sh         # PreToolUse: block commits on main
+│       ├── check-ports.sh          # PreToolUse: block if port in use
+│       ├── check-e2e.sh            # PreToolUse: block push without E2E tests
+│       ├── block-dangerous-bash.py # PreToolUse: block destructive shell commands
+│       ├── lint-on-save.sh         # PostToolUse: lint after writes
+│       ├── check-file-length.py    # PostToolUse: enforce 300-line file limit
+│       ├── verify-no-secrets.sh    # Stop: scan staged files for secrets
+│       ├── check-rulecatch.sh      # Stop: report RuleCatch violations
+│       └── check-env-sync.sh       # Stop: warn on .env/.env.example drift
 ├── .mdd/                            # MDD workflow directory (gitignored)
 │   ├── docs/                        # Feature documentation
 │   └── audits/                      # Audit notes, reports, results
@@ -1067,24 +1070,31 @@ The CLAUDE.md also includes a "Check Before Assuming" pattern:
 
 CLAUDE.md rules are suggestions. Hooks are **stronger** — they're guaranteed to **run** as shell/python scripts at specific lifecycle points. But hooks are not bulletproof: Claude may still work around their output. They're a significant upgrade over CLAUDE.md rules alone, but not an absolute guarantee.
 
-### PreToolUse: `block-secrets.py`
+### PreToolUse: `block-dangerous-bash.py`
 
-Runs **before** Claude reads or edits any file. Blocks access to sensitive files like `.env`, `credentials.json`, SSH keys, and `.npmrc`.
+Runs **before** any Bash command. Blocks destructive operations before they execute — recursive deletes of home/root, pipe-to-shell installs, force-pushes to main, world-writable permissions, database drops, and staging a `.env` secrets file.
 
 ```python
-# Files that should NEVER be read or edited by Claude
-SENSITIVE_FILENAMES = {
-    '.env', '.env.local', '.env.production',
-    'secrets.json', 'id_rsa', 'id_ed25519',
-    '.npmrc', 'credentials.json',
-    'service-account.json',
-}
+# Command patterns that should never run
+DANGEROUS = [
+    r'rm\s+-rf\s+[~/]',                          # recursive delete of home/root
+    r'curl[^|]*\|\s*(sudo\s+)?sh',               # pipe-to-shell install
+    r'git\s+push\s+.*--force.*\b(main|master)\b', # force-push protected branch
+    r'chmod\s+777',                              # world-writable
+    r'git\s+add\s+(\.|.*\.env)\b',               # staging a secrets file
+]
 
 # Exit code 2 = block operation and tell Claude why
-if path.name in SENSITIVE_FILENAMES:
-    print(f"BLOCKED: Access to '{file_path}' denied.", file=sys.stderr)
+if matches_any(command, DANGEROUS):
+    print(f"BLOCKED: refusing to run '{command}'.", file=sys.stderr)
     sys.exit(2)
 ```
+
+> Note: this is a publish-time guard, not a read guard. Reading `.env` is how the app legitimately gets its config; the risk is *committing or exfiltrating* secrets, which `verify-no-secrets.sh` (on Stop) and the `git add .env` rule above cover.
+
+### PostToolUse: `check-file-length.py`
+
+Runs **after** Claude writes or edits a file. Flags source files over 300 lines — the point where a file is usually doing too much and should be split — so the codebase stays modular as Claude builds.
 
 ### PreToolUse: `check-rybbit.sh`
 
@@ -1152,22 +1162,22 @@ Hooks are wired up in `.claude/settings.json`:
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Read|Edit|Write",
-        "hooks": [{ "type": "command", "command": "python3 .claude/hooks/block-secrets.py" }]
-      },
-      {
         "matcher": "Bash",
         "hooks": [
           { "type": "command", "command": "bash .claude/hooks/check-rybbit.sh" },
           { "type": "command", "command": "bash .claude/hooks/check-branch.sh" },
           { "type": "command", "command": "bash .claude/hooks/check-ports.sh" },
-          { "type": "command", "command": "bash .claude/hooks/check-e2e.sh" }
+          { "type": "command", "command": "bash .claude/hooks/check-e2e.sh" },
+          { "type": "command", "command": "python3 .claude/hooks/block-dangerous-bash.py" }
         ]
       }
     ],
     "PostToolUse": [{
-      "matcher": "Write",
-      "hooks": [{ "type": "command", "command": "bash .claude/hooks/lint-on-save.sh" }]
+      "matcher": "Write|Edit",
+      "hooks": [
+        { "type": "command", "command": "bash .claude/hooks/lint-on-save.sh" },
+        { "type": "command", "command": "python3 .claude/hooks/check-file-length.py" }
+      ]
     }],
     "Stop": [{
       "hooks": [
@@ -1206,7 +1216,7 @@ All artifacts are stored in `.mdd/` (docs in `.mdd/docs/`, audit reports in `.md
 
 ### `/help`
 
-Lists every command, skill, and agent in the starter kit, grouped by category: Getting Started, Project Scaffold, Code Quality, Development, Infrastructure, and Monitoring. Also shows skill triggers and agent descriptions. Run `/help` anytime to see what's available.
+Lists every command and skill in the starter kit, grouped by category: Getting Started, Project Scaffold, Code Quality, Development, Infrastructure, and Monitoring. Also shows skill triggers. Run `/help` anytime to see what's available.
 
 ### `/quickstart`
 
@@ -1249,7 +1259,7 @@ Then in any project, just run:
 Other things `/install-global` installs:
 - **Smart merge** — if you already have a global `CLAUDE.md`, it appends missing sections without overwriting yours
 - **settings.json** — merges deny rules and hooks (never removes existing ones)
-- **Hooks** — copies `block-secrets.py`, `verify-no-secrets.sh`, and `check-rulecatch.sh` to `~/.claude/hooks/`
+- **Hooks** — copies `verify-no-secrets.sh` and `check-rulecatch.sh` to `~/.claude/hooks/`
 
 Reports exactly what was added, skipped, and merged. Your existing config is never overwritten.
 
@@ -1364,7 +1374,7 @@ Removes a project from the starter kit registry and optionally deletes its files
 
 ### `/convert-project-to-starter-kit`
 
-Merges all starter kit infrastructure into an existing project without destroying anything. Creates a safety commit first, detects your language and existing Claude setup, then asks how to handle conflicts (keep yours, replace, or choose per file). Copies commands, hooks, skills, agents, merges CLAUDE.md sections, deep-merges settings.json hooks, and adds infrastructure files (.gitignore, .env.example, project-docs templates). Registers the project so it appears in `/projects-created`. Use `--force` to skip prompts and use "keep existing, add missing" for everything. Undo with `git revert HEAD`.
+Merges all starter kit infrastructure into an existing project without destroying anything. Creates a safety commit first, detects your language and existing Claude setup, then asks how to handle conflicts (keep yours, replace, or choose per file). Copies commands, hooks, skills, merges CLAUDE.md sections, deep-merges settings.json hooks, and adds infrastructure files (.gitignore, .env.example, project-docs templates). Registers the project so it appears in `/projects-created`. Use `--force` to skip prompts and use "keep existing, add missing" for everything. Undo with `git revert HEAD`.
 
 ```bash
 /convert-project-to-starter-kit ~/projects/my-app
@@ -1373,7 +1383,7 @@ Merges all starter kit infrastructure into an existing project without destroyin
 
 ### `/update-project`
 
-Updates an existing starter-kit project with the latest commands, hooks, skills, agents, and rules from the current starter kit source. Smart merge — replaces starter kit files with newer versions while preserving any custom files the user created. Shows a diff report before applying. Creates a safety commit first so you can `git revert HEAD` to undo.
+Updates an existing starter-kit project with the latest commands, hooks, skills, and rules from the current starter kit source. Smart merge — replaces starter kit files with newer versions while preserving any custom files the user created. Shows a diff report before applying. Creates a safety commit first so you can `git revert HEAD` to undo.
 
 ```bash
 /update-project              # Pick from registered projects
@@ -1447,7 +1457,7 @@ Full project scaffolding with profiles:
 /new-project my-app django                 # Django full-stack
 ```
 
-**`clean`** — All Claude infrastructure (commands, skills, agents, hooks, project-docs, tests templates) with **zero coding opinions**. No TypeScript enforcement, no port assignments, no database setup, no quality gates. Your project, your rules — Claude just works.
+**`clean`** — All Claude infrastructure (commands, skills, hooks, project-docs, tests templates) with **zero coding opinions**. No TypeScript enforcement, no port assignments, no database setup, no quality gates. Your project, your rules — Claude just works.
 
 **`go`** — Go project scaffolding with standard layout (cmd/, internal/), Gin router, Makefile builds, golangci-lint, table-driven tests, multi-stage Docker with scratch base (5-15MB images). Supports Gin, Chi, Echo, Fiber, or stdlib net/http.
 
@@ -1522,39 +1532,23 @@ Generates a complete microservice following the server/handlers/adapters separat
 
 Includes `package.json`, `tsconfig.json`, entry point with error handlers, health check endpoint, and a post-creation verification checklist.
 
----
+### Debugger Skill
 
-## Custom Agents — Specialist Subagents
+**Triggers:** `crash`, `stack trace`, `bug`, `fails in prod`, `root cause`
 
-Agents are specialists that Claude delegates to automatically. They run with restricted tool access so they can't accidentally modify your code when they shouldn't.
+Diagnoses failures by root cause instead of symptom — reads the error, traces it to the actual fault, and proposes the minimal fix. Read-only, so it can't paper over a bug by editing around it.
 
-### Code Reviewer Agent
+### Design Review Skill
 
-**Tools:** Read, Grep, Glob (read-only)
+**Triggers:** `review UI`, `design feedback`, `layout`, `accessibility`, `does this look right`
 
-*"You are a senior code reviewer. Your job is to find real problems — not nitpick style."*
+Critiques UI/UX for usability, visual hierarchy, accessibility (contrast, focus states, semantics), and whether the result reads as intentional rather than templated. Read-only.
 
-**Priority order:**
-1. **Security** — secrets in code, injection vulnerabilities, auth bypasses
-2. **Correctness** — logic errors, race conditions, null pointer risks
-3. **Performance** — N+1 queries, memory leaks, missing indexes
-4. **Type Safety** — `any` usage, missing null checks, unsafe casts
-5. **Maintainability** — dead code, unclear naming (lowest priority)
+### Test Writer Skill
 
-If the code is good, it says so — it doesn't invent issues to justify its existence.
+**Triggers:** `write tests`, `add a test`, `cover this`
 
-### Test Writer Agent
-
-**Tools:** Read, Write, Grep, Glob, Bash
-
-*"You are a testing specialist. You write tests that CATCH BUGS, not tests that just pass."*
-
-**Principles:**
-- Every test MUST have explicit assertions — "page loads" is NOT a test
-- Test behavior, not implementation details
-- Cover happy path, error cases, AND edge cases
-- Use realistic test data, not `"test"` / `"asdf"`
-- Tests should be independent — no shared mutable state
+Writes tests that CATCH BUGS, not tests that just pass. Every test has explicit assertions ("page loads" is not a test), tests behavior rather than implementation, covers happy path / error cases / edge cases, uses realistic data instead of `"test"`/`"asdf"`, and stays independent with no shared mutable state.
 
 ```typescript
 // GOOD — explicit, specific assertions
@@ -1565,23 +1559,49 @@ expect(result.body.user.email).toBe('test@example.com');
 expect(result).toBeTruthy();  // too vague
 ```
 
+### API Conventions Skill
+
+**Triggers:** writing routes, handlers, or adapters
+
+Service structure conventions — where routing, layering, and code placement go — so a service keeps the server/handlers/adapters separation instead of drifting into one oversized file.
+
+### MongoDB Rules Skill
+
+**Triggers:** queries, aggregations, indexes, connections, schema
+
+The data-layer rulebook: one shared client, ObjectId/Date type round-trips, null-vs-missing, ESR index ordering, `bulkWrite` for multi-document writes, aggregation over `find`, and StrictDB when installed (native driver otherwise, never Mongoose).
+
+### MCP Builder Skill
+
+**Triggers:** `MCP server`, `expose as tools`, `wrap this API`
+
+Builds an MCP server with well-designed tools, clear input schemas, and evals — so the tools are actually usable by an agent, not a thin wrapper over an API. Invoked explicitly.
+
+### Dependency Vetting Skill
+
+**Triggers:** `is this package safe`, `should I add`, `can I trust`
+
+Vets a package for supply-chain risk before you install it — install scripts, network calls, maintainer and download signals, and manifest-vs-reality mismatches. Read-only.
+
 ---
 
-## Database — StrictDB
+## Database — StrictDB (if installed) or the native driver
 
-The starter kit uses **StrictDB** directly (supports MongoDB, PostgreSQL, MySQL, MSSQL, SQLite, Elasticsearch). It enforces every best practice that prevents the most common database failures in AI-assisted development.
+When **StrictDB** is installed (it supports MongoDB, PostgreSQL, MySQL, MSSQL, SQLite, and Elasticsearch), the kit routes database access through it — it enforces the best practices that prevent the most common database failures in AI-assisted development. When StrictDB isn't installed, the kit uses the **native database driver directly**. Either way, one rule never bends: **no ODM/ORM like Mongoose.**
 
-### The Absolute Rule
+### The Rule
 
-**ALL database access goes through StrictDB. No exceptions.** Never create direct database connections. Never import raw database drivers in business logic.
+If StrictDB is present, route all database access through it. If it isn't, use the native driver directly — never wrap it in Mongoose or another ODM, and never scatter ad-hoc connections through business logic.
 
 ```typescript
-// CORRECT — use StrictDB directly
+// If StrictDB is installed — use it
 import { queryOne, insertOne, updateOne } from 'strictdb';
 
-// WRONG — NEVER do this
-import { MongoClient } from 'mongodb';     // FORBIDDEN
-import { Pool } from 'pg';                 // FORBIDDEN
+// Otherwise — the native driver, directly
+import { MongoClient } from 'mongodb';
+
+// NEVER — no ODM/ORM, regardless of which of the above you're on
+import mongoose from 'mongoose';           // FORBIDDEN
 ```
 
 ### Reading Data — Aggregation Only
@@ -2093,7 +2113,7 @@ npm: [classmcp](https://www.npmjs.com/package/classmcp) · [Website](https://cla
 
 Gives AI agents direct database access through 14 MCP tools with full guardrails, sanitization, and error handling. Instead of Claude generating raw queries or connection code, StrictDB-MCP provides structured tools for reading, writing, and managing data across all supported backends. Auto-included in database-enabled profiles.
 
-**What it solves:** Connection pool exhaustion, raw driver imports, unsanitized queries, missing graceful shutdown
+**What it solves:** Connection pool exhaustion, unsanitized queries, missing graceful shutdown, and type round-trip bugs
 **How to use:** Install once — StrictDB-MCP provides database tools when Claude works with data
 
 ```bash

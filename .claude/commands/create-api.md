@@ -38,7 +38,7 @@ Before scaffolding, read the current project:
 4. **Scan `src/types/`** — check for existing type patterns
 5. **Read `.env.example`** — check for database config
 
-If `--no-db` is in the arguments, skip database integration. Otherwise, use StrictDB directly.
+If `--no-db` is in the arguments, skip database integration. Otherwise, use StrictDB if it's installed, or the native MongoDB driver if not (always through the adapter, never Mongoose).
 
 ## Step 2 — Create Files
 
@@ -374,7 +374,7 @@ After generating, verify:
 - [ ] No file exceeds 300 lines
 - [ ] _id never exposed — mapped to id string
 - [ ] All errors caught and logged
-- [ ] Uses StrictDB instance methods directly (NEVER raw driver imports)
+- [ ] Data access through the adapter — StrictDB if installed, otherwise the native driver; never Mongoose, never a raw driver in handlers
 
 ## RuleCatch Report
 

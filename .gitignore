@@ -64,3 +64,5 @@ mdd_dashboard_prompt.md
 .mdd/audits/
 # MDD active jobs (ephemeral — deleted on completion)
 .mdd/jobs/
+
+_.claude*.Zone.Identifier

@@ -43,7 +43,7 @@ Validate: lowercase letters, numbers, and hyphens only. No spaces, no uppercase.
 **Question 2:** "Which profile do you want to use?"
 
 Options:
-- **clean** — All Claude AI tools (commands, hooks, skills, agents) with zero coding opinions. You pick your own language, framework, and structure. Best for: experienced developers who want Claude's tooling without opinionated scaffolding.
+- **clean** — All Claude AI tools (commands, hooks, skills) with zero coding opinions. You pick your own language, framework, and structure. Best for: experienced developers who want Claude's tooling without opinionated scaffolding.
 - **default** — Full opinionated stack: Next.js, TypeScript, MongoDB, Tailwind, Docker, CI, Rybbit analytics, Playwright tests. Best for: new projects that want everything pre-configured.
 - **go** — Go project with standard layout (cmd/internal/), Gin router, golangci-lint, Makefile builds, and multi-stage Docker. Best for: developers who prefer Go over Node.js.
 - **vue** — Vue 3 SPA with Composition API, Tailwind, Vite. Best for: Vue developers building SPAs.
