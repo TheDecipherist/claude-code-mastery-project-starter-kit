@@ -1,6 +1,6 @@
 {
   "name": "@claude-code-mastery/starter-kit",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Production-ready Claude Code starter kit — commands, hooks, skills, and agents for AI-assisted development",
   "type": "module",
   "publishConfig": {

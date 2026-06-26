@@ -1016,7 +1016,7 @@ pnpm install && pnpm dev           # Start building</code></pre>
 
             <p><strong>Option A - npm (recommended)</strong></p>
             <pre class="language-bash"><code class="language-bash">npx @claude-code-mastery/starter-kit init</code></pre>
-            <p>Installs 27 commands, 10 hooks, and 10 skills into <code>~/.claude/</code> so they work in every Claude Code session globally. No cloning or manual copying required.</p>
+            <p>Installs 27 commands, 10 hooks, and 11 skills into <code>~/.claude/</code> so they work in every Claude Code session globally. No cloning or manual copying required.</p>
 
             <p style="margin-top: 1rem;"><strong>Option B - Clone (if you want to customize templates)</strong></p>
             <pre class="language-bash"><code class="language-bash"># Clone the starter kit
@@ -1958,6 +1958,7 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
               <tr><td>API Conventions</td><td><code>api route</code>, <code>endpoint</code>, <code>handler</code>, <code>service layer</code></td><td>Routing and layering conventions for service code - keeps handlers, adapters, and server code properly separated</td></tr>
               <tr><td>MCP Builder</td><td><code>mcp server</code>, <code>mcp tool</code>, <code>build mcp</code>, <code>tool registration</code></td><td>MCP server development patterns and tool registration - covers schema, error handling, and transport setup</td></tr>
               <tr><td>Terminal TUI</td><td><code>tui</code>, <code>terminal ui</code>, <code>ink</code>, <code>react tui</code></td><td>Ink + React TUI patterns covering resize handling, input management, and layout constraints</td></tr>
+              <tr><td>Schema Source of Truth</td><td><code>define schema</code>, <code>zod schema</code>, <code>shared type</code>, <code>validate request</code></td><td>One canonical Zod schema per entity, derived across all layers - kills the same-shape-defined-four-times drift</td></tr>
             </tbody>
           </table>
         </div>
@@ -1972,6 +1973,7 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
           <li>&ldquo;Write tests for this handler&rdquo; &rarr; Test Writer skill activates</li>
           <li>&ldquo;Is it safe to add this package?&rdquo; &rarr; Dependency Vetting skill activates</li>
           <li>&ldquo;I&rsquo;m getting a stack trace here&rdquo; &rarr; Debugger skill activates</li>
+          <li>&ldquo;Define a User schema for the API&rdquo; &rarr; Schema Source of Truth skill activates</li>
         </ul>
 
         <h3>Skills vs Commands</h3>
@@ -2067,6 +2069,19 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
           <h3>Terminal TUI Skill</h3>
           <p><strong>Triggers:</strong> <code>tui</code>, <code>terminal ui</code>, <code>ink</code>, <code>react tui</code></p>
           <p>Ink + React patterns for building terminal UIs. Covers resize event handling, keyboard input management, focus state, scroll containers, and layout constraints that differ from browser React. Includes patterns for the status bar, panel splits, and modal overlays.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Schema Source of Truth Skill</h3>
+          <p><strong>Triggers:</strong> <code>define schema</code>, <code>zod schema</code>, <code>shared type</code>, <code>validate request</code></p>
+          <p>A data entity should be defined once, as a Zod schema, and everything else derived from it. The failure pattern this kills: the same entity declared separately at each layer - a frontend <code>interface User</code>, a backend <code>interface User</code>, a hand-written API validator, and a manual DB schema. Four shapes for one entity, kept in sync by hand, guaranteed to drift the first time a field changes.</p>
+          <p>The skill loads conventions for:</p>
+          <ul>
+            <li><strong>TypeScript types</strong> - <code>type User = z.infer&lt;typeof UserSchema&gt;</code> instead of a parallel interface</li>
+            <li><strong>API validation</strong> - parse <code>req.body</code> through the schema in middleware, return 400 on failure</li>
+            <li><strong>Frontend forms</strong> - same schema drives form validation via <code>zodResolver</code></li>
+            <li><strong>Per-layer variants</strong> - derived with <code>.omit()</code>, <code>.partial()</code>, <code>.extend()</code> from one base, not copied and maintained separately</li>
+          </ul>
         </div>
       </section>
 
