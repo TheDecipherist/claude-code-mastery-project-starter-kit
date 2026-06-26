@@ -15,6 +15,15 @@ PROJECT_NAME="$2"
 STARTER_KIT="$3"
 REGISTRY="${HOME}/.claude/starter-kit-projects.json"
 
+# ── Global install detection ───────────────────────────────────────────────────
+if [ -f "${HOME}/.claude/starter-kit-source-path" ]; then
+  GLOBAL_INSTALLED=true
+  CLAUDE_DIR="$STARTER_KIT"
+else
+  GLOBAL_INSTALLED=false
+  CLAUDE_DIR="$STARTER_KIT/.claude"
+fi
+
 # ── Validation ─────────────────────────────────────────────────────────────────
 if [ -d "$PROJECT_PATH" ]; then
   echo "ERROR: Directory already exists: $PROJECT_PATH"
@@ -22,7 +31,7 @@ if [ -d "$PROJECT_PATH" ]; then
   exit 1
 fi
 
-if [ ! -d "$STARTER_KIT/.claude/commands" ]; then
+if [ ! -d "$CLAUDE_DIR/commands" ]; then
   echo "ERROR: Starter kit not found at: $STARTER_KIT"
   exit 1
 fi
@@ -77,7 +86,9 @@ echo ""
 
 # ── Step 1: Create directory structure ─────────────────────────────────────────
 progress "Creating directory structure..."
-mkdir -p "$PROJECT_PATH"/.claude/{commands,skills,agents,hooks}
+if [ "$GLOBAL_INSTALLED" = "false" ]; then
+  mkdir -p "$PROJECT_PATH"/.claude/{commands,skills,agents,hooks}
+fi
 mkdir -p "$PROJECT_PATH"/project-docs
 mkdir -p "$PROJECT_PATH"/src/app/api/v1/health
 mkdir -p "$PROJECT_PATH"/src/handlers
@@ -89,46 +100,41 @@ mkdir -p "$PROJECT_PATH"/content
 mkdir -p "$PROJECT_PATH"/.github/workflows
 mkdir -p "$PROJECT_PATH"/public
 
-# ── Step 2: Copy 16 project-scoped commands ────────────────────────────────────
-progress "Copying 16 project commands..."
-for cmd in architecture commit create-api create-e2e diagram help \
-           optimize-docker progress refactor review security-check \
-           setup show-user-guide test-plan what-is-my-ai-doing worktree; do
-  cp "$STARTER_KIT/.claude/commands/${cmd}.md" "$PROJECT_PATH/.claude/commands/"
-done
+# ── Steps 2-4: Copy Claude infrastructure (clone users only) ──────────────────
+# npm users already have commands/skills/hooks installed globally in ~/.claude/
+if [ "$GLOBAL_INSTALLED" = "false" ]; then
+  progress "Copying 16 project commands..."
+  for cmd in architecture commit create-api create-e2e diagram help \
+             optimize-docker progress refactor review security-check \
+             setup show-user-guide test-plan what-is-my-ai-doing worktree; do
+    cp "$CLAUDE_DIR/commands/${cmd}.md" "$PROJECT_PATH/.claude/commands/"
+  done
 
-# ── Step 3: Copy skills, agents, ALL 9 hooks ──────────────────────────────────
-progress "Copying skills, agents, 9 hooks..."
-cp -r "$STARTER_KIT/.claude/skills/code-review" "$PROJECT_PATH/.claude/skills/"
-cp -r "$STARTER_KIT/.claude/skills/create-service" "$PROJECT_PATH/.claude/skills/"
-cp "$STARTER_KIT/.claude/agents/code-reviewer.md" "$PROJECT_PATH/.claude/agents/"
-cp "$STARTER_KIT/.claude/agents/test-writer.md" "$PROJECT_PATH/.claude/agents/"
-for hook in block-secrets.py lint-on-save.sh verify-no-secrets.sh \
-            check-rybbit.sh check-branch.sh check-ports.sh \
-            check-e2e.sh check-rulecatch.sh check-env-sync.sh; do
-  cp "$STARTER_KIT/.claude/hooks/${hook}" "$PROJECT_PATH/.claude/hooks/"
-done
-chmod +x "$PROJECT_PATH/.claude/hooks/"*.sh 2>/dev/null
-chmod +x "$PROJECT_PATH/.claude/hooks/"*.py 2>/dev/null
+  progress "Copying skills, agents, 10 hooks..."
+  cp -r "$CLAUDE_DIR/skills/code-review" "$PROJECT_PATH/.claude/skills/"
+  cp -r "$CLAUDE_DIR/skills/create-service" "$PROJECT_PATH/.claude/skills/"
+  cp "$CLAUDE_DIR/agents/code-reviewer.md" "$PROJECT_PATH/.claude/agents/"
+  cp "$CLAUDE_DIR/agents/test-writer.md" "$PROJECT_PATH/.claude/agents/"
+  for hook in block-dangerous-bash.py check-file-length.py lint-on-save.sh \
+              verify-no-secrets.sh check-rybbit.sh check-branch.sh \
+              check-ports.sh check-e2e.sh check-rulecatch.sh check-env-sync.sh; do
+    cp "$CLAUDE_DIR/hooks/${hook}" "$PROJECT_PATH/.claude/hooks/"
+  done
+  chmod +x "$PROJECT_PATH/.claude/hooks/"*.sh 2>/dev/null
+  chmod +x "$PROJECT_PATH/.claude/hooks/"*.py 2>/dev/null
 
-# ── Step 4: Write settings.json (full 9-hook config) ──────────────────────────
-progress "Writing settings.json (9 hooks)..."
-cat > "$PROJECT_PATH/.claude/settings.json" << 'SETTINGS_EOF'
+  progress "Writing settings.json (10 hooks)..."
+  cat > "$PROJECT_PATH/.claude/settings.json" << 'SETTINGS_EOF'
 {
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Read|Edit|Write",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/block-secrets.py"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
+            "command": "python3 .claude/hooks/block-dangerous-bash.py"
+          },
           {
             "type": "command",
             "command": "bash .claude/hooks/check-rybbit.sh"
@@ -150,8 +156,12 @@ cat > "$PROJECT_PATH/.claude/settings.json" << 'SETTINGS_EOF'
     ],
     "PostToolUse": [
       {
-        "matcher": "Write",
+        "matcher": "Write|Edit",
         "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/check-file-length.py"
+          },
           {
             "type": "command",
             "command": "bash .claude/hooks/lint-on-save.sh"
@@ -180,6 +190,11 @@ cat > "$PROJECT_PATH/.claude/settings.json" << 'SETTINGS_EOF'
   }
 }
 SETTINGS_EOF
+else
+  progress "Skipping local .claude/ copy (commands/skills/hooks live globally)"
+  progress "Skipping local .claude/ copy (commands/skills/hooks live globally)"
+  progress "Skipping local .claude/ copy (commands/skills/hooks live globally)"
+fi
 
 # ── Step 4b: Create features.json (populated manifest) ────────────────────────
 CREATED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")

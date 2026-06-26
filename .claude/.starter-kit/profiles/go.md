@@ -394,7 +394,7 @@ When creating a Go project, the CLAUDE.md MUST include these Go-specific rules:
 8. Create `Dockerfile` (multi-stage with scratch, using template above)
 9. Create `.golangci.yml` (using template above)
 10. Create Go-specific `CLAUDE.md` (with Go rules above + universal security rules)
-11. Copy `.claude/` contents from starter kit — only commands with `scope: project` in frontmatter (skills, hooks, settings.json copied in full)
+11. **If NOT using npm global install** (`~/.claude/starter-kit-source-path` does not exist): Copy `.claude/` contents from starter kit - only commands with `scope: project` in frontmatter (skills, hooks, settings.json copied in full). **If npm global install is active**: skip this step - commands/skills/hooks already live in `~/.claude/` globally.
 12. Create `project-docs/` templates (ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md)
 13. Create `.env`, `.env.example`, `.gitignore` (Go-specific), `.dockerignore`
 14. Create `CLAUDE.local.md` template
