@@ -1,6 +1,6 @@
 {
   "name": "@claude-code-mastery/starter-kit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Production-ready Claude Code starter kit — commands, hooks, skills, and agents for AI-assisted development",
   "type": "module",
   "publishConfig": {
@@ -18,7 +18,15 @@
     ".claude/settings.json",
     "bin/",
     "claude-mastery-project.conf",
-    "global-claude-md/"
+    "global-claude-md/",
+    "CLAUDE.md",
+    ".env.example",
+    ".gitignore",
+    ".dockerignore",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "tsconfig.json",
+    "scripts/"
   ],
   "scripts": {
     "dev": "tsx watch src/index.ts",
