@@ -7,7 +7,7 @@
     "access": "public"
   },
   "bin": {
-    "@claude-code-mastery/starter-kit": "./bin/cli.js"
+    "starter-kit": "bin/cli.js"
   },
   "files": [
     ".claude/commands/",
