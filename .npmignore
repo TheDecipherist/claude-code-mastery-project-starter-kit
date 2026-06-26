@@ -1,0 +1,9 @@
+# Temp file created by prepack/postpack README swap (should not exist at publish time)
+_gh_readme.md
+# Source-only files not needed in the npm package
+tests/
+src/
+docs/
+content/
+project-docs/
+README.npm.md
