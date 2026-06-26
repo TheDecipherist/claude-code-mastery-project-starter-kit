@@ -6,6 +6,18 @@
 >
 > [GitHub →](https://github.com/TheDecipherist/mdd) &nbsp;·&nbsp; [npm →](https://www.npmjs.com/package/@thedecipherist/mdd)
 
+> ## 📦 The starter kit is now on npm
+>
+> Install once and all 27 commands, 10 hooks, and 10 skills are globally available in every Claude Code session. No need to clone this repo or always have the mastery project open.
+>
+> ```bash
+> npx @claude-code-mastery/starter-kit init
+> ```
+>
+> Commands like `/new-project`, `/review`, `/commit`, and `/mdd` work everywhere, not just inside this repo.
+>
+> [npm →](https://www.npmjs.com/package/@claude-code-mastery/starter-kit)
+
 # Claude Code Starter Kit
 
 > ## [View the Full Interactive Guide →](https://thedecipherist.github.io/claude-code-mastery-project-starter-kit/)
@@ -21,26 +33,32 @@
 
 This is a **scaffold template**, not a runnable application. It provides the infrastructure (commands, hooks, skills, documentation templates) that makes Claude Code dramatically more effective. You use it to **create** projects, not run it directly.
 
-### Three Ways to Use It
+### Ways to Use It
 
-**A. Scaffold a new project (most common):**
+**A. Install globally via npm (recommended):**
+```bash
+npx @claude-code-mastery/starter-kit init
+```
+All 27 commands, hooks, and skills land in `~/.claude/` and work in every Claude Code session from that point on. No cloning, no staying in a specific directory. Run `/new-project my-app` from anywhere.
+
+**B. Scaffold a new project from a clone:**
 ```bash
 /new-project my-app clean    # or: /new-project my-app default
 cd ~/projects/my-app
 /setup
 ```
-This creates a new project directory with all the Claude Code tooling pre-configured. Run `/quickstart` for a guided walkthrough.
+If you cloned this repo, use it to scaffold projects. All the tooling gets copied into the new project's `.claude/` directory.
 
-**B. Convert an existing project:**
+**C. Convert an existing project:**
 ```bash
 /convert-project-to-starter-kit ~/projects/my-existing-app
 ```
-Non-destructive merge — brings all starter kit infrastructure (commands, hooks, skills, CLAUDE.md rules) into your existing project while preserving everything you already have. Creates a safety commit first so you can `git revert HEAD` to undo.
+Non-destructive merge - brings all starter kit infrastructure (commands, hooks, skills, CLAUDE.md rules) into your existing project while preserving everything you already have. Creates a safety commit first so you can `git revert HEAD` to undo.
 
-**C. Customize the template itself:**
-Clone this repo and modify the commands, hooks, skills, and rules to match your team's standards. Then use your customized version as the source for `/new-project`.
+**D. Customize the template:**
+Clone this repo, modify the commands, hooks, skills, and rules to match your team's standards, then publish your own npm package or use the clone directly as the source for `/new-project`.
 
-> **What NOT to do:** Don't clone this repo and run `pnpm dev` expecting a working app. This is the *template* that creates apps — it's not an app itself. If you're looking to build something, start with option A above.
+> **What NOT to do:** Don't clone this repo and run `pnpm dev` expecting a working app. This is the *template* that creates apps — it's not an app itself.
 
 ## Learning Path
 
@@ -65,12 +83,22 @@ cd my-app              /commit              /create-e2e          deploy         
 
 ### First 5 Minutes
 
+**Via npm (no clone needed):**
 ```bash
-/install-global                    # One-time: installs global Claude config + MDD (prompted, default yes)
-/new-project my-app clean          # Scaffold a project (or: default for full stack)
-cd ~/projects/my-app               # Enter your new project
-/setup                             # Configure .env interactively
-pnpm install && pnpm dev           # Start building
+npx @claude-code-mastery/starter-kit init   # One-time global install
+/new-project my-app clean                   # Scaffold a project from anywhere
+cd ~/projects/my-app
+/setup                                      # Configure .env interactively
+pnpm install && pnpm dev
+```
+
+**Via clone (if you want to customize the templates):**
+```bash
+/install-global                    # One-time: installs global Claude config + MDD
+/new-project my-app clean          # Scaffold a project
+cd ~/projects/my-app
+/setup
+pnpm install && pnpm dev
 ```
 
 ### First Feature (MDD Workflow)
