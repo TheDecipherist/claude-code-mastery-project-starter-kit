@@ -415,7 +415,7 @@ When creating a Python project, the CLAUDE.md MUST include these Python-specific
 10. Create `Makefile` with dev, test, lint, format, run targets
 11. Create `Dockerfile` (multi-stage with python:3.12-slim)
 12. Create Python-specific CLAUDE.md (with Python rules + universal security rules)
-13. Copy `.claude/` contents from starter kit — only commands with `scope: project` in frontmatter (skills, hooks, settings.json copied in full)
+13. **If NOT using npm global install** (`~/.claude/starter-kit-source-path` does not exist): Copy `.claude/` contents from starter kit - only commands with `scope: project` in frontmatter (skills, hooks, settings.json copied in full). **If npm global install is active**: skip this step - commands/skills/hooks already live in `~/.claude/` globally.
 14. Create `project-docs/` templates (ARCHITECTURE.md, INFRASTRUCTURE.md, DECISIONS.md)
 15. Create `.env`, `.env.example`, `.gitignore` (Python-specific), `.dockerignore`
 16. Create `CLAUDE.local.md` template

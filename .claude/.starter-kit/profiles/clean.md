@@ -74,7 +74,13 @@ project/
 2. **Run the batch scaffold script** — this replaces all individual file creation with a single command:
 
 ```bash
-bash "$(pwd)/scripts/scaffold-clean.sh" "$PROJECT_PATH" "$PROJECT_NAME" "$(pwd)"
+# Resolve the kit source: npm global install takes priority over CWD
+if [ -f ~/.claude/starter-kit-source-path ]; then
+  KIT=$(cat ~/.claude/starter-kit-source-path)
+else
+  KIT="$(pwd)"
+fi
+bash "$KIT/scripts/scaffold-clean.sh" "$PROJECT_PATH" "$PROJECT_NAME" "$KIT"
 ```
 
 The script handles ALL of the following in one execution (~100ms) with a progress indicator:

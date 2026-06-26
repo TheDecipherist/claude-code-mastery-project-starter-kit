@@ -81,13 +81,22 @@ Based on answers, scaffold the project.
 **If the resolved choices exactly match the default profile** (fullstack + next + mongo + tailwind + docker + pnpm), use the batch scaffold script for maximum speed:
 
 ```bash
-bash "$(pwd)/scripts/scaffold-default.sh" "$PROJECT_PATH" "$PROJECT_NAME" "$(pwd)"
+# Resolve the kit source: npm global install takes priority over CWD
+if [ -f ~/.claude/starter-kit-source-path ]; then
+  KIT=$(cat ~/.claude/starter-kit-source-path)
+else
+  KIT="$(pwd)"
+fi
+bash "$KIT/scripts/scaffold-default.sh" "$PROJECT_PATH" "$PROJECT_NAME" "$KIT"
 ```
 
 The script handles ALL of the following in one execution with progress indicators:
-- Creates all directories (src/, .claude/, project-docs/, tests/, scripts/, .github/)
-- Copies project-scoped commands, all skills, and all hooks
-- Writes settings.json (full 9-hook config)
+- Creates all directories (src/, project-docs/, tests/, scripts/, .github/)
+- For clone users: copies project-scoped commands, all skills, and all hooks into the project's .claude/
+- For npm users: skips local .claude/ copy (commands/skills/hooks already live globally in ~/.claude/)
+- Writes settings.json (10-hook config) for clone users only
+- Installs StrictDB (npm package) + query system
+- Creates Next.js app structure (layout, page, API health route, instrumentation)
 - Installs StrictDB (npm package) + query system
 - Creates Next.js app structure (layout, page, API health route, instrumentation)
 - Creates TypeScript, Next.js, Tailwind, PostCSS, Vitest, Playwright configs
