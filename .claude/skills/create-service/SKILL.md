@@ -24,7 +24,7 @@ server.ts      routes only, NEVER business logic
 handlers/      business logic, one file per domain
    │
    ▼
-adapters/      external wrappers (database via StrictDB, APIs, queues)
+adapters/      external wrappers (database via StrictDB or native driver, APIs, queues)
 ```
 
 This matches the `api-conventions` skill. Keep them in sync: if the layering changes, change both.
@@ -39,7 +39,7 @@ packages/{name}/
 │   │   └── index.ts
 │   ├── adapters/          # external wrappers
 │   │   ├── index.ts
-│   │   └── db.ts          # StrictDB data adapter (the only place the driver lives)
+│   │   └── db.ts          # data adapter — StrictDB or native driver, the only place the driver lives
 │   └── types.ts           # TypeScript types
 ├── tests/
 │   └── handlers.test.ts
@@ -121,7 +121,7 @@ app.listen(PORT, () => {
 The data adapter is the only place the driver is touched. Use StrictDB if it's installed, otherwise the native MongoDB driver. Never Mongoose. Handlers import this, never the driver.
 
 ```typescript
-// Wire to your StrictDB package/API. This is the data boundary for the service.
+// Wire to StrictDB if installed, otherwise the native MongoDB driver. The data boundary for the service.
 // Rules enforced here (see the mongodb-rules skill):
 //   - StrictDB if installed, else the native driver; never Mongoose
 //   - reads are aggregation pipelines, not find()

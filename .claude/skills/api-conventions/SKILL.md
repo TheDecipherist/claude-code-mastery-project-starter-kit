@@ -31,4 +31,4 @@ Every service is three layers, one direction: `server.ts` → `handlers/` → `a
 - A service owns its domain and is reached through its interface. A package does not reach into another package's internals or its data. Call the owning service.
 - Code two services both need is hoisted to a shared layer, never imported sideways from a sibling.
 
-The test: routes in `server.ts` read request-in, handler-call, response-out. Logic sits in `handlers/`. Anything that leaves the process goes through `adapters/`, and the data adapter is StrictDB.
+The test: routes in `server.ts` read request-in, handler-call, response-out. Logic sits in `handlers/`. Anything that leaves the process goes through `adapters/`, and the data adapter uses StrictDB if installed, the native driver otherwise.

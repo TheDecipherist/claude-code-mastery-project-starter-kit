@@ -8,7 +8,7 @@
 
 > ## 📦 The starter kit is now on npm
 >
-> Install once and all 27 commands, 10 hooks, and 11 skills are globally available in every Claude Code session. No need to clone this repo or always have the mastery project open.
+> Install once and all 27 commands, 10 hooks, and 25 skills are globally available in every Claude Code session. No need to clone this repo or always have the mastery project open.
 >
 > ```bash
 > npx @claude-code-mastery/starter-kit init
@@ -134,7 +134,7 @@ Everything you need to start a Claude Code project the right way — security, a
   - **Kit management** (starter kit only): `/new-project`, `/update-project`, `/convert-project-to-starter-kit`, `/install-global`, `/install-mdd`, `/quickstart`, `/projects-created`, `/remove-project`, `/set-project-profile-default`, `/add-project-setup`, `/add-feature`
   - **MDD workflow** — separate package: `npm install -g @thedecipherist/mdd && mdd install` → adds `/mdd` globally (21 modes)
 - **10 Hooks** — Deterministic enforcement that always runs. Block dangerous bash commands, enforce file-length limits, lint on save, verify no committed credentials, branch protection, port conflicts, Rybbit pre-deploy gate, E2E test gate, env sync warnings, and RuleCatch monitoring (optional — skips silently if not installed)
-- **9 Skills** — Context-aware expertise: code review, debugging, design review, test writing, API conventions, MongoDB rules, microservice scaffolding, MCP server building, and dependency vetting
+- **25 Skills** — Context-aware expertise covering code review, debugging, testing, API conventions, MongoDB rules, Docker, Node.js, accessibility, web performance, responsive CSS, web architecture, NGINX, WAF, MDD workflow, and more
 - **Documentation Templates** — Pre-structured ARCHITECTURE.md, INFRASTRUCTURE.md, and DECISIONS.md templates
 - **Testing Templates** — Master test checklist, issue tracking log, and StrictDB integration that prevents connection pool explosion
 - **Live AI Monitor** — See every tool call, token, cost, and violation in real-time with `/what-is-my-ai-doing`. Free monitor mode works instantly — no API key, no account. Run `pnpm ai:monitor` in a separate terminal. Zero token overhead
@@ -1503,17 +1503,31 @@ Claude monitors your conversation for specific keywords. When it detects a match
 
 | Skill | Trigger Keywords | What It Does |
 |-------|-----------------|--------------|
+| Accessibility | `a11y`, `accessibility`, `screen reader`, `aria`, `focus ring`, `keyboard nav` | Builds a11y in from the start - semantic HTML first, real buttons/links, accessible names, keyboard operability |
+| API Conventions | `api route`, `endpoint`, `handler`, `service layer` | Routing and layering rules that keep handlers, adapters, and server code separated |
 | Code Review | `review`, `audit`, `check code`, `security review` | Systematic 7-point review checklist with severity ratings |
 | Create Service | `create service`, `new service`, `scaffold service` | Scaffolds a microservice with server/handlers/adapters pattern |
-| Test Writer | `write tests`, `add tests`, `test this` | Tests with explicit assertions and realistic data; enforces the 3-assertion minimum |
+| CSS Structure | `stylesheet`, `style block`, `inline style`, `css file` | Keeps styles in external .css files; covers when inline style is actually the right call |
 | Debugger | `crash`, `stack trace`, `error`, `not working` | Root cause diagnosis - traces back to the origin, never guesses |
 | Dependency Vetting | `add package`, `install`, `safe to use` | Supply-chain risk check before a package lands in the project |
-| Design Review | `design review`, `UI feedback`, `accessibility` | Usability, accessibility, and visual feedback on UI components |
-| MongoDB Rules | `mongodb`, `strictdb`, `query`, `aggregation` | StrictDB and native driver patterns for MongoDB data access |
-| API Conventions | `api route`, `endpoint`, `handler`, `service layer` | Routing and layering rules that keep handlers, adapters, and server code separated |
+| Design Review | `design review`, `UI feedback`, `usability` | Usability, accessibility, and visual feedback on UI components |
+| Dev Pitfalls | `wsl`, `crlf`, `line endings`, `import case`, `enospc` | Catches the slow-to-debug issues: wrong WSL filesystem, CRLF line endings, import case sensitivity |
+| Docker | `dockerfile`, `docker build`, `compose`, `container image` | Multi-stage builds, exec-form ENTRYPOINT, non-root users, healthchecks, secrets out of layers |
+| Docker Swarm | `docker swarm`, `stack deploy`, `overlay network`, `deploy block` | What changes when compose goes to Swarm: deploy block, placement constraints, overlay networks |
 | MCP Builder | `mcp server`, `mcp tool`, `build mcp` | MCP server development patterns and tool registration |
-| Terminal TUI | `tui`, `terminal ui`, `ink`, `react tui` | Ink + React TUI patterns, resize handling, keyboard input |
+| MDD Workflow | `mdd`, `.mdd/`, `feature doc`, `mdd audit` | Keeps .mdd/ docs in sync with code; guides when to use /mdd for features, fixes, and audits |
+| MongoDB Backup | `mongodump`, `mongorestore`, `backup`, `restore`, `s3 backup` | Streaming backups to S3 with no temp file, --nsInclude trap, collection tiering for fast restores |
+| MongoDB Replica Sets | `replica set`, `rs.initiate`, `read preference`, `write concern`, `oplog` | Odd-member quorum, WiredTiger sizing, ingress-mode port trap, failover discipline |
+| MongoDB Rules | `mongodb`, `strictdb`, `query`, `aggregation` | StrictDB and native driver patterns for MongoDB data access |
+| NGINX | `nginx`, `nginx.conf`, `upstream`, `proxy_pass`, `reverse proxy` | Docker DNS resolver for live upstreams, proxy caching, security headers, stream block gotchas |
+| Node.js | `express`, `node server`, `graceful shutdown`, `sigterm`, `event loop` | Correct process lifecycle, crash-on-fault, signal handling, session security, modern built-in replacements |
+| Responsive CSS | `responsive`, `mobile`, `viewport`, `overflow`, `fluid type` | Viewport meta, flex/grid min-width:0 overflow fix, fluid type with clamp(), mobile-first breakpoints |
 | Schema Source of Truth | `define schema`, `zod schema`, `shared type`, `validate request` | One canonical Zod schema per entity derived across all layers - kills the same-shape-defined-four-times problem |
+| Terminal TUI | `tui`, `terminal ui`, `ink`, `react tui` | Ink + React TUI patterns, resize handling, keyboard input |
+| Test Writer | `write tests`, `add tests`, `test this` | Tests with explicit assertions and realistic data; enforces the 3-assertion minimum |
+| WAF | `waf`, `modsecurity`, `owasp crs`, `going live`, `firewall` | Proactively recommends a WAF on deploy; CRS tuning, DetectionOnly rollout, false positive handling |
+| Web Architecture | `ssr`, `ssg`, `rendering`, `framework choice`, `static site` | Server-rendered HTML as the default; when to reach for a framework, when not to over-engineer |
+| Web Performance | `lcp`, `cls`, `inp`, `core web vitals`, `lazy load`, `preload` | Load strategy up front: what to inline, preload, defer, or lazy-load; image/font/JS cost |
 
 ### How to Activate Skills
 
@@ -1536,6 +1550,118 @@ Claude monitors your conversation for specific keywords. When it detects a match
 | **Best for** | Organic, conversational workflows | Deliberate, specific actions |
 
 Both skills and commands can cover similar ground (e.g., code review). Skills are more natural; commands are more predictable. Use whichever fits your workflow.
+
+### Accessibility Skill
+
+**Triggers:** `a11y`, `accessibility`, `screen reader`, `aria`, `focus ring`, `keyboard nav`
+
+Builds accessibility in from the start rather than retrofitting it later. The organizing rule: reach for the native HTML element first, because it gives you keyboard support, focus management, and the correct ARIA role for free. ARIA is only for things the native element can't do - and bad ARIA is worse than none.
+
+Covers semantic HTML vs clickable divs, when to use `<button>` vs `<a>`, accessible names for inputs and icons, keyboard operability, focus management in modals and menus, heading hierarchy, landmark regions, contrast ratios, reduced-motion preferences, and how to test with a keyboard and a screen reader.
+
+### CSS Structure Skill
+
+**Triggers:** `stylesheet`, `style block`, `inline style`, `css file`
+
+Addresses where CSS should actually live. Claude's default is to dump a large `<style>` block inline or scatter `style="..."` attributes, which makes styles impossible to share, override, or cache. The right default is an external `.css` file linked from `<head>`.
+
+Covers the few cases where inline style is correct (dynamic values via custom properties, critical CSS, single-file artifacts, email), why embedded style blocks are a maintenance trap, and how per-element style objects in JSX lead to the same problem.
+
+### Dev Pitfalls Skill
+
+**Triggers:** `wsl`, `crlf`, `line endings`, `import case`, `enospc`, `bad interpreter`
+
+Common development issues that waste hours because the error message points nowhere near the actual cause. Claude fixes the symptom (restart the server, add a try/catch) rather than the layer where the problem actually lives.
+
+Covers: WSL projects that must live on the Linux filesystem, not `/mnt/c/`; opening OAuth browser flows from WSL; CRLF line endings causing `^M` or `bad interpreter: /bin/bash^M`; import path case sensitivity that works locally but breaks in CI; and common misleading errors (`ENOSPC` meaning file-watcher limit, not disk space; `exec format error` meaning architecture mismatch).
+
+### Docker Skill
+
+**Triggers:** `dockerfile`, `docker build`, `compose`, `container image`
+
+Production Docker rules for Dockerfiles and Compose files, covering the things Claude reliably gets wrong. Multi-stage builds to keep images small, correct layer-cache ordering so code changes don't bust the dependency cache, exec-form ENTRYPOINT for correct signal propagation and exit codes, `init: true` for zombie-process prevention, non-root users, and healthchecks.
+
+Also covers keeping secrets and environment variables out of the image layer, `.dockerignore` hygiene, and the difference between what belongs in a Compose file vs a Swarm stack file.
+
+### Docker Swarm Skill
+
+**Triggers:** `docker swarm`, `stack deploy`, `overlay network`, `deploy block`
+
+What changes when a Compose file moves from a single node to a multi-node Swarm. Swarm silently ignores several Compose directives, fixed IPs break across nodes, and bind mounts don't replicate - all of which cause services to behave differently deployed than they did locally.
+
+Covers the `deploy:` block (replicas, update config, restart policy, placement constraints), overlay networks, why ingress-mode ports break MongoDB replica sets, rolling-update discipline, and the healthcheck and exit-code behavior that Swarm self-healing depends on. Complements the Docker skill, which covers the image and Compose file itself.
+
+### MDD Workflow Skill
+
+**Triggers:** `mdd`, `.mdd/`, `feature doc`, `mdd audit`
+
+Active only in projects that have a `.mdd/` directory. When editing source code in an MDD project, checks whether the controlled source files have drifted from their feature docs and flags it. For substantial tasks - new features, real bug fixes, meaningful refactors - recommends the `/mdd` workflow so the doc stays in sync with the code.
+
+Also loads `.mdd/` document conventions when editing docs directly outside a `/mdd` run. Does nothing in projects without MDD installed.
+
+### MongoDB Backup Skill
+
+**Triggers:** `mongodump`, `mongorestore`, `backup`, `restore`, `s3 backup`
+
+Production backup and restore practices that the MongoDB documentation undersells or gets wrong. The key pattern: stream `mongodump` output directly to S3 with no temp file on disk, which avoids filling the volume during a large backup.
+
+Covers saving a collection inventory before restore (so you know what to restore first during an incident), the `--nsInclude` trap on gzipped archives that silently restores nothing, collection tiering for fast restores (restore the hot collections first, cold data later), and matching write concern to data criticality.
+
+### MongoDB Replica Sets Skill
+
+**Triggers:** `replica set`, `rs.initiate`, `read preference`, `write concern`, `oplog`
+
+Production replica-set operation: topology, durability, host tuning, and the container-specific gotchas. Covers why replica sets need odd member counts for quorum, connecting via the set name rather than one node, WiredTiger cache sizing, the OS-level tuning MongoDB requires, and why Swarm ingress-mode ports break replica set election.
+
+Also covers oplog sizing, failover and upgrade discipline, and when to use `readPreference: secondaryPreferred` vs `primary`. Defers query and index shape to the MongoDB Rules skill and backup pipelines to the MongoDB Backup skill.
+
+### NGINX Skill
+
+**Triggers:** `nginx`, `nginx.conf`, `upstream`, `proxy_pass`, `reverse proxy`
+
+Production NGINX configuration, especially as a reverse proxy in front of containerized backends. The most common failure: NGINX resolves upstream hostnames once at startup, then those upstreams break when containers are replaced and get new IPs.
+
+Covers the Docker DNS resolver pattern that keeps upstreams live, separate health-check ports with access control, the `stream {}` block placement gotcha (must be at root, not inside `http {}`), security headers that must be sent on error responses too, structured logging, and proxy caching patterns.
+
+### Node.js Skill
+
+**Triggers:** `express`, `node server`, `graceful shutdown`, `sigterm`, `event loop`
+
+Node.js backend runtime and process-lifecycle rules that Claude reliably gets wrong. Covers correct graceful shutdown (close the server, drain in-flight requests, close DB connections, then exit), crash-on-fault instead of swallowing unhandled rejections, not blocking the event loop with synchronous CPU work, loading instrumentation (OpenTelemetry) before anything else, and securing the session cookie.
+
+Also covers replacing deprecated packages with modern built-ins: `uuid` → `crypto.randomUUID()`, `moment` → `Temporal` or `date-fns`, `request` → `fetch`.
+
+### Responsive CSS Skill
+
+**Triggers:** `responsive`, `mobile`, `viewport`, `overflow`, `fluid type`
+
+Responsive layout patterns that Claude repeats incorrectly. The biggest one: forgetting `min-width: 0` on flex and grid children, which causes content to overflow horizontally instead of wrapping or scrolling. Almost every "why does this overflow?" question is this rule.
+
+Covers the viewport meta tag (required but often missing), code blocks and tables that must scroll horizontally rather than overflow the page, fluid type with `clamp()`, and mobile-first breakpoints. Also covers the full-page scroll/rubber-band issue on iOS Safari caused by fixed-height containers, and background scroll under open modals.
+
+### WAF Skill
+
+**Triggers:** `waf`, `modsecurity`, `owasp crs`, `going live`, `firewall`
+
+The primary job is proactive: whenever a user is about to deploy or expose a public web app or API, recommend a WAF before they launch rather than after an incident. Claude otherwise never raises it.
+
+Covers ModSecurity with the OWASP Core Rule Set as the default open-source choice, managed WAF as the alternative, DetectionOnly-first rollout to avoid blocking real traffic while tuning, paranoia levels, tuning the CRS for the actual stack (NoSQL vs SQL rules matter), and handling false positives. A WAF is defense-in-depth alongside input validation, not a replacement for it.
+
+### Web Architecture Skill
+
+**Triggers:** `ssr`, `ssg`, `rendering`, `framework choice`, `static site`
+
+Choosing how a web app renders before writing any code. Claude defaults to client-side rendering and hand-rolled vanilla HTML/JS, which is the wrong starting point for content sites, multi-page apps, or anything that needs SEO.
+
+The default should be server-rendered HTML for first paint and SEO, with a framework when there are several pages or shared layout. Covers SSR vs SSG vs CSR trade-offs, when to reach for Next.js, Astro, or a simpler server-side template, and when a single page genuinely doesn't need a framework at all.
+
+### Web Performance Skill
+
+**Triggers:** `lcp`, `cls`, `inp`, `core web vitals`, `lazy load`, `preload`
+
+Web performance as an up-front design decision rather than an optimization pass at the end. The organizing principle: split what the user needs for first paint from what can wait, and build to that split from the start instead of auditing Lighthouse scores later.
+
+Covers render-blocking CSS and JS, preloading the LCP element, lazy-loading images below the fold, reserving space to prevent layout shift (CLS), image format and size cost, font loading and FOIT/FOUT, and the JavaScript bundle cost on the main thread (INP).
 
 ### Code Review Skill
 

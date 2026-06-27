@@ -13,7 +13,7 @@ Apply these to every diff. They are this codebase's hard rules. A violation is C
 ## Data access (lives in the adapter layer)
 
 - [ ] **No Mongoose.** Flag any Mongoose import, model, or schema.
-- [ ] **Data access goes through the adapter.** Flag raw collection access outside `adapters/`. Inside the adapter, StrictDB if installed else the native driver, the driver choice isn't a violation; Mongoose and raw access in feature code are.
+- [ ] **Data access goes through the adapter.** Flag raw collection access outside `adapters/`. Inside the adapter, StrictDB is preferred when installed and the native driver is fine when it isn't, the driver choice is not a violation; Mongoose and raw access in feature code are.
 - [ ] **One shared `MongoClient`.** Flag `new MongoClient` inside a request handler or per-call path; the client is created once and reused. In serverless, it must be at module scope, not inside the handler.
 - [ ] **No `_id` in a write body.** Flag any update or upsert payload containing `_id`; it belongs in the filter.
 - [ ] **Type-safe `_id`.** Flag a query comparing a string against an `ObjectId` `_id`; it silently returns nothing. For `$in`, every element must be converted.

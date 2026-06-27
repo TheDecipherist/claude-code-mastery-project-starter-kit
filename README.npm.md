@@ -1,6 +1,6 @@
 # @claude-code-mastery/starter-kit
 
-A Claude Code toolkit that installs 27 commands, 11 skills, 10 hooks, and scaffolding templates into Claude Code globally - so every project you open already has them available.
+A Claude Code toolkit that installs 27 commands, 25 skills, 10 hooks, and scaffolding templates into Claude Code globally - so every project you open already has them available.
 
 **Requires:** Node.js 20+ and [Claude Code](https://claude.ai/code)
 
@@ -25,7 +25,7 @@ After `init`, your `~/.claude/` directory looks like this:
 ├── starter-kit/                  <- package files live here (single source of truth)
 │   ├── commands/                 <- 27 slash commands
 │   ├── hooks/                    <- 10 lifecycle hooks
-│   ├── skills/                   <- 11 skill files
+│   ├── skills/                   <- 25 skill files
 │   └── .starter-kit/             <- scaffolding templates for /new-project
 ├── commands/
 │   ├── new-project.md  -> (symlink to starter-kit/commands/new-project.md)
@@ -74,17 +74,31 @@ Once installed, these slash commands are available in every Claude Code session:
 
 Skills are expertise files Claude loads when relevant. These install automatically:
 
+- `accessibility` - a11y built in from the start: semantic HTML, real buttons, accessible names, keyboard operability
+- `api-conventions` - routing and layering conventions for service code
 - `code-review` - security, performance, and correctness checks with severity rankings
-- `test-writer` - tests with explicit assertions and realistic data
+- `create-service` - scaffolding patterns for new services
+- `css-structure` - keeps styles in external .css files; covers when inline style is actually correct
 - `debugger` - root cause diagnosis for crashes, stack traces, and intermittent bugs
 - `dependency-vetting` - supply-chain risk assessment before adding a package
 - `design-review` - usability, accessibility, and visual feedback on UI
-- `mongodb-rules` - native-driver and StrictDB rules for MongoDB data access
-- `api-conventions` - routing and layering conventions for service code
-- `create-service` - scaffolding patterns for new services
+- `dev-pitfalls` - WSL filesystem, CRLF, import case sensitivity, misleading error messages
+- `docker` - multi-stage builds, exec-form ENTRYPOINT, non-root users, healthchecks
+- `docker-swarm` - what changes when compose goes to Swarm: deploy block, overlay networks, signal discipline
 - `mcp-builder` - MCP server development patterns
+- `mdd-workflow` - keeps .mdd/ docs in sync with code; guides when to use /mdd
+- `mongo-backup` - streaming backups to S3, --nsInclude trap, collection tiering for fast restores
+- `mongodb-replica-sets` - quorum, WiredTiger sizing, ingress-mode port trap, failover discipline
+- `mongodb-rules` - native-driver and StrictDB rules for MongoDB data access
+- `nginx` - Docker DNS resolver, proxy caching, security headers, stream block placement
+- `nodejs` - correct process lifecycle, graceful shutdown, crash-on-fault, modern built-in replacements
+- `responsive-css` - min-width:0 overflow fix, fluid type with clamp(), mobile-first breakpoints
+- `schema-source-of-truth` - one canonical Zod schema per entity, derived across all layers
 - `terminal-tui` - Ink + React TUI patterns, resize handling
-- `schema-source-of-truth` - one canonical Zod schema per entity, derived across all layers; catches the same shape defined four times drift
+- `test-writer` - tests with explicit assertions and realistic data
+- `waf` - proactively recommends a WAF on deploy; CRS tuning, DetectionOnly rollout
+- `web-architecture` - server-rendered HTML as default; when to reach for a framework
+- `web-performance` - load strategy up front: inline, preload, defer, lazy-load; image/font/JS cost
 
 ---
 

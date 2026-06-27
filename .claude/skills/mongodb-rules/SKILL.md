@@ -59,4 +59,7 @@ Non-negotiable for this codebase. From production, not preference.
 
 ## Schema
 
-- **Collections enforce no structure by default.** Add a `$jsonSchema` validator as a collection stabilizes and more code depends on its shape. Roll out safely: `validationAction: "warn"` to observe first, then `error`; `validationLevel: "moderate"` to spare existing nonconforming documents.
+Collections enforce no structure by default, so validate in two layers.
+
+- **Parse before every write.** Validate each document against its Zod schema right before it hits the database, so a malformed shape never lands. The schema itself isn't Mongo-specific, it's the same contract the API and frontend use, see the `schema-source-of-truth` skill for defining it once and deriving every layer from one base.
+- **Keep a `$jsonSchema` collection validator as the floor.** Zod only guards writes that go through your app, so the DB validator is the last line that also catches mongosh, scripts, and other services. Add it as a collection stabilizes and more code depends on its shape. Roll out safely: `validationAction: "warn"` to observe first, then `error`; `validationLevel: "moderate"` to spare existing nonconforming documents.
