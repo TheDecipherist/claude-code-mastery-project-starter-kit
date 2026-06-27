@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import https from 'https';
+import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -160,6 +161,17 @@ export function mergeSettings(homeDir = os.homedir()) {
   fs.writeFileSync(glPath, JSON.stringify(gl, null, 2), 'utf8');
 }
 
+// ── MDD integration ───────────────────────────────────────────────────────────
+
+function runMddInstall() {
+  try {
+    execSync('npm install -g @thedecipherist/mdd', { stdio: 'inherit' });
+    execSync('mdd install', { stdio: 'inherit' });
+  } catch {
+    console.log('  ⚠  MDD install skipped — run manually: npm install -g @thedecipherist/mdd && mdd install');
+  }
+}
+
 // ── main commands ─────────────────────────────────────────────────────────────
 
 export async function init(homeDir = os.homedir()) {
@@ -176,6 +188,8 @@ export async function init(homeDir = os.homedir()) {
     console.log(`  Copied claude-mastery-project.conf → ${claudeDir}`);
   }
   fs.writeFileSync(path.join(claudeDir, 'starter-kit-source-path'), starterKitDir, 'utf8');
+  console.log('\nInstalling MDD workflow...');
+  runMddInstall();
   const version = readInstalledVersion(homeDir);
   console.log(`\n✅ Installed v${version} to ${starterKitDir}`);
   console.log('   Run /starter-kit update inside Claude Code to update in future.\n');
@@ -191,6 +205,8 @@ export async function update(homeDir = os.homedir()) {
   copyPackageFiles(homeDir);
   symlinkAll(homeDir);
   mergeSettings(homeDir);
+  console.log('\nUpdating MDD workflow...');
+  runMddInstall();
   console.log(`\n✅ Updated to v${readInstalledVersion(homeDir)}`);
 }
 
