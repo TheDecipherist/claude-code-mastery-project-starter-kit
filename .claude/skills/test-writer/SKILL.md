@@ -52,7 +52,7 @@ await page.goto('/dashboard'); // no assertion at all
 The data layer has rules that test data must respect, or the test passes while masking the exact bug that bites in production.
 
 - **Seed real `ObjectId` values, not string ids.** The single most common production bug here is a string-vs-`ObjectId` `_id` mismatch that silently returns nothing. A test seeded with string ids passes and hides it. Use actual `ObjectId` types in fixtures.
-- **Exercise the StrictDB adapter, not a hand-rolled driver mock.** Tests go through the same `adapters/` boundary the handlers use. Mock at the network or data boundary, not by reimplementing the driver.
+- **Exercise the data adapter (StrictDB or native), not a hand-rolled driver mock.** Tests go through the same `adapters/` boundary the handlers use. Mock at the network or data boundary, not by reimplementing the driver.
 - **Test the round trip.** Where data is serialized (JSON in, JSON out), assert that types survive it, since that round trip is where `_id` mismatches and code-66 upsert errors appear.
 
 ## Unit tests (Vitest)

@@ -280,8 +280,8 @@
             <div class="feature-icon feature-icon-amber">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </div>
-            <h3>Skills</h3>
-            <p>Context-aware templates that load on demand. Systematic code review checklist and full microservice scaffolding.</p>
+            <h3>Skills (25)</h3>
+            <p>Context-aware templates that load on demand. Covers code review, testing, debugging, Docker, Node.js, MongoDB, NGINX, accessibility, web performance, responsive CSS, and more.</p>
           </div>
 
           <div class="feature-card">
@@ -1016,7 +1016,7 @@ pnpm install && pnpm dev           # Start building</code></pre>
 
             <p><strong>Option A - npm (recommended)</strong></p>
             <pre class="language-bash"><code class="language-bash">npx @claude-code-mastery/starter-kit init</code></pre>
-            <p>Installs 27 commands, 10 hooks, and 11 skills into <code>~/.claude/</code> so they work in every Claude Code session globally. No cloning or manual copying required.</p>
+            <p>Installs 27 commands, 10 hooks, and 25 skills into <code>~/.claude/</code> so they work in every Claude Code session globally. No cloning or manual copying required.</p>
 
             <p style="margin-top: 1rem;"><strong>Option B - Clone (if you want to customize templates)</strong></p>
             <pre class="language-bash"><code class="language-bash"># Clone the starter kit
@@ -1948,17 +1948,31 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
               <tr><th>Skill</th><th>Trigger Keywords</th><th>What It Does</th></tr>
             </thead>
             <tbody>
+              <tr><td>Accessibility</td><td><code>a11y</code>, <code>accessibility</code>, <code>screen reader</code>, <code>aria</code>, <code>focus ring</code>, <code>keyboard nav</code></td><td>Builds a11y in from the start - semantic HTML, real buttons/links, accessible names, keyboard operability</td></tr>
+              <tr><td>API Conventions</td><td><code>api route</code>, <code>endpoint</code>, <code>handler</code>, <code>service layer</code></td><td>Routing and layering conventions for service code - keeps handlers, adapters, and server code properly separated</td></tr>
               <tr><td>Code Review</td><td><code>review</code>, <code>audit</code>, <code>check code</code>, <code>security review</code></td><td>Loads a systematic 7-point review checklist with severity ratings</td></tr>
               <tr><td>Create Service</td><td><code>create service</code>, <code>new service</code>, <code>scaffold service</code></td><td>Scaffolds a microservice with server/handlers/adapters pattern</td></tr>
-              <tr><td>Test Writer</td><td><code>write tests</code>, <code>add tests</code>, <code>test this</code></td><td>Writes tests with explicit assertions and realistic data; enforces the minimum 3-assertions rule</td></tr>
+              <tr><td>CSS Structure</td><td><code>stylesheet</code>, <code>style block</code>, <code>inline style</code>, <code>css file</code></td><td>Keeps styles in external .css files; covers when inline style is actually the right call</td></tr>
               <tr><td>Debugger</td><td><code>crash</code>, <code>stack trace</code>, <code>error</code>, <code>not working</code>, <code>intermittent</code></td><td>Root cause diagnosis for crashes, stack traces, and intermittent bugs - reports cause and fix, never guesses</td></tr>
               <tr><td>Dependency Vetting</td><td><code>add package</code>, <code>install</code>, <code>safe to use</code>, <code>should I add</code></td><td>Supply-chain risk check before adding a package - checks download counts, maintainer count, and last publish date</td></tr>
-              <tr><td>Design Review</td><td><code>design review</code>, <code>UI feedback</code>, <code>accessibility</code>, <code>usability</code></td><td>Usability, accessibility, and visual feedback on UI components</td></tr>
-              <tr><td>MongoDB Rules</td><td><code>mongodb</code>, <code>strictdb</code>, <code>query</code>, <code>collection</code>, <code>aggregation</code></td><td>Native driver and StrictDB patterns for MongoDB data access - prevents common anti-patterns</td></tr>
-              <tr><td>API Conventions</td><td><code>api route</code>, <code>endpoint</code>, <code>handler</code>, <code>service layer</code></td><td>Routing and layering conventions for service code - keeps handlers, adapters, and server code properly separated</td></tr>
+              <tr><td>Design Review</td><td><code>design review</code>, <code>UI feedback</code>, <code>usability</code></td><td>Usability, accessibility, and visual feedback on UI components</td></tr>
+              <tr><td>Dev Pitfalls</td><td><code>wsl</code>, <code>crlf</code>, <code>line endings</code>, <code>import case</code>, <code>enospc</code></td><td>Catches slow-to-debug issues: wrong WSL filesystem, CRLF line endings, import case sensitivity, misleading errors</td></tr>
+              <tr><td>Docker</td><td><code>dockerfile</code>, <code>docker build</code>, <code>compose</code>, <code>container image</code></td><td>Multi-stage builds, exec-form ENTRYPOINT, non-root users, healthchecks, secrets out of image layers</td></tr>
+              <tr><td>Docker Swarm</td><td><code>docker swarm</code>, <code>stack deploy</code>, <code>overlay network</code>, <code>deploy block</code></td><td>What changes when compose goes to Swarm: deploy block, placement, overlay networks, signal discipline</td></tr>
               <tr><td>MCP Builder</td><td><code>mcp server</code>, <code>mcp tool</code>, <code>build mcp</code>, <code>tool registration</code></td><td>MCP server development patterns and tool registration - covers schema, error handling, and transport setup</td></tr>
-              <tr><td>Terminal TUI</td><td><code>tui</code>, <code>terminal ui</code>, <code>ink</code>, <code>react tui</code></td><td>Ink + React TUI patterns covering resize handling, input management, and layout constraints</td></tr>
+              <tr><td>MDD Workflow</td><td><code>mdd</code>, <code>.mdd/</code>, <code>feature doc</code>, <code>mdd audit</code></td><td>Keeps .mdd/ docs in sync with code; guides when to use /mdd for features, fixes, and audits</td></tr>
+              <tr><td>MongoDB Backup</td><td><code>mongodump</code>, <code>mongorestore</code>, <code>backup</code>, <code>restore</code>, <code>s3 backup</code></td><td>Streaming backups to S3 with no temp file, --nsInclude trap, collection tiering for fast restores</td></tr>
+              <tr><td>MongoDB Replica Sets</td><td><code>replica set</code>, <code>rs.initiate</code>, <code>read preference</code>, <code>write concern</code>, <code>oplog</code></td><td>Odd-member quorum, WiredTiger sizing, ingress-mode port trap, failover discipline</td></tr>
+              <tr><td>MongoDB Rules</td><td><code>mongodb</code>, <code>strictdb</code>, <code>query</code>, <code>collection</code>, <code>aggregation</code></td><td>Native driver and StrictDB patterns for MongoDB data access - prevents common anti-patterns</td></tr>
+              <tr><td>NGINX</td><td><code>nginx</code>, <code>nginx.conf</code>, <code>upstream</code>, <code>proxy_pass</code>, <code>reverse proxy</code></td><td>Docker DNS resolver for live upstreams, proxy caching, security headers, stream block placement</td></tr>
+              <tr><td>Node.js</td><td><code>express</code>, <code>node server</code>, <code>graceful shutdown</code>, <code>sigterm</code>, <code>event loop</code></td><td>Correct process lifecycle, crash-on-fault, signal handling, session security, modern built-in replacements</td></tr>
+              <tr><td>Responsive CSS</td><td><code>responsive</code>, <code>mobile</code>, <code>viewport</code>, <code>overflow</code>, <code>fluid type</code></td><td>min-width:0 overflow fix, fluid type with clamp(), viewport meta, mobile-first breakpoints</td></tr>
               <tr><td>Schema Source of Truth</td><td><code>define schema</code>, <code>zod schema</code>, <code>shared type</code>, <code>validate request</code></td><td>One canonical Zod schema per entity, derived across all layers - kills the same-shape-defined-four-times drift</td></tr>
+              <tr><td>Terminal TUI</td><td><code>tui</code>, <code>terminal ui</code>, <code>ink</code>, <code>react tui</code></td><td>Ink + React TUI patterns covering resize handling, input management, and layout constraints</td></tr>
+              <tr><td>Test Writer</td><td><code>write tests</code>, <code>add tests</code>, <code>test this</code></td><td>Writes tests with explicit assertions and realistic data; enforces the minimum 3-assertions rule</td></tr>
+              <tr><td>WAF</td><td><code>waf</code>, <code>modsecurity</code>, <code>owasp crs</code>, <code>going live</code>, <code>firewall</code></td><td>Proactively recommends a WAF on deploy; CRS tuning, DetectionOnly rollout, false positive handling</td></tr>
+              <tr><td>Web Architecture</td><td><code>ssr</code>, <code>ssg</code>, <code>rendering</code>, <code>framework choice</code>, <code>static site</code></td><td>Server-rendered HTML as the default; when to reach for a framework, when not to over-engineer</td></tr>
+              <tr><td>Web Performance</td><td><code>lcp</code>, <code>cls</code>, <code>inp</code>, <code>core web vitals</code>, <code>lazy load</code>, <code>preload</code></td><td>Load strategy up front: what to inline, preload, defer, or lazy-load; image/font/JS cost</td></tr>
             </tbody>
           </table>
         </div>
@@ -2082,6 +2096,104 @@ npx @rulecatch/ai-pooler monitor --no-api-key</code></pre>
             <li><strong>Frontend forms</strong> - same schema drives form validation via <code>zodResolver</code></li>
             <li><strong>Per-layer variants</strong> - derived with <code>.omit()</code>, <code>.partial()</code>, <code>.extend()</code> from one base, not copied and maintained separately</li>
           </ul>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Accessibility Skill</h3>
+          <p><strong>Triggers:</strong> <code>a11y</code>, <code>accessibility</code>, <code>screen reader</code>, <code>aria</code>, <code>focus ring</code>, <code>keyboard nav</code></p>
+          <p>Builds accessibility in from the start rather than retrofitting it later. The organizing rule: reach for the native HTML element first, because it gives you keyboard support, focus management, and the correct ARIA role for free. ARIA is only for things the native element can&rsquo;t do - and bad ARIA is worse than none.</p>
+          <p>Covers semantic HTML vs clickable divs, when to use <code>&lt;button&gt;</code> vs <code>&lt;a&gt;</code>, accessible names for inputs and icons, keyboard operability, focus management in modals and menus, heading hierarchy, landmark regions, contrast ratios, reduced-motion preferences, and how to test with a keyboard and a screen reader.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>CSS Structure Skill</h3>
+          <p><strong>Triggers:</strong> <code>stylesheet</code>, <code>style block</code>, <code>inline style</code>, <code>css file</code></p>
+          <p>Addresses where CSS should actually live. Claude&rsquo;s default is to dump a large <code>&lt;style&gt;</code> block inline or scatter <code>style="..."</code> attributes, which makes styles impossible to share, override, or cache. The right default is an external <code>.css</code> file linked from <code>&lt;head&gt;</code>.</p>
+          <p>Covers the few cases where inline style is correct (dynamic values via custom properties, critical CSS, single-file artifacts, email), why embedded style blocks are a maintenance trap, and how per-element style objects in JSX lead to the same problem.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Dev Pitfalls Skill</h3>
+          <p><strong>Triggers:</strong> <code>wsl</code>, <code>crlf</code>, <code>line endings</code>, <code>import case</code>, <code>enospc</code>, <code>bad interpreter</code></p>
+          <p>Common development issues that waste hours because the error message points nowhere near the actual cause. Claude fixes the symptom rather than the layer where the problem actually lives.</p>
+          <p>Covers: WSL projects that must live on the Linux filesystem, not <code>/mnt/c/</code>; opening OAuth browser flows from WSL; CRLF line endings causing <code>^M</code> or <code>bad interpreter: /bin/bash^M</code>; import path case sensitivity that works locally but breaks in CI; and common misleading errors (<code>ENOSPC</code> meaning file-watcher limit, not disk space; <code>exec format error</code> meaning architecture mismatch).</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Docker Skill</h3>
+          <p><strong>Triggers:</strong> <code>dockerfile</code>, <code>docker build</code>, <code>compose</code>, <code>container image</code></p>
+          <p>Production Docker rules for Dockerfiles and Compose files, covering the things Claude reliably gets wrong. Multi-stage builds to keep images small, correct layer-cache ordering so code changes don&rsquo;t bust the dependency cache, exec-form <code>ENTRYPOINT</code> for correct signal propagation and exit codes, <code>init: true</code> for zombie-process prevention, non-root users, and healthchecks.</p>
+          <p>Also covers keeping secrets and environment variables out of the image layer, <code>.dockerignore</code> hygiene, and the difference between what belongs in a Compose file vs a Swarm stack file.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Docker Swarm Skill</h3>
+          <p><strong>Triggers:</strong> <code>docker swarm</code>, <code>stack deploy</code>, <code>overlay network</code>, <code>deploy block</code></p>
+          <p>What changes when a Compose file moves from a single node to a multi-node Swarm. Swarm silently ignores several Compose directives, fixed IPs break across nodes, and bind mounts don&rsquo;t replicate - all of which cause services to behave differently deployed than they did locally.</p>
+          <p>Covers the <code>deploy:</code> block (replicas, update config, restart policy, placement constraints), overlay networks, why ingress-mode ports break MongoDB replica sets, rolling-update discipline, and the healthcheck and exit-code behavior that Swarm self-healing depends on.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>MDD Workflow Skill</h3>
+          <p><strong>Triggers:</strong> <code>mdd</code>, <code>.mdd/</code>, <code>feature doc</code>, <code>mdd audit</code></p>
+          <p>Active only in projects that have a <code>.mdd/</code> directory. When editing source code in an MDD project, checks whether the controlled source files have drifted from their feature docs and flags it. For substantial tasks - new features, real bug fixes, meaningful refactors - recommends the <code>/mdd</code> workflow so the doc stays in sync with the code.</p>
+          <p>Also loads <code>.mdd/</code> document conventions when editing docs directly outside a <code>/mdd</code> run. Does nothing in projects without MDD installed.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>MongoDB Backup Skill</h3>
+          <p><strong>Triggers:</strong> <code>mongodump</code>, <code>mongorestore</code>, <code>backup</code>, <code>restore</code>, <code>s3 backup</code></p>
+          <p>Production backup and restore practices that the MongoDB documentation undersells or gets wrong. The key pattern: stream <code>mongodump</code> output directly to S3 with no temp file on disk, which avoids filling the volume during a large backup.</p>
+          <p>Covers saving a collection inventory before restore (so you know what to restore first during an incident), the <code>--nsInclude</code> trap on gzipped archives that silently restores nothing, collection tiering for fast restores (restore hot collections first, cold data later), and matching write concern to data criticality.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>MongoDB Replica Sets Skill</h3>
+          <p><strong>Triggers:</strong> <code>replica set</code>, <code>rs.initiate</code>, <code>read preference</code>, <code>write concern</code>, <code>oplog</code></p>
+          <p>Production replica-set operation: topology, durability, host tuning, and the container-specific gotchas. Covers why replica sets need odd member counts for quorum, connecting via the set name rather than one node, WiredTiger cache sizing, the OS-level tuning MongoDB requires, and why Swarm ingress-mode ports break replica set election.</p>
+          <p>Also covers oplog sizing, failover and upgrade discipline, and when to use <code>readPreference: secondaryPreferred</code> vs <code>primary</code>. Defers query/index shape to the MongoDB Rules skill and backup pipelines to the MongoDB Backup skill.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>NGINX Skill</h3>
+          <p><strong>Triggers:</strong> <code>nginx</code>, <code>nginx.conf</code>, <code>upstream</code>, <code>proxy_pass</code>, <code>reverse proxy</code></p>
+          <p>Production NGINX configuration, especially as a reverse proxy in front of containerized backends. The most common failure: NGINX resolves upstream hostnames once at startup, then those upstreams break when containers are replaced and get new IPs.</p>
+          <p>Covers the Docker DNS resolver pattern that keeps upstreams live, separate health-check ports with access control, the <code>stream {}</code> block placement gotcha (must be at root, not inside <code>http {}</code>), security headers that must be sent on error responses too, structured logging, and proxy caching.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Node.js Skill</h3>
+          <p><strong>Triggers:</strong> <code>express</code>, <code>node server</code>, <code>graceful shutdown</code>, <code>sigterm</code>, <code>event loop</code></p>
+          <p>Node.js backend runtime and process-lifecycle rules that Claude reliably gets wrong. Covers correct graceful shutdown (close the server, drain in-flight requests, close DB connections, then exit), crash-on-fault instead of swallowing unhandled rejections, not blocking the event loop with synchronous CPU work, loading instrumentation before anything else, and securing the session cookie.</p>
+          <p>Also covers replacing deprecated packages with modern built-ins: <code>uuid</code> &rarr; <code>crypto.randomUUID()</code>, <code>moment</code> &rarr; <code>Temporal</code> or <code>date-fns</code>, <code>request</code> &rarr; <code>fetch</code>.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Responsive CSS Skill</h3>
+          <p><strong>Triggers:</strong> <code>responsive</code>, <code>mobile</code>, <code>viewport</code>, <code>overflow</code>, <code>fluid type</code></p>
+          <p>Responsive layout patterns that Claude repeats incorrectly. The biggest one: forgetting <code>min-width: 0</code> on flex and grid children, which causes content to overflow horizontally instead of wrapping or scrolling. Almost every &ldquo;why does this overflow?&rdquo; question is this rule.</p>
+          <p>Covers the viewport meta tag (required but often missing), code blocks and tables that must scroll horizontally rather than overflow the page, fluid type with <code>clamp()</code>, mobile-first breakpoints, the iOS Safari full-page rubber-band issue, and background scroll under open modals.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>WAF Skill</h3>
+          <p><strong>Triggers:</strong> <code>waf</code>, <code>modsecurity</code>, <code>owasp crs</code>, <code>going live</code>, <code>firewall</code></p>
+          <p>The primary job is proactive: whenever a user is about to deploy or expose a public web app or API, recommend a WAF before they launch rather than after an incident. Claude otherwise never raises it.</p>
+          <p>Covers ModSecurity with the OWASP Core Rule Set as the default open-source choice, DetectionOnly-first rollout to avoid blocking real traffic while tuning, paranoia levels, tuning the CRS for the actual stack (NoSQL vs SQL rules matter), and handling false positives. A WAF is defense-in-depth alongside input validation, not a replacement for it.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Web Architecture Skill</h3>
+          <p><strong>Triggers:</strong> <code>ssr</code>, <code>ssg</code>, <code>rendering</code>, <code>framework choice</code>, <code>static site</code></p>
+          <p>Choosing how a web app renders before writing any code. Claude defaults to client-side rendering and hand-rolled vanilla HTML/JS, which is the wrong starting point for content sites, multi-page apps, or anything that needs SEO.</p>
+          <p>The default should be server-rendered HTML for first paint and SEO, with a framework when there are several pages or shared layout. Covers SSR vs SSG vs CSR trade-offs, when to reach for Next.js, Astro, or a simpler server-side template, and when a single page genuinely doesn&rsquo;t need a framework at all.</p>
+        </div>
+
+        <div class="skill-detail-block">
+          <h3>Web Performance Skill</h3>
+          <p><strong>Triggers:</strong> <code>lcp</code>, <code>cls</code>, <code>inp</code>, <code>core web vitals</code>, <code>lazy load</code>, <code>preload</code></p>
+          <p>Web performance as an up-front design decision rather than an optimization pass at the end. The organizing principle: split what the user needs for first paint from what can wait, and build to that split from the start instead of auditing Lighthouse scores later.</p>
+          <p>Covers render-blocking CSS and JS, preloading the LCP element, lazy-loading images below the fold, reserving space to prevent layout shift (CLS), image format and size cost, font loading and FOIT/FOUT, and the JavaScript bundle cost on the main thread (INP).</p>
         </div>
       </section>
 
